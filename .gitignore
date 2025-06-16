@@ -49,10 +49,14 @@ po/*~
 rsconnect/
 
 # TeX related stuff
+*.aux
 *.bbl
 *.blg
+*.fdb_latexmk
+*.fls
 *.log
 *.nav
+*.out
 *.snm
 *.synctex.gz
 *-concordance.tex
