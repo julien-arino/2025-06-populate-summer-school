@@ -1,60 +1,64 @@
-\documentclass[aspectratio=169]{beamer}
-
-<<set-options,echo=FALSE,warning=FALSE,message=FALSE>>=
-# Load required libraries
-required_packages = c("deSolve",
-                      "dplyr", 
-                      "ggplot2", 
-                      "knitr", 
-                      "latex2exp",
-                      "lattice",
-                      "magick",
-                      "readr", 
-                      "tidyr",
-                      "viridis")
-
-for (p in required_packages) {
-  if (!require(p, character.only = TRUE)) {
-    install.packages(p, dependencies = TRUE)
-    require(p, character.only = TRUE)
-  }
+\documentclass[aspectratio=169]{beamer}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
 }
-# Knitr options
-opts_chunk$set(echo = TRUE, 
-               warning = FALSE, 
-               message = FALSE, 
-               dev = c("pdf", "png"),
-               fig.width = 6, 
-               fig.height = 4, 
-               fig.path = "FIGS/course-02-",
-               fig.keep = "high",
-               fig.show = "hide")
-knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
-options(knitr.table.format = "latex")
-# Date for front title page (if needed)
-yyyy = strsplit(as.character(Sys.Date()), "-")[[1]][1]
-@
+\makeatother
 
-<<set-slide-background,echo=FALSE,results='asis'>>=
-# Are we plotting for a dark background?
-plot_blackBG = FALSE
-if (plot_blackBG) {
-  bg_color = "black"
-  fg_color = "white"
-  input_setup = "\\input{slides-setup-blackBG.tex}"
-} else {
-  bg_color = "white"
-  fg_color = "black"
-  input_setup = "\\input{slides-setup-whiteBG.tex}"
-}
-cat(input_setup)
-@
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlsng}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hldef}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+
+
+\input{slides-setup-whiteBG.tex}
 
 \title{Stochastic and non-ODE epidemiological models}
 \subtitle{Potchefstroom -- Course 03}
 \author{Julien Arino}
 \date{27 February 2024}
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 \SweaveOpts{prefix.string = FIGS/course-03}
@@ -452,22 +456,7 @@ with $N(0)=N_0$.
 {\red $\Rightarrow$} The ODE $N'=-dN$ makes the assumption that the life expectancy at birth is exponentially distributed
 \end{frame}
 
-<<prop_surviving_exp_80years,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
-plot_blackBG = FALSE
-if (plot_blackBG) {
-  par(bg = 'black', fg = 'white') # set background to black, foreground white
-  colour = "white"
-} else {
-  colour = "black"
-}
-t = 0:150
-plot(t,exp(-1/80*t), lwd = 2, ylim = c(0,1), col = colour,
-     xlab = "Age (years)", ylab = "Proportion of cohort surviving",
-     type = "l")
-abline(v = 80,
-       col = "red", lwd = 2)
-grid(lwd=2)
-@
+
 
 \begin{frame}
 Survival function, $\S(t)=\IP(T>t)$, for an exponential distribution with mean 80 years
@@ -499,26 +488,7 @@ Here, $N'=0$ everywhere except at $t=\omega$, where it is undefined
 \end{frame}
 
 
-<<prop_surviving_dirac_80years,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
-plot_blackBG = FALSE
-if (plot_blackBG) {
-  par(bg = 'black', fg = 'white') # set background to black, foreground white
-  colour = "white"
-} else {
-  colour = "black"
-}
-plot(0:80, rep(1, length(0:80)), lwd = 2, 
-     xlim = c(0, 150), ylim = c(0,1), 
-     col = colour,
-     xlab = "Age (years)", 
-     ylab = "Proportion of cohort surviving",
-     type = "l")
-lines(80:150, rep(0, length(80:150)), 
-      lwd = 2, col = colour, type = "l")
-abline(v = 80,
-       col = "red", lwd = 2)
-grid(lwd=2)
-@
+
 
 \begin{frame}
 Survival function, $\S(t)=\IP(T>t)$, for a Dirac distribution with mean 80 years
@@ -536,89 +506,7 @@ Survival function, $\S(t)=\IP(T>t)$, for a Dirac distribution with mean 80 years
 %%%%%%%%%%%%%%%%%%%
 \subsection{A possible fix to the exponential distribution issue} 
 
-<<prop_surviving_exp_80years_details,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
-if (plot_blackBG) {
-  par(bg = 'black', fg = 'white') # set background to black, foreground white
-  colour = "white"
-} else {
-  colour = "black"
-}
-# Set paramaters
-d_1 = 1/80 
-y_1 = seq(0, 200, 0.1)
-S_1 = 1-pexp(y_1, d_1)
-d_2 = 1/4
-y_2 = seq(0, 20, 0.05)
-S_2 = 1-pexp(y_2, d_2)
-# Find some locations
-idx_50_years = max(which(y_1<=50))
-idx_80_years = max(which(y_1<=80))
-idx_100_years = min(which(y_1>=100))
-idx_150_years = min(which(y_1>=150))
-idx_1_days = max(which(y_2<=1))
-idx_10_days = max(which(y_2<=10))
-# Plot
-par(mfrow = c(1,2))
-plot(y_2, S_2,
-     type = "l", lwd = 3,
-     xaxs = "i", yaxs = "i",
-     ylim = c(0, 1.02),
-     xlab = "t (days)", ylab = "S(t)")
-abline(v = 4, lwd = 2, lty = 3, col = "red")
-lines(x = c(1, 1), y = c(0, S_2[idx_1_days]),
-      lty = 3, lwd = 1)
-lines(x = c(0, 1), y = c(S_2[idx_1_days], S_2[idx_1_days]),
-      lty = 3, lwd = 1)
-lines(x = c(10, 10), y = c(0, S_2[idx_10_days]),
-      lty = 3, lwd = 1)
-lines(x = c(0, 10), y = c(S_2[idx_10_days], S_2[idx_10_days]),
-      lty = 3, lwd = 1)
-points(x = 1, y = S_2[idx_1_days], pch = 19)
-points(x = 10, y = S_2[idx_10_days], pch = 19)
-text(x = 1, y = S_2[idx_1_days], 
-     labels = paste0(round(S_2[idx_1_days], 2)),
-     pos = 4)
-text(x = 10, y = S_2[idx_10_days], 
-     labels = paste0(round(S_2[idx_10_days], 2)),
-     pos = 3)
-text(x = 4, y = 0.8, 
-     labels = "Avg. 4 days", col = "red",
-     pos = 4)
 
-plot(y_1, S_1,
-     type = "l", lwd = 3,
-     xaxs = "i", yaxs = "i",
-     ylim = c(0, 1.02),
-     xlab = "t (years)", ylab = "S(t)")
-abline(v = 80, lwd = 2, lty = 3, col = "red")
-lines(x = c(50, 50), y = c(0, S_1[idx_50_years]),
-      lty = 3, lwd = 1)
-lines(x = c(0, 50), y = c(S_1[idx_50_years], S_1[idx_50_years]),
-      lty = 3, lwd = 1)
-lines(x = c(100, 100), y = c(0, S_1[idx_100_years]),
-      lty = 3, lwd = 1)
-lines(x = c(0, 100), y = c(S_1[idx_100_years], S_1[idx_100_years]),
-      lty = 3, lwd = 1)
-lines(x = c(150, 150), y = c(0, S_1[idx_150_years]),
-      lty = 3, lwd = 1)
-lines(x = c(0, 150), y = c(S_1[idx_150_years], S_1[idx_150_years]),
-      lty = 3, lwd = 1)
-points(x = 50, y = S_1[idx_50_years], pch = 19)
-points(x = 100, y = S_1[idx_100_years], pch = 19)
-points(x = 150, y = S_1[idx_150_years], pch = 19)
-text(x = 50, y = S_1[idx_50_years], 
-     labels = paste0(round(S_1[idx_50_years], 2)),
-     pos = 4)
-text(x = 100, y = S_1[idx_100_years], 
-     labels = paste0(round(S_1[idx_100_years], 2)),
-     pos = 3)
-text(x = 150, y = S_1[idx_150_years], 
-     labels = paste0(round(S_1[idx_150_years], 2)),
-     pos = 3)
-text(x = 80, y = 0.8, 
-     labels = "Avg. 80 years", col = "red",
-     pos = 4)
-@
 
 \begin{frame}{Survival for the exponential distribution}
 \begin{center}
@@ -718,76 +606,74 @@ To use multiple compartments to better fit residence times, we need to find the 
 \vfill
 $\implies$ compute RSS errors between data points generated from the given Gamma distribution and an Erlang
 \vfill 
-<<error_Gamma,eval=TRUE,echo=TRUE>>=
-error_Gamma <- function(theta,shape,t,d) {
-  test_points <- dgamma(t, shape = shape, scale = theta)
-  ls_error <- sum((d-test_points)^2)
-  return(ls_error)
-}
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hldef{error_Gamma} \hlkwb{<-} \hlkwa{function}\hldef{(}\hlkwc{theta}\hldef{,}\hlkwc{shape}\hldef{,}\hlkwc{t}\hldef{,}\hlkwc{d}\hldef{) \{}
+  \hldef{test_points} \hlkwb{<-} \hlkwd{dgamma}\hldef{(t,} \hlkwc{shape} \hldef{= shape,} \hlkwc{scale} \hldef{= theta)}
+  \hldef{ls_error} \hlkwb{<-} \hlkwd{sum}\hldef{((d}\hlopt{-}\hldef{test_points)}\hlopt{^}\hlnum{2}\hldef{)}
+  \hlkwd{return}\hldef{(ls_error)}
+\hldef{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 \begin{frame}[fragile]
-<<optimise_gamma>>=
-optimize_gamma <- function(t,d) {
-  max_shape <- 10
-  error_vector <- mat.or.vec(max_shape,1)
-  scale_vector <- mat.or.vec(max_shape,1)
-  for (i in 1:max_shape) {
-    result_optim <- try(optim(par = 3,
-                              fn = error_Gamma,
-                              lower = 0,
-                              method = "L-BFGS-B",
-                              shape = i,
-                              t = t,
-                              d = d),
-                        TRUE)
-    if (!inherits(result_optim,"try-error")) {
-      error_vector[i] <- result_optim$value
-      scale_vector[i] <- result_optim$par
-    } else {
-      error_vector[i] <- NaN
-      scale_vector[i] <- NaN
-    }
-  }
-  result_optim <- data.frame(seq(1,max_shape),
-                             scale_vector,
-                             error_vector)
-  colnames(result_optim) <- c("shape","scale","error")
-  result_optim <- result_optim[complete.cases(result_optim),]
-  return(result_optim)
-}
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hldef{optimize_gamma} \hlkwb{<-} \hlkwa{function}\hldef{(}\hlkwc{t}\hldef{,}\hlkwc{d}\hldef{) \{}
+  \hldef{max_shape} \hlkwb{<-} \hlnum{10}
+  \hldef{error_vector} \hlkwb{<-} \hlkwd{mat.or.vec}\hldef{(max_shape,}\hlnum{1}\hldef{)}
+  \hldef{scale_vector} \hlkwb{<-} \hlkwd{mat.or.vec}\hldef{(max_shape,}\hlnum{1}\hldef{)}
+  \hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{max_shape) \{}
+    \hldef{result_optim} \hlkwb{<-} \hlkwd{try}\hldef{(}\hlkwd{optim}\hldef{(}\hlkwc{par} \hldef{=} \hlnum{3}\hldef{,}
+                              \hlkwc{fn} \hldef{= error_Gamma,}
+                              \hlkwc{lower} \hldef{=} \hlnum{0}\hldef{,}
+                              \hlkwc{method} \hldef{=} \hlsng{"L-BFGS-B"}\hldef{,}
+                              \hlkwc{shape} \hldef{= i,}
+                              \hlkwc{t} \hldef{= t,}
+                              \hlkwc{d} \hldef{= d),}
+                        \hlnum{TRUE}\hldef{)}
+    \hlkwa{if} \hldef{(}\hlopt{!}\hlkwd{inherits}\hldef{(result_optim,}\hlsng{"try-error"}\hldef{)) \{}
+      \hldef{error_vector[i]} \hlkwb{<-} \hldef{result_optim}\hlopt{$}\hldef{value}
+      \hldef{scale_vector[i]} \hlkwb{<-} \hldef{result_optim}\hlopt{$}\hldef{par}
+    \hldef{\}} \hlkwa{else} \hldef{\{}
+      \hldef{error_vector[i]} \hlkwb{<-} \hlnum{NaN}
+      \hldef{scale_vector[i]} \hlkwb{<-} \hlnum{NaN}
+    \hldef{\}}
+  \hldef{\}}
+  \hldef{result_optim} \hlkwb{<-} \hlkwd{data.frame}\hldef{(}\hlkwd{seq}\hldef{(}\hlnum{1}\hldef{,max_shape),}
+                             \hldef{scale_vector,}
+                             \hldef{error_vector)}
+  \hlkwd{colnames}\hldef{(result_optim)} \hlkwb{<-} \hlkwd{c}\hldef{(}\hlsng{"shape"}\hldef{,}\hlsng{"scale"}\hldef{,}\hlsng{"error"}\hldef{)}
+  \hldef{result_optim} \hlkwb{<-} \hldef{result_optim[}\hlkwd{complete.cases}\hldef{(result_optim),]}
+  \hlkwd{return}\hldef{(result_optim)}
+\hldef{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 
 \begin{frame}[fragile]
-<<run_optim_Erlang>>=
-time_points <- seq(0,60)
-data_points <- dgamma(time_points, shape = 1.57, 
-                      scale = 6.53)
-# Run the minimization
-optim_fits <- optimize_gamma(time_points,data_points)
-# Which is the best Erlang to fit the data
-idx_best <- which.min(optim_fits$error)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hldef{time_points} \hlkwb{<-} \hlkwd{seq}\hldef{(}\hlnum{0}\hldef{,}\hlnum{60}\hldef{)}
+\hldef{data_points} \hlkwb{<-} \hlkwd{dgamma}\hldef{(time_points,} \hlkwc{shape} \hldef{=} \hlnum{1.57}\hldef{,}
+                      \hlkwc{scale} \hldef{=} \hlnum{6.53}\hldef{)}
+\hlcom{# Run the minimization}
+\hldef{optim_fits} \hlkwb{<-} \hlkwd{optimize_gamma}\hldef{(time_points,data_points)}
+\hlcom{# Which is the best Erlang to fit the data}
+\hldef{idx_best} \hlkwb{<-} \hlkwd{which.min}\hldef{(optim_fits}\hlopt{$}\hldef{error)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
-<<plot_results_optim_Erlang,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
-time_points_plot <- seq(0,60,0.05)
-found_points_plot <- 
-  dgamma(time_points_plot,
-         shape = optim_fits[idx_best,]$shape,
-         scale = optim_fits[idx_best,]$scale)
-max_y <- max(max(data_points),max(found_points_plot))
-plot(time_points,data_points, ylim = c(0,max_y),
-     xlab = "Days", ylab = "Frequency", col = "red",pch = 16)
-lines(time_points_plot,found_points_plot,
-      type="l",lwd=2,col="blue")
-legend("topright", legend = c("Data","Best Erlang fit"),
-       col=c("red","blue"),
-       lwd = c(1,2), lty = c(NA,1), pch = c(16,NA))
-@
+
 
 \begin{frame}
 Now plot the result as well as the original curve  (code chunk not shown)
