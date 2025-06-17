@@ -3185,7 +3185,7 @@ SI & $ \frac{\bar f_I}{d+\gamma}$
     \path [line, very thick] (S) to node [midway, above] (TextNode) {$\beta SI/N$} (I);
     \path [line, very thick, bend left=10] (S) to node [near start, right] (TextNode) {$\phi S$} (V);
     \path [line, very thick, bend left=10] (V) to node [near start, left] (TextNode) {$\varphi V$} (S);
-    \path [line, very thick] (V) to node [midway, above, sloped] (TextNode) {$\sigma\beta SI/N$} (I);
+    \path [line, very thick] (V) to node [midway, above, sloped] (TextNode) {$\sigma\beta VI/N$} (I);
     \path [line, very thick] (I) to node [midway, above] (TextNode) {$\gamma I$} (R);
     \draw [>=latex,->, thick, rounded corners] (R) -- (2\skip,0.75) -- (0,0.75) node[midway,above,sloped] {$\nu R$} -- (S);
   \end{tikzpicture}    
