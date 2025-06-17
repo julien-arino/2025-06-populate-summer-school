@@ -75,34 +75,47 @@
 %%%%%%%%%%%%%%%%%%%%
 \section*{Objective/Method of this course}
 
+\maxFrameImage{FIGS/MB-in-CAN.png}
+\maxFrameImage{FIGS/YWG-climate.png}
+
+\begin{frame}{Where I am coming from (physically)}
+\bbullet Winnipeg (850K metro area) is the capital of Manitoba (1.5 million)
+\vfill
+\bbullet Winnipeg (Western Cree for ``muddy water'')
+\vfill
+\bbullet 12.5\% of the population is Indigenous (First Nations, Métis, Inuit), 11.6\% Southeast Asian, 7.8\% South Asian, 5\% African, 3.5\% East Asian. Tagalog is the second most common mother tongue. 25.4\% of inhabitants were born outside Canada
+\vfill
+\bbullet The University of Manitoba was founded in 1877 (the Collège universitaire de Saint-Boniface - now Université de Saint Boniface - was founded in 1818). UM has $>$30K students, is part of U15. Closely associated with National Microbiology Laboratory (Canada's only BSL 4)
+\end{frame}
+
 \begin{frame}{Objective of this course}
 \bbullet
 Illustrate some concepts in Mathematical Epidemiology
 \vfill
 \bbullet The course is not a comprehensive introduction to mathematical epidemiology
 \vfill
-\bbullet I hope to give you some notions and maybe recruit you into the field
+\bbullet I hope to give you some notions (and maybe recruit you into the field)
 \end{frame}
 
-\begin{frame}{Where I am coming from}
-\bbullet I am a Professor of Mathematics ... but
+\begin{frame}{Where I am coming from (scientifically)}
+\bbullet MSc (DEA) at R\'eseau Sentinelles (Paris)
 \vfill
-\bbullet Did my MSc (DEA) at R\'eseau Sentinelles (Paris)
+\bbullet PhD at INRIA Sophia Antipolis \& Observatoire du Plancton Marin of Villefranche sur Mer working on large systems of DE and ODE
 \vfill
-\bbullet Postdoc with Pauline van den Driessche in 2001-2002 (so hardcore on theory)
+\bbullet Postdoc with Pauline van den Driessche in 2001-2002 working on DDE and large systems of ODE
 \vfill
-\bbullet From 2004, collaboration with Kamran Khan, physician specialist in infectious diseases, and founder of \href{https://www.blue-dot.global/}{BlueDot}, a company that uses data science to predict and prevent the spread of infectious diseases
+\bbullet From 2004, collaboration with Kamran Khan, physician specialist in infectious diseases (TB). Collaborated on Bio.Diaspora (project that uses data science to predict and prevent the spread of infectious diseases). Now \href{https://www.blue-dot.global/}{BlueDot}, a company 
 \vfill
-\bbullet Have worked on Emergency Response on SARS-1 (2003), p-H1N1 (2009) and COVID-19 (2020) (and less on Zika, Ebola, MERS, etc.)
+\bbullet Have worked on Emergency Response on SARS-1 (2003), p-H1N1 (2009) and COVID-19 (2020) (and less on Zika, Ebola, MERS, etc.) for the Public Health Agency of Canada
 \end{frame}
 
-\begin{frame}{So will try to give you two perspectives}
+\begin{frame}{So I will try to give you two perspectives}
 \bbullet\textbf{As a modeller and mathematician} these are fun problems to look at. You need to know the theory in order to carry out relevant work
 \vfill
 \bbullet\textbf{As a public health practitioner} these are important problems to look at.
 As a modeller, you will be called on to provide guidance to public health authorities. Know what you can and cannot do. Know how to communicate with said authorities
 \vfill
-\bbullet (As a general rule, know your audience and adapt to it, don't expect it to adapt to you)
+(As a general rule, know your audience and adapt to it, don't expect it to adapt to you)
 \end{frame}
 
 \begin{frame}{These slides}
@@ -585,6 +598,7 @@ If $\mathcal{N}_1$ can be chosen so that in addition to the properties in Defini
 \begin{frame}
 DFE \eqref{eq:DFE_KMK} of \eqref{sys:KMK} are not \defword{isolated}: any (open) neighbourhood of an equilibrium contains infinitely many other equilibria
 \vfill
+\begin{center}
     \begin{tikzpicture}
     \coordinate (SN) at (4,0);
     \coordinate (RN) at (0,4);
@@ -607,8 +621,9 @@ DFE \eqref{eq:DFE_KMK} of \eqref{sys:KMK} are not \defword{isolated}: any (open)
     % The equilibrium
     \draw (xs) circle (0.1cm) node[above right] {$x^\star$};
     \shade[ball color = red, opacity = 1] (xs) circle (0.1cm);
-    \end{tikzpicture} 
-    \vfill
+    \end{tikzpicture}
+\end{center}
+\vfill
 Neighbourhood $\N(x^\star)$ of $x^\star\in E_0^\text{KMK}$ lying on the $S-R$ plane (the neighbourhood extends above and below the $S-R$ plane in the $I$ direction, not shown here). 
 The thin line is $E_0^\text{KMK}$, the thick line is $E_0^\text{KMK}\cap\N(x^\star)$
 \end{frame}
