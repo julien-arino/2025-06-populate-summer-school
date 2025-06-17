@@ -52,8 +52,8 @@ cat(input_setup)
 
 \title{Metapopulation models and a few advanced models}
 \subtitle{Populate Summer School -- Course 02}
-\date{17 June 2025}
-\author{\texorpdfstring{Julien Arino\newline University of Manitoba\newline\url{julien.arino@umanitoba.ca}}{Julien Arino}}
+\date{19 June 2025}
+\author{\texorpdfstring{Julien Arino\newline Department of Mathematics @ University of Manitoba \newline Maud Menten Institute @ PIMS\newline\url{julien.arino@umanitoba.ca}}{Julien Arino}}
 
 
 \begin{document}
@@ -2468,175 +2468,6 @@ If one considers time of sojourn in compartments from a more detailed perspectiv
 We use here continuous random variables. See chapters 12 and 13 in \href{https://press.princeton.edu/books/paperback/9780691092911/mathematics-in-population-biology}{Thieme's book} for arbitrary distributions
 \end{frame}
 
-
-\begin{frame}\frametitle{Time to events}
-We suppose that a system can be in two states, $S_1$ and $S_2$
-\begin{itemize}
-\item At time $t=0$, the system is in state $S_1$.
-\item An event happens at some time $t=\tau$, which triggers the switch from
-state $S_1$ to state $S_2$.
-\end{itemize}
-\vfill
-Let us call $T$ the random variable 
-\begin{quote}
-``time spent in state $S_1$ before switching into state $S_2$''
-\end{quote}
-\end{frame}
-
-\begin{frame}
-The states can be anything:
-\begin{itemize}
-\item $S_1$: working, $S_2$: broken;
-\item $S_1$: infected, $S_2$: recovered;
-\item $S_1$: alive, $S_2$: dead;
-\item $\ldots$
-\end{itemize}
-\vfill
-We take a collection of objects or individuals that are in state $S_1$ and want
-some law for the \textbf{distribution} of the times spent in $S_1$, i.e., a law for $T$
-\vfill
-For example, we make light bulbs and would like to tell our customers that on
-average, our light bulbs last 200 years..
-\vfill
-For this, we conduct an \textbf{infinite} number of experiments, and observe the
-time that it takes, in every experiment, to switch from $S_1$ to $S_2$
-\end{frame}
-
-\maxFrameImage{FIGS/random_length_sample}
-
-\begin{frame}\frametitle{A distribution of probability is a model}
-From the sequence of experiments, we deduce a model, which in this context is called a \textbf{probability distribution}
-\vfill
-We assume that $T$ is a \textbf{continuous} random variable
-% \vskip0.2cm
-% [Formally, given the space $\Omega$ endowed with $\sigma$-algebra $\mathcal{F}$, $\mathcal{P}$ is a measure from $(\Omega,\mathcal{F})$ to $[0,1]$ that is such that 1) $\mathcal{P}(\Omega)=1$, 2) if $\Lambda,\Lambda'\in\mathcal{F}$ are disjoint, then $\mathcal{P}(\Lambda\cup\Lambda')
-% =\mathcal{P}(\Lambda)+\mathcal{P}(\Lambda')$ and 3) if $\Lambda_n$, $n\in\mathbb{N}$, is an increasing sequence of elements of $\mathcal{F}$, then $\mathcal{P}(\cup\Lambda_n)=\lim_{n\to\infty}\mathcal{P}(\Lambda_n)$.
-% (The last property is called $\sigma$-additivity.).]
-\end{frame}
-
-
-\begin{frame}\frametitle{Probability density function}
-Since $T$ is continuous, it has a continuous \textbf{probability density
-function} $f$
-\begin{itemize}
-\item $f\geq 0$
-\item $\int_{-\infty}^{+\infty}f(s)ds=1$
-\item $\IP(a\leq T\leq b)=\int_a^bf(t)dt$
-\end{itemize}
-\begin{center}
-\includegraphics[width=0.5\textwidth]{FIGS/distrib_a_b}
-\end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Cumulative distribution function}
-The cumulative distribution function (c.d.f.) is a function $F(t)$ that characterizes the distribution of $T$, and defined by
-\[
-F(s)=\IP(T\leq s)=\int_{-\infty}^sf(x)dx
-\]
-\begin{center}
-\includegraphics[width=0.5\textwidth]{FIGS/cdf_auc}
-\end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Survival function}
-Another characterization of the distribution of the random variable
-$T$ is through the \textbf{survival} (or \textbf{sojourn}) function
-\vfill
-The survival function of state $S_1$ is given by 
-\begin{equation}
-  \S(t)=1-F(t)=\IP(T>t)
-  \label{eq:survival}
-\end{equation}
-This gives a description of the \textbf{sojourn time} of a
-system in a particular state (the time spent in the state)
-\vfill
-$\S$ is a nonincreasing function (since $\S=1-F$
-with $F$ a c.d.f.), and
-$\S(0)=1$ (since $T$ is a nonnegative random variable)
-\end{frame}
-
-\begin{frame}
-The \textbf{average sojourn time} $\tau$ in state $S_1$ is given by
-\[
-\tau=E(T)=\int_0^\infty tf(t)dt
-\]
-Since $\lim_{t\to\infty}t\S(t)=0$, it follows that 
-\[
-\tau=\int_0^\infty \S(t)dt
-\]
-\vfill
-\textbf{Expected future lifetime}:
-\[
-\frac{1}{\S(t_0)} \int_0^{\infty} t\,f(t+t_0)\,dt 
-\]
-\vfill
-\begin{eqnarray*}
-\S(t)-\S(a)&=&\IP\left\{\textrm{survive during }
- (a,t)\textrm{ having survived until }a\right\} \\
-&=& \exp\left(-\int_a^t h(u)du\right)
-\end{eqnarray*}
-\end{frame}
-
-\begin{frame}\frametitle{Hazard rate}
-The \textbf{hazard rate} (or \textbf{failure rate}) is
-\begin{align*}
-h(t) &= \lim_{\Delta t\to 0}\frac{\S(t)-\S(t+\Delta t)}{\Delta t} \\
-& = \lim_{\Delta t\to 0} \frac{\IP{ T<t+\Delta t | T\geq
-t}}{\Delta t} \\
-&= \frac{f(t)}{\S(t)}
-\end{align*}
-It gives probability of failure between $t$ and $\Delta t$, given survival to $t$.
-\vfill
-We have
-\[
-h(t)=-\frac{d}{dt}\ln\S(t)
-\]
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Competing risks}
-Suppose now that the system starts in state $A$ at time $t=0$ and that depending on which of the two events $\mathcal{E}_1$ or $\mathcal{E}_2$ takes place first, it switches to state $B_1$ or $B_2$, respectively
-\vfill
-Consider the random variables $T_A$, \emph{time spent} in state $A$ (or sojourn time in $A$), $T_{AB_1}$, \emph{time before switch to} $B_1$ and $T_{AB_2}$, \emph{time before switch to} $B_2$
-\vfill
-If we consider state $A$, we cannot observe the variables $T_{AB_1}$ or $T_{AB_2}$. What is observable is the sojourn time in $A$
-\[
-T^*_A=\min\left( T_{AB_1},T_{AB_2} \right)
-\]
-(where $^*$ indicates that a quantity is observable)
-\end{frame}
-
-\begin{frame}{Failure rate by type of event}
-We have two (or more) types of events whose individual failure rates have to be accounted for
-\begin{align*}
-h_j(t) &= \lim_{\Delta t\to 0} \frac{\mathbb{P}( T<t+\Delta t, S=S_j | T\geq t)}{\Delta t} 
-\end{align*}
-where $\mathbb{P}(T<t+\Delta t, S=S_j | T\geq t)$ is the probability of failure due to cause $S_j$ ($j=1,2$ ici), i.e., $S$ is a discrete r.v. representing the event that is taking place
-\end{frame}
-
-\begin{frame}
-By the law of total probability, since only one of the event can take place, if there are $n$ risks, then
-$$
-h(t) = \sum_{i=1}^n h_j(t)
-$$
-or, identically,
-$$
-\mathcal{S}(t)
-=
-\exp\left(
-  -\int_0^t \sum\textstyle_{j=1}^n h_j(s)\ ds
-\right)
-$$
-\end{frame}
-
-\begin{frame}
-As a consequence, if a process is subject to two competing exponential risks with respective distributions with parameters $\theta_1$ and $\theta_2$, the the mean sojourn time in the initial state before being affected by one of the two risks is
-$$
-\frac{1}{\theta_1+\theta_2}
-$$
-\end{frame}
-
-
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
@@ -3453,6 +3284,8 @@ bifurcations; solutions either go to the DFE or to the (larger) EEP
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
 \section{Age of infection}
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
+
 \begin{frame}\frametitle{Age of infection}
 We have seen that infinite dimensionality could result from a detailed description (or an unspecified one) of the sojourn time in compartments
 \vfill
@@ -3470,6 +3303,25 @@ For instance, it is known that infectiousness of HIV positive patients vary as a
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
 \section{Structuration in age}
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
+
+\begin{frame} 
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=center, 
+    inner sep=0pt,
+    opacity=0.95] (image) at (current page.center) 
+    {\includegraphics[height=\paperheight, keepaspectratio]{FIGS/Pierre-Magal.jpg}};
+   \node[anchor=north, 
+   align=center, 
+   text=black, 
+   font=\Large] at (image.north) 
+   {Pierre Magal\\(1967-10-24 -- 2024-02-20)}; 
+\end{tikzpicture}
+\end{frame}
+
+
+
+
 \begin{frame}\frametitle{Age structure}
 Taking into account age can be important in some cases
 \vfill

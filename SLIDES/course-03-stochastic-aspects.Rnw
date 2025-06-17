@@ -52,8 +52,8 @@ cat(input_setup)
 
 \title{Stochastic and non-ODE epidemiological models}
 \subtitle{Populate Summer School -- Course 03}
-\date{18 June 2025}
-\author{\texorpdfstring{Julien Arino\newline University of Manitoba\newline\url{julien.arino@umanitoba.ca}}{Julien Arino}}
+\date{20 June 2025}
+\author{\texorpdfstring{Julien Arino\newline Department of Mathematics @ University of Manitoba \newline Maud Menten Institute @ PIMS\newline\url{julien.arino@umanitoba.ca}}{Julien Arino}}
 
 
 \begin{document}
@@ -65,22 +65,6 @@ cat(input_setup)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \titlepagewithfigure{FIGS-slides-admin/Gemini_Generated_Image_4oxcef4oxcef4oxc.jpeg}
 \outlinepage{FIGS-slides-admin/Gemini_Generated_Image_tzvf9ztzvf9ztzvf.jpeg}
-
-
-\begin{frame} 
-\begin{tikzpicture}[remember picture, overlay]
-    \node[anchor=center, 
-    inner sep=0pt,
-    opacity=0.95] (image) at (current page.center) 
-    {\includegraphics[height=\paperheight, keepaspectratio]{FIGS/Pierre-Magal.jpg}};
-   \node[anchor=north, 
-   align=center, 
-   text=black, 
-   font=\Huge] at (image.north) 
-   {Pierre Magal\\(1968 -- 2024-02-20)}; 
-\end{tikzpicture}
-\end{frame}
-
 
 
 %%%%%%%%%%%%%%%%%%%
