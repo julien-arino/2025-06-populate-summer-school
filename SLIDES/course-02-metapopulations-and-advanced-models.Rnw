@@ -111,7 +111,12 @@ Pathogens ignore borders and politics
 \end{block}     
 \end{frame}
 	
-
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+\section{Metapopulations for disease spread modelling}
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 \subsection{Why use metapopulation models?}
@@ -132,6 +137,7 @@ Pathogens ignore borders and politics
 		\item JA \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2006_ArinoPvdD-FIC48.pdf}{Disease spread in metapopulations}. \emph{Fields Institute Communications} \textbf{48}:1-13 (2006)
 		\item JA. \href{https://julien-arino.github.io/assets/pdf/papers/2009_Arino-metapopulations.pdf}{Diseases in metapopulations}. In \emph{Modeling and Dynamics of Infectious Diseases}, World Scientific (2009)
 		\item JA. \href{https://doi.org/10.1016/j.idm.2017.05.001}{Spatio-temporal spread of infectious pathogens of humans}. \emph{Infectious Disease Modelling} \textbf{2}(2):218-228 (2017)
+		\item JA, Bajeux \& Kirkland. \href{https://doi.org/10.1007/s11538-019-00593-1}{Number of source patches required for population persistence in a source-sink metapopulation}. \emph{Bulletin of Mathematical Biology} \textbf{81}: 1916–1942 (2019) 
 	\end{itemize}
 \end{frame}
 
@@ -2310,10 +2316,16 @@ $\implies$ use this for numerics, not for the mathematical analysis
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+\section{Other spatial models}
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
-\subsection{Something not metapopulation -- Spatial propagation on a ``road''}
+\subsection{Spatial propagation on a ``road''}
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/LopezCoutinhoBurratiniMassad-1999.png}
@@ -2430,7 +2442,7 @@ Show there exists a threshold $z_{\text{threshold}}=\R_0$ s.t. $\lambda(x)\equiv
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
-\subsection{Something not metapopulation -- A diffusion spatial spread model}
+\subsection{A diffusion spatial spread model}
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/MurraySeward-1992.png}

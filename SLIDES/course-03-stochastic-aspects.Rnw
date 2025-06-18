@@ -71,6 +71,290 @@ cat(input_setup)
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
+\section{Motivation -- Case introductions}
+% The section page
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_ypohksypohksypoh.jpeg}
+
+\begin{frame}{At the beginning of the COVID-19 crisis}
+\bbullet 
+I was working under contract with the Public Health Agency of Canada on \emph{COVID-19 importation risk assessment}
+\vfill
+\bbullet 
+Produced daily report with list of countries most likely to next report cases of COVID-19
+\vfill
+\bbullet
+Used ensemble runs of a fitted global deterministic metapopulation model
+\end{frame}
+
+\maxFrameImage{FIGS/covid-cluster}
+
+\begin{frame}
+\bbullet Very very long days (18-20 hours, 7 days a week)
+\vfill
+\bbullet including a lot of time waiting for the ``cluster'' to finish
+\vfill
+$\implies$ PHAC gave me money for a cluster (yay Threadrippers!!!)
+\vfill
+$\implies$ Also thought about whether my model was really adequate as our focus switched from thinking about movement on a planetary scale to movement within Canadian provinces
+\end{frame}
+
+\maxFrameImage{FIGS/cities_roads_CAN-MB_detail.png}
+
+\maxFrameImage{FIGS/Screenshot from 2024-06-25 14-42-25.png}
+\maxFrameImage{FIGS/Screenshot from 2024-06-25 14-43-05.png}
+
+\maxFrameImage{FIGS/Screenshot from 2024-06-26 08-25-07.png}
+\maxFrameImage{FIGS/Screenshot from 2024-06-25 16-56-16.png}
+
+\begin{frame}{For First Nation and Métis Communities}
+	\defword{Remote} describes a \textbf{geographical area} where a community is \textbf{located over 350 km} from the \textbf{nearest service centre} \textbf{having year-round access} by land and/or water routes normally used in all weather conditions
+	\vfill	
+	\defword{Isolated} means a \textbf{geographical area} that has \textbf{scheduled flights} and good telephone service, but is \textbf{without year-round access} by land and/or water normally used in all weather conditions
+	\vfill
+	\defword{Remote-Isolated} means a \textbf{geographic area} that has \textbf{neither scheduled flights nor year-round access} by land and/or water routes normally that can be used in all weather conditions, irrespective of the level of telephone and radio service available
+\end{frame}
+
+\begin{frame}{For Inuit communities}
+	Inuit Communities to be referred to as \defword{Inuit Nunangat}, not remote and isolated communities to respect the unique language and culture of Inuit regions, as well as the common challenges in social determinants of health, access to care, and infrastructure found across all Inuit communities
+\end{frame}
+
+\begin{frame}\frametitle{MB remote communities}
+	\begin{quote}
+	\defword{Remote communities} are communities in Manitoba that \textbf{do not have permanent road access} (i.e., no all-weather road), are \textbf{more than a four-hour drive} from a major rural hospital (and a dialysis unit), \textbf{or have rail or fly-in access only}. This includes Norway House, Lynn Lake, Leaf Rapids, Gillam, and Cross Lake. If most communities in a health district are designated as "remote", the entire district is designated as "remote". In Manitoba, remote districts include:
+	\begin{itemize}
+	\item Northern Health Region: NO23, NO13, NO25, NO16, NO22, NO26, NO28, NO31, and
+	\item Interlake-Eastern Health Region: IE61.
+	\end{itemize}
+	\end{quote}
+	\vfill
+	\small
+	Chartier M, Dart A, Tangri N, Komenda P, Walld R, Bogdanovic B, Burchill C, Koseva I, McGowan K, Rajotte L. Care of Manitobans Living with Chronic Kidney Disease. Winnipeg, MB.
+	Manitoba Centre for Health Policy, December 2015
+\end{frame}
+
+\maxFrameImage{FIGS/remote-health-regions.png}
+
+\begin{frame}{One interesting paradox}
+	Think about travel to/from remote or isolated communities..
+	\vfill
+	How do you think this compares to travel in non-remote/isolated communities ?
+	\vfill
+	Residence time (the lake ecology version): theoretic time an average water or comparable molecule spends in a lake, considering inflow into and outflow from the lake
+\end{frame}
+\maxFrameImage{FIGS/residence-time-in-airports.png}
+
+\begin{frame}{The paradox of travel to/from remote/isolated communities}
+Travel volumes small but movement rates high
+\vfill
+ICs are highly connected to the urban centre(s) they are subordinated to
+\vfill
+Further reinforced in Winnipeg by urban indigenous population (102,075 or 12.45\% of metro population), meaning many family connections exist
+\end{frame}
+
+\maxFrameImage{FIGS/Screenshot from 2024-06-27 00-33-22.png}
+\maxFrameImage{FIGS/nutrition-north-canada-eligibility.png}
+\maxFrameImage{FIGS/Screenshot from 2024-06-27 00-11-30.png}
+
+\begin{frame}{Travel restrictions/interruptions}
+During COVID, travelling above 53 north in MB was forbidden for anyone not resident above 53 north	
+\vfill
+If you wanted to fly to Nunavut, you needed to spend two weeks in quarantine in a hotel in Edmonton, Ottawa or Winnipeg
+\vfill
+Canada implemented two weeks quarantine when IB from abroad (with exceptions)
+\vfill
+Canada interrupted travel from a variety of places
+\end{frame}
+
+
+\begin{frame}\frametitle{Questions}
+	\begin{itemize}
+		\item What is the probability that an introduction is successful? \newline (note: I am judging things from the perspective of the pathogen)
+		\vfill
+		\item How long is the stochastic phase following an introduction?
+		\newline (what Amy called the ``stuttering period'')
+		\vfill
+		\item What do the different control measures do, how good are they?
+	\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+\section{Probability of introductions}
+% The section page
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla657bla657bla6.jpeg}
+
+% JA</ins>, N. Bajeux, S. Portet & J. Watmough. [Quarantine and the risk of COVID-19 importation](http://dx.doi.org/10.1017/S0950268820002988). *Epidemiology & Infection* (2020)
+
+\maxFrameImage{FIGS/figure_variant_importation_base_model_with_stimulations_noQ.png}
+\maxFrameImage{FIGS/successful_attack_rate.png}
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+\section{Stochastic phase of an epidemic}
+% The section page
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla659bla659bla6.jpeg}
+
+\begin{frame}{Campbell county, Wyoming}
+	\centering
+	\includegraphics[width=\textwidth]{FIGS/select_Wyoming-Campbell_bars_zoom.png}
+\end{frame}
+
+\begin{frame}{Investigating outbreak types using a simple CTMC SIS}
+\[
+\mathbf{X}(t)=\left(S^A(t),I^A(t)\right)
+\]
+\vfill
+CTMC $\mathbf{X}(t)$ characterized by transitions
+\begin{center}
+	\begin{tabular}{ccc}
+		\toprule
+		Description & Transition & Rate \\
+		\midrule
+		Infection & $\left(S^A,I^A\right)\to \left(S^A-1,I^A+1\right)$ & $\beta^AS^AI^A$ \\
+		Recovery & $\left(S^A,I^A\right)\to \left(S^A+1,I^A-1\right)$ & $\gamma^AI^A$ \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Investigating outbreak types using a simple CTMC SIS \emph{with a twist}}
+Regular chain of this type has $I=0$ as sole absorbing state
+\vfill
+We add another absorbing state: if $I=\hat I$, then the chain has *left* the stochastic phase and is in a quasi-deterministic phase with exponential growth
+\vfill
+Doing this, time to absorption measures become usable additionally to first passage time ones
+\vfill
+And the question becomes: how long does the chain ``linger on'' (``stutter'') before it is absorbed? We define the inter-absorption trajectory as the stochastic phase
+\end{frame}
+
+\maxFrameImage{FIGS/illustration_stochastic_phase.png}
+\maxFrameImage{FIGS/duration_stochastic_phase_1patch_pop1M_I0eq1.png}
+
+\begin{frame}{Problem of the value of the upper bound $\hat I$}
+	\begin{itemize}
+		\item Choose $\hat I$ too small and the stochastic phase will not last long
+		\vfill
+		\item Choose $\hat I$ too large and absorption will only be at the DFE
+		\vfill
+		\item So, how does one choose $\hat I$ ?
+		\begin{itemize}
+			\item A formula of Whittle (1955)
+			\item Multitype branching process (MTBP)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+\section{Value of travel control measures}
+% The section page
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla65bbla65bbla6.jpeg}
+
+\begin{frame}{}
+	\centering
+	\def\hstep{*3}
+	\begin{tikzpicture}[scale=0.75, rotate=270,
+		every node/.style={transform shape},
+		auto,
+		box/.style={minimum width={width("N-1")+2pt},
+			draw, rectangle}]
+		% Exporter
+		\node [box] at (0\hstep,3) (SE) {$S_E$};
+		\node [box] at (1\hstep,3) (LE) {$L_E$};
+		\node [box] at (2\hstep,4.5) (DE) {$D_E$};
+		\node [box] at (2\hstep,1.5) (UE) {$U_E$};
+		\node [box] at (3\hstep,3) (RE) {$R_E$};
+		%% Introduction layer
+		% \node [box] at (0\hstep,9) (SI) {$S_I$};
+		\node [box, fill=blue!50] at (1\hstep,9) (LI) {$L_{I}$};
+		\node [box, fill=red!50] at (2\hstep,7.5) (DI) {$D_{I}$};
+		\node [box, fill=blue!50] at (2\hstep,10.5) (UI) {$U_{I}$};
+		%\node [box, fill=red!50] at (3\hstep,7.5) (RID) {$R_{ID}$};
+		%% Community
+		\node [box] at (0\hstep,13.5) (SC) {$S_C$};
+		\node [box] at (1\hstep,13.5) (LC) {$L_{C}$};
+		\node [box] at (2\hstep,15) (DC) {$D_{C}$};
+		\node [box] at (2\hstep,12) (UXC) {$U_{C}$};
+		\node [box] at (3\hstep,13.5) (RC) {$R_{C}$};
+		%\node [box] at (3\hstep,12) (RCU) {$R_{CU}$};
+		% Text
+		\node[rotate=90] at (-1,2.5) {\Large\textbf{Exporter}};
+		\node[rotate=90] at (-1,11.25) {\Large\textbf{Importer}};
+		% "meta-boxes" around sets of compartments
+		\draw [black,rounded corners] (-0.65,1) -- (-0.65,5) -- (3\hstep+0.7,5) -- (3\hstep+0.7,1) -- cycle;
+		\draw [black,rounded corners] (-0.65,6.9) -- (-0.65,16) -- (3\hstep+0.7,16) -- (3\hstep+0.7,6.9) -- cycle;
+		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,7.05) -- (-0.55,7.05)  -- cycle node at (2.75, 11) {\textbf{Introduction layer}};
+		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,15.9) -- (-0.55,15.9)  -- cycle node at (2.2, 11.5) {\textbf{Community}};
+		%% Flows in exporter
+		\path [line,thick] (SE) to node [above, sloped] (TextNode) {$\Phi_E S_E$} (LE);
+		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$p_E\varepsilon_E L_E$} (DE);
+		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$(1-p_E)\varepsilon_E L_E$} (UE);
+		\path [line,thick] (UE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E U_E$} (RE);
+		\path [line,thick] (DE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
+		%\path [line, very thick] (DE) to node [pos=0.15, right=0.25cm] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
+		%% Flows from exporter to importer
+		\path [line,sloped] (SE) to node [pos=0.275, above] (TextNode) {$m_{S} S_E$} (SC);
+		\path [line,dashed] (LE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_L L_E$} (LI);
+		\path [line,dashed] (DE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_D D_E$} (DI);
+		\path [line,dashed, bend right=20] (UE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_U U_E$} (UI);
+		%\path [line, thin, bend right=20] (RE) to node [midway, below, sloped] (TextNode) {$m_{R} R_E$} (RCU);
+		\draw[-{Stealth}] (RE) -- (3\hstep+1,3) -- (3\hstep+1,13.5)  node [pos=0.29, above, sloped] (TextNode) {$m_{R} R_E$} -- (RC);
+		%% Flows (introduction layer)
+		% \path [line, very thick] (SI) to node [above, sloped] (TextNode) {$\Phi_I S_I$} (LI);
+		\path [line,thick] (LI) to node [midway,below,sloped] (TextNode) {$p_{I}\varepsilon_I L_{I}$} (DI);
+		\path [line,thick] (LI) to node [midway,above,sloped] (TextNode) {$(1-p_{I})\varepsilon_I L_{I}$} (UI);
+		\path [line,thick] (DI) -- (3\hstep,7.5) -- node [midway, above,sloped] (TextNode) {$(1-\delta_I)\gamma_I D_{I}$} (RC);
+		\path [line,thick] (UI) to node [midway,below,sloped] (TextNode) {$(1-\delta_I)\gamma_I U_{I}$} (RC);
+		%% Flows (community)
+		\path [line,thick] (SC) to node [midway, above, sloped] (TextNode) {$\Phi_C S_C$} (LC);
+		\path [line,thick] (LC) to node [midway, above, sloped] (TextNode) {$p_C\varepsilon_C L_C$} (DC);
+		\path [line,thick] (LC) to node [midway,above,sloped] (TextNode) {$(1-p_C)\varepsilon_C L_{C}$} (UXC);
+		\path [line,thick] (DC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C D_{C}$} (RC);
+		\path [line,thick] (UXC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C U_{C}$} (RC);
+	\end{tikzpicture}		
+\end{frame}
+
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run86.png}
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run2.png}
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run3.png}
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_25_run5.png}
+\maxFrameImage{FIGS/exporter_importer_panel_zoom.png}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+% The section page
+\newSectionSlide{FIGS/Gemini_Generated_Image_hz99k4hz99k4hz99.jpeg}
+
+\begin{frame}{To do}
+	\begin{itemize}
+		\item Try to work quarantine into the model in a ``non-cohorty'' manner
+		\vfill
+		\item MBPA to compute probability of an outbreak
+		\vfill
+		\item Detailed computational analysis of the CTMC
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{One last thought for the road}
+	V. Chetail. \href{https://doi.org/10.3389/fpos.2020.606307}{Crisis without borders: What does international law say about border closure in the context of Covid-19?} Frontiers in Political Science, 2 (12) (2020)
+	\vfill
+	\begin{quote}\Large
+		[..] a powerful expression of state's sovereignty, immigration control provides a typical avenue for governments to reassure their citizens and bolster a national sense of belonging, while providing an ideal scapegoat for their own failure or negligence.
+	\end{quote}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
