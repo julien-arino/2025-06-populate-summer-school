@@ -107,19 +107,19 @@ S0 = pop - (L0 + I0 + R0)
 # Vector of initial conditions to be passed to ODE solver.
 IC = c(S = S0, L = L0, I = I0, R = R0)
 # Time span of the simulation (5 years here)
-tspan = seq(from = 0, to = 5 * 365.25, by = 0.1)
+tspan = seq(from = 0, to = 100, by = 0.1)
 
 
 ## -----------------------------------------------------------------------------
 for (i in 1:p$P) {
   p$beta[i] = 
     R_0[i] *(p$gamma[i]+p$d[i]) * (p$epsilon[i]+p$d[i]) * p$d[i] / 
-    (p$espilon[i]*p$d[i])
+    (p$epsilon[i]*p$d[i])
 }
 
 
 ## -----------------------------------------------------------------------------
-SLIAR_metapop_rhs <- function(t, x, p) {
+SLIRS_metapop_rhs <- function(t, x, p) {
 	with(as.list(p), {
 		S = x[idx_S]
 		L = x[idx_L]
@@ -137,11 +137,11 @@ SLIAR_metapop_rhs <- function(t, x, p) {
 
 ## -----------------------------------------------------------------------------
 # Call the ODE solver
-sol <- ode(y = IC, 
-			times = tspan, 
-			func = SLIRS_metapop_rhs, 
-			parms = p,
-			method = "ode45")
+# sol <- ode(y = IC,
+# 			times = tspan,
+# 			func = SLIRS_metapop_rhs,
+# 			parms = p,
+# 			method = "ode45")
 
 
 ## ----convert-Rnw-to-R,warning=FALSE,message=FALSE-----------------------------

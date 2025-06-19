@@ -74,7 +74,7 @@
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
-\section{Motivation -- Case introductions}
+\section{Why incorporate stochasticity?}
 % The section page
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_ypohksypohksypoh.jpeg}
 
@@ -193,165 +193,6 @@ Canada interrupted travel from a variety of places
 
 \maxFrameImage{FIGS/figure_variant_importation_base_model_with_stimulations_noQ.png}
 \maxFrameImage{FIGS/successful_attack_rate.png}
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-\section{Stochastic phase of an epidemic}
-% The section page
-\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla659bla659bla6.jpeg}
-
-\begin{frame}{Campbell county, Wyoming}
-	\centering
-	\includegraphics[width=\textwidth]{FIGS/select_Wyoming-Campbell_bars_zoom.png}
-\end{frame}
-
-\begin{frame}{Investigating outbreak types using a simple CTMC SIS}
-\[
-\mathbf{X}(t)=\left(S^A(t),I^A(t)\right)
-\]
-\vfill
-CTMC $\mathbf{X}(t)$ characterized by transitions
-\begin{center}
-	\begin{tabular}{ccc}
-		\toprule
-		Description & Transition & Rate \\
-		\midrule
-		Infection & $\left(S^A,I^A\right)\to \left(S^A-1,I^A+1\right)$ & $\beta^AS^AI^A$ \\
-		Recovery & $\left(S^A,I^A\right)\to \left(S^A+1,I^A-1\right)$ & $\gamma^AI^A$ \\
-		\bottomrule
-	\end{tabular}
-\end{center}
-\end{frame}
-
-\begin{frame}{Investigating outbreak types using a simple CTMC SIS \emph{with a twist}}
-Regular chain of this type has $I=0$ as sole absorbing state
-\vfill
-We add another absorbing state: if $I=\hat I$, then the chain has *left* the stochastic phase and is in a quasi-deterministic phase with exponential growth
-\vfill
-Doing this, time to absorption measures become usable additionally to first passage time ones
-\vfill
-And the question becomes: how long does the chain ``linger on'' (``stutter'') before it is absorbed? We define the inter-absorption trajectory as the stochastic phase
-\end{frame}
-
-\maxFrameImage{FIGS/illustration_stochastic_phase.png}
-\maxFrameImage{FIGS/duration_stochastic_phase_1patch_pop1M_I0eq1.png}
-
-\begin{frame}{Problem of the value of the upper bound $\hat I$}
-	\begin{itemize}
-		\item Choose $\hat I$ too small and the stochastic phase will not last long
-		\vfill
-		\item Choose $\hat I$ too large and absorption will only be at the DFE
-		\vfill
-		\item So, how does one choose $\hat I$ ?
-		\begin{itemize}
-			\item A formula of Whittle (1955)
-			\item Multitype branching process (MTBP)
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-\section{Value of travel control measures}
-% The section page
-\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla65bbla65bbla6.jpeg}
-
-\begin{frame}{}
-	\centering
-	\def\hstep{*3}
-	\begin{tikzpicture}[scale=0.75, rotate=270,
-		every node/.style={transform shape},
-		auto,
-		box/.style={minimum width={width("N-1")+2pt},
-			draw, rectangle}]
-		% Exporter
-		\node [box] at (0\hstep,3) (SE) {$S_E$};
-		\node [box] at (1\hstep,3) (LE) {$L_E$};
-		\node [box] at (2\hstep,4.5) (DE) {$D_E$};
-		\node [box] at (2\hstep,1.5) (UE) {$U_E$};
-		\node [box] at (3\hstep,3) (RE) {$R_E$};
-		%% Introduction layer
-		% \node [box] at (0\hstep,9) (SI) {$S_I$};
-		\node [box, fill=blue!50] at (1\hstep,9) (LI) {$L_{I}$};
-		\node [box, fill=red!50] at (2\hstep,7.5) (DI) {$D_{I}$};
-		\node [box, fill=blue!50] at (2\hstep,10.5) (UI) {$U_{I}$};
-		%\node [box, fill=red!50] at (3\hstep,7.5) (RID) {$R_{ID}$};
-		%% Community
-		\node [box] at (0\hstep,13.5) (SC) {$S_C$};
-		\node [box] at (1\hstep,13.5) (LC) {$L_{C}$};
-		\node [box] at (2\hstep,15) (DC) {$D_{C}$};
-		\node [box] at (2\hstep,12) (UXC) {$U_{C}$};
-		\node [box] at (3\hstep,13.5) (RC) {$R_{C}$};
-		%\node [box] at (3\hstep,12) (RCU) {$R_{CU}$};
-		% Text
-		\node[rotate=90] at (-1,2.5) {\Large\textbf{Exporter}};
-		\node[rotate=90] at (-1,11.25) {\Large\textbf{Importer}};
-		% "meta-boxes" around sets of compartments
-		\draw [black,rounded corners] (-0.65,1) -- (-0.65,5) -- (3\hstep+0.7,5) -- (3\hstep+0.7,1) -- cycle;
-		\draw [black,rounded corners] (-0.65,6.9) -- (-0.65,16) -- (3\hstep+0.7,16) -- (3\hstep+0.7,6.9) -- cycle;
-		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,7.05) -- (-0.55,7.05)  -- cycle node at (2.75, 11) {\textbf{Introduction layer}};
-		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,15.9) -- (-0.55,15.9)  -- cycle node at (2.2, 11.5) {\textbf{Community}};
-		%% Flows in exporter
-		\path [line,thick] (SE) to node [above, sloped] (TextNode) {$\Phi_E S_E$} (LE);
-		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$p_E\varepsilon_E L_E$} (DE);
-		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$(1-p_E)\varepsilon_E L_E$} (UE);
-		\path [line,thick] (UE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E U_E$} (RE);
-		\path [line,thick] (DE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
-		%\path [line, very thick] (DE) to node [pos=0.15, right=0.25cm] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
-		%% Flows from exporter to importer
-		\path [line,sloped] (SE) to node [pos=0.275, above] (TextNode) {$m_{S} S_E$} (SC);
-		\path [line,dashed] (LE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_L L_E$} (LI);
-		\path [line,dashed] (DE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_D D_E$} (DI);
-		\path [line,dashed, bend right=20] (UE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_U U_E$} (UI);
-		%\path [line, thin, bend right=20] (RE) to node [midway, below, sloped] (TextNode) {$m_{R} R_E$} (RCU);
-		\draw[-{Stealth}] (RE) -- (3\hstep+1,3) -- (3\hstep+1,13.5)  node [pos=0.29, above, sloped] (TextNode) {$m_{R} R_E$} -- (RC);
-		%% Flows (introduction layer)
-		% \path [line, very thick] (SI) to node [above, sloped] (TextNode) {$\Phi_I S_I$} (LI);
-		\path [line,thick] (LI) to node [midway,below,sloped] (TextNode) {$p_{I}\varepsilon_I L_{I}$} (DI);
-		\path [line,thick] (LI) to node [midway,above,sloped] (TextNode) {$(1-p_{I})\varepsilon_I L_{I}$} (UI);
-		\path [line,thick] (DI) -- (3\hstep,7.5) -- node [midway, above,sloped] (TextNode) {$(1-\delta_I)\gamma_I D_{I}$} (RC);
-		\path [line,thick] (UI) to node [midway,below,sloped] (TextNode) {$(1-\delta_I)\gamma_I U_{I}$} (RC);
-		%% Flows (community)
-		\path [line,thick] (SC) to node [midway, above, sloped] (TextNode) {$\Phi_C S_C$} (LC);
-		\path [line,thick] (LC) to node [midway, above, sloped] (TextNode) {$p_C\varepsilon_C L_C$} (DC);
-		\path [line,thick] (LC) to node [midway,above,sloped] (TextNode) {$(1-p_C)\varepsilon_C L_{C}$} (UXC);
-		\path [line,thick] (DC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C D_{C}$} (RC);
-		\path [line,thick] (UXC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C U_{C}$} (RC);
-	\end{tikzpicture}		
-\end{frame}
-
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run86.png}
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run2.png}
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run3.png}
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_25_run5.png}
-\maxFrameImage{FIGS/exporter_importer_panel_zoom.png}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
-% The section page
-\newSectionSlide{FIGS/Gemini_Generated_Image_hz99k4hz99k4hz99.jpeg}
-
-\begin{frame}{To do}
-	\begin{itemize}
-		\item Try to work quarantine into the model in a ``non-cohorty'' manner
-		\vfill
-		\item MBPA to compute probability of an outbreak
-		\vfill
-		\item Detailed computational analysis of the CTMC
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{One last thought for the road}
-	V. Chetail. \href{https://doi.org/10.3389/fpos.2020.606307}{Crisis without borders: What does international law say about border closure in the context of Covid-19?} Frontiers in Political Science, 2 (12) (2020)
-	\vfill
-	\begin{quote}\Large
-		[..] a powerful expression of state's sovereignty, immigration control provides a typical avenue for governments to reassure their citizens and bolster a national sense of belonging, while providing an ideal scapegoat for their own failure or negligence.
-	\end{quote}
-\end{frame}
-
 
 
 %%%%%%%%%%%%%%%%%%%
@@ -1704,6 +1545,167 @@ V_2\pprime &= V_1(t-a^\star,0)e^{\zeta(t-a^\star)}-\delta_2fV_2(t) \\
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
+\section{Stochastic phase of an epidemic}
+% The section page
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla659bla659bla6.jpeg}
+
+\begin{frame}{Campbell county, Wyoming}
+	\centering
+	\includegraphics[width=\textwidth]{FIGS/select_Wyoming-Campbell_bars_zoom.png}
+\end{frame}
+
+\begin{frame}{Investigating outbreak types using a simple CTMC SIS}
+\[
+\mathbf{X}(t)=\left(S^A(t),I^A(t)\right)
+\]
+\vfill
+CTMC $\mathbf{X}(t)$ characterized by transitions
+\begin{center}
+	\begin{tabular}{ccc}
+		\toprule
+		Description & Transition & Rate \\
+		\midrule
+		Infection & $\left(S^A,I^A\right)\to \left(S^A-1,I^A+1\right)$ & $\beta^AS^AI^A$ \\
+		Recovery & $\left(S^A,I^A\right)\to \left(S^A+1,I^A-1\right)$ & $\gamma^AI^A$ \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Investigating outbreak types using a simple CTMC SIS \emph{with a twist}}
+Regular chain of this type has $I=0$ as sole absorbing state
+\vfill
+We add another absorbing state: if $I=\hat I$, then the chain has *left* the stochastic phase and is in a quasi-deterministic phase with exponential growth
+\vfill
+Doing this, time to absorption measures become usable additionally to first passage time ones
+\vfill
+And the question becomes: how long does the chain ``linger on'' (``stutter'') before it is absorbed? We define the inter-absorption trajectory as the stochastic phase
+\end{frame}
+
+\maxFrameImage{FIGS/illustration_stochastic_phase.png}
+\maxFrameImage{FIGS/duration_stochastic_phase_1patch_pop1M_I0eq1.png}
+
+\begin{frame}{Problem of the value of the upper bound $\hat I$}
+	\begin{itemize}
+		\item Choose $\hat I$ too small and the stochastic phase will not last long
+		\vfill
+		\item Choose $\hat I$ too large and absorption will only be at the DFE
+		\vfill
+		\item So, how does one choose $\hat I$ ?
+		\begin{itemize}
+			\item A formula of Whittle (1955)
+			\item Multitype branching process (MTBP)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+\section{Value of travel control measures}
+% The section page
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla65bbla65bbla6.jpeg}
+
+\begin{frame}{}
+	\centering
+	\def\hstep{*3}
+	\begin{tikzpicture}[scale=0.75, rotate=270,
+		every node/.style={transform shape},
+		auto,
+		box/.style={minimum width={width("N-1")+2pt},
+			draw, rectangle}]
+		% Exporter
+		\node [box] at (0\hstep,3) (SE) {$S_E$};
+		\node [box] at (1\hstep,3) (LE) {$L_E$};
+		\node [box] at (2\hstep,4.5) (DE) {$D_E$};
+		\node [box] at (2\hstep,1.5) (UE) {$U_E$};
+		\node [box] at (3\hstep,3) (RE) {$R_E$};
+		%% Introduction layer
+		% \node [box] at (0\hstep,9) (SI) {$S_I$};
+		\node [box, fill=blue!50] at (1\hstep,9) (LI) {$L_{I}$};
+		\node [box, fill=red!50] at (2\hstep,7.5) (DI) {$D_{I}$};
+		\node [box, fill=blue!50] at (2\hstep,10.5) (UI) {$U_{I}$};
+		%\node [box, fill=red!50] at (3\hstep,7.5) (RID) {$R_{ID}$};
+		%% Community
+		\node [box] at (0\hstep,13.5) (SC) {$S_C$};
+		\node [box] at (1\hstep,13.5) (LC) {$L_{C}$};
+		\node [box] at (2\hstep,15) (DC) {$D_{C}$};
+		\node [box] at (2\hstep,12) (UXC) {$U_{C}$};
+		\node [box] at (3\hstep,13.5) (RC) {$R_{C}$};
+		%\node [box] at (3\hstep,12) (RCU) {$R_{CU}$};
+		% Text
+		\node[rotate=90] at (-1,2.5) {\Large\textbf{Exporter}};
+		\node[rotate=90] at (-1,11.25) {\Large\textbf{Importer}};
+		% "meta-boxes" around sets of compartments
+		\draw [black,rounded corners] (-0.65,1) -- (-0.65,5) -- (3\hstep+0.7,5) -- (3\hstep+0.7,1) -- cycle;
+		\draw [black,rounded corners] (-0.65,6.9) -- (-0.65,16) -- (3\hstep+0.7,16) -- (3\hstep+0.7,6.9) -- cycle;
+		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,7.05) -- (-0.55,7.05)  -- cycle node at (2.75, 11) {\textbf{Introduction layer}};
+		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,15.9) -- (-0.55,15.9)  -- cycle node at (2.2, 11.5) {\textbf{Community}};
+		%% Flows in exporter
+		\path [line,thick] (SE) to node [above, sloped] (TextNode) {$\Phi_E S_E$} (LE);
+		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$p_E\varepsilon_E L_E$} (DE);
+		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$(1-p_E)\varepsilon_E L_E$} (UE);
+		\path [line,thick] (UE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E U_E$} (RE);
+		\path [line,thick] (DE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
+		%\path [line, very thick] (DE) to node [pos=0.15, right=0.25cm] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
+		%% Flows from exporter to importer
+		\path [line,sloped] (SE) to node [pos=0.275, above] (TextNode) {$m_{S} S_E$} (SC);
+		\path [line,dashed] (LE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_L L_E$} (LI);
+		\path [line,dashed] (DE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_D D_E$} (DI);
+		\path [line,dashed, bend right=20] (UE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_U U_E$} (UI);
+		%\path [line, thin, bend right=20] (RE) to node [midway, below, sloped] (TextNode) {$m_{R} R_E$} (RCU);
+		\draw[-{Stealth}] (RE) -- (3\hstep+1,3) -- (3\hstep+1,13.5)  node [pos=0.29, above, sloped] (TextNode) {$m_{R} R_E$} -- (RC);
+		%% Flows (introduction layer)
+		% \path [line, very thick] (SI) to node [above, sloped] (TextNode) {$\Phi_I S_I$} (LI);
+		\path [line,thick] (LI) to node [midway,below,sloped] (TextNode) {$p_{I}\varepsilon_I L_{I}$} (DI);
+		\path [line,thick] (LI) to node [midway,above,sloped] (TextNode) {$(1-p_{I})\varepsilon_I L_{I}$} (UI);
+		\path [line,thick] (DI) -- (3\hstep,7.5) -- node [midway, above,sloped] (TextNode) {$(1-\delta_I)\gamma_I D_{I}$} (RC);
+		\path [line,thick] (UI) to node [midway,below,sloped] (TextNode) {$(1-\delta_I)\gamma_I U_{I}$} (RC);
+		%% Flows (community)
+		\path [line,thick] (SC) to node [midway, above, sloped] (TextNode) {$\Phi_C S_C$} (LC);
+		\path [line,thick] (LC) to node [midway, above, sloped] (TextNode) {$p_C\varepsilon_C L_C$} (DC);
+		\path [line,thick] (LC) to node [midway,above,sloped] (TextNode) {$(1-p_C)\varepsilon_C L_{C}$} (UXC);
+		\path [line,thick] (DC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C D_{C}$} (RC);
+		\path [line,thick] (UXC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C U_{C}$} (RC);
+	\end{tikzpicture}		
+\end{frame}
+
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run86.png}
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run2.png}
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run3.png}
+\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_25_run5.png}
+\maxFrameImage{FIGS/exporter_importer_panel_zoom.png}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+% The section page
+\newSectionSlide{FIGS/Gemini_Generated_Image_hz99k4hz99k4hz99.jpeg}
+
+\begin{frame}{To do}
+	\begin{itemize}
+		\item Try to work quarantine into the model in a ``non-cohorty'' manner
+		\vfill
+		\item MBPA to compute probability of an outbreak
+		\vfill
+		\item Detailed computational analysis of the CTMC
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{One last thought for the road}
+	V. Chetail. \href{https://doi.org/10.3389/fpos.2020.606307}{Crisis without borders: What does international law say about border closure in the context of Covid-19?} Frontiers in Political Science, 2 (12) (2020)
+	\vfill
+	\begin{quote}\Large
+		[..] a powerful expression of state's sovereignty, immigration control provides a typical avenue for governments to reassure their citizens and bolster a national sense of belonging, while providing an ideal scapegoat for their own failure or negligence.
+	\end{quote}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
 \section{Continuous time Markov chains}
 
 \begin{frame}{Continuous-time Markov chains}
@@ -2245,363 +2247,6 @@ tictoc::toc()
 
 
 
-%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%
-\section{Structuration in age}
-\begin{frame}\frametitle{Age structure}
-Taking into account age can be important in some cases
-\vfill
-\begin{itemize}
-\item Demographic characteristics vary with age
-\item Interactions are in general more frequent between people of a similar age. They are also more frequent in younger individuals
-\item Some diseases attack preferentially younger individuals
-\item The immunity of individuals changes with age, so for instance, older people may be more susceptible to some diseases than younger people
-\end{itemize}
-\vfill
-This is based on courses given by Jia Li during a Banff summer school in 2004
-\end{frame}
-
-\maxFrameImage{FIGS/BrauerPvdDWu-book.png}
-
-\begin{frame}{Note on age}
-\defword{Chronological age}, as a structuring variable, is ``easier'' than other structuring variables
-\vfill
-Indeed, if $a$ is (chronological) age, then
-\[
-\frac{d}{dt}a = 1
-\]
-\end{frame}
-
-
-\begin{frame}\frametitle{Formulation of an SIR model}
-Let $a$ be the age. Assume that natural death and recovery occur at the rates $\mu$ and $\gamma$, respectively, both dependent on $a$
-\vfill
-When an individual is sick, they are subject to disease-induced death at the rate $\delta(a)$
-\vfill
-Governing equations are
-\footnotesize
-\begin{subequations}\label{sys:SIR_age_structure}
-\begin{align}
-(\partial_t+\partial_a)S(t,a) &=
-\Lambda(a)-(\mu(a)+\lambda(t,a))S(t,a)
-\label{sys:SIR_age_structure_S} \\
-(\partial_t+\partial_a)I(t,a) &=
--(\mu(a)+\gamma(a)+\delta(a))I(t,a)+\lambda(t,a)S(t,a)
-\label{sys:SIR_age_structure_I} \\
-(\partial_t+\partial_a)R(t,a) &=
-\gamma(a)I(t,a)
-\label{sys:SIR_age_structure_R}
-\end{align}
-\end{subequations}
-\end{frame}
-
-\begin{frame}
-Boundary conditions are
-\addtocounter{equation}{-1}\
-\begin{subequations}
-\setcounter{equation}{3}
-\begin{align}
-S(t,a_0)&=B \label{sys:SIR_age_structure_BCS} \\
-I(t,a_0)&=0 \label{sys:SIR_age_structure_BCI} \\
-R(t,a_0)&=0 \label{sys:SIR_age_structure_BCR}
-\end{align}
-while initial conditions take the form
-\begin{align}
-S(0,a)&=\Phi(a) \label{sys:SIR_age_structure_ICS} \\
-I(0,a)&=\Psi(a) \label{sys:SIR_age_structure_ICI} \\
-R(0,a)&=0 \label{sys:SIR_age_structure_ICR}
-\end{align}
-\end{subequations}
-\end{frame}
-
-\begin{frame}{Force of infection}
-Transmission $\lambda(t,a)$ of the disease takes the form
-\[
-\lambda(t,a)=r(a)\int_{a_0}^\infty \beta(a,s)\rho(a,s)
-\frac{I(t,s)}{N(t,s)}ds
-\]
-where 
-\begin{itemize}
-\item $r(a)$ is the number of contacts by individuals of age $a$ per unit time
-\item $\beta(a,s)$ is the probability of disease transmission to a susceptible of age $a$ by an infectious of age $s$
-\item $\rho(a,s)$ is the meeting rate between people of age $a$ and people of age $s$
-\item $N(t,a)=S(t,a)+I(t,a)+R(t,a)$ is the distribution of total population
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}
-To simplify, assume that $\beta(a,s)$ is separable
-\[
-\beta(a,s)=f(a)g(s)
-\]
-where $f(a)$ is the susceptibility of individuals aged $a$ and $g(s)$ is the force of infection of individuals aged $s$
-\vfill
-Then
-\begin{equation}\label{eq:beta_age_dep}
-\lambda(t,a)=r(a)f(a)\int_{a_0}^\infty g(s)\rho(a,s)
-\frac{I(t,s)}{N(t,s)}ds
-\end{equation}
-\end{frame}
-
-%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Analysis of the SIR model}
-We seek the DFE by setting $I=0$
-\vfill
-We find $(S,I,R)=(S^0(a),0,0)$ with
-\[
-S^0(a)=Be^{-M(a)} +e^{-M(a)}\int_{a_0}^a e^{M(x)}\Lambda(x)dx
-\]
-where
-\[
-M(a)=\int_{a_0}^a \mu(s)ds
-\]
-\end{frame}
-
-
-\begin{frame}
-Consider the perturbed solution $u(t,a)=S(t,a)-S^0(a)$. Assume that the meeting rate $\rho$ is also separable,
-\[
-\rho(a,s)=p_1(a)p_2(s)
-\]
-Then
-\[
-\tilde\lambda(t,a):=r(a)f(a)p_1(a)\int_{a_0}^\infty
-\frac{g(s)p_2(s)}{S^0(s)}I(t,s) ds \simeq \lambda(t,a)
-\]
-and we obtain the linearisation
-\begin{align*}
-(\partial_t+\partial_a)u&=-\mu(a)u-\tilde\lambda(t,a)S^0(a) \\
-(\partial_t+\partial_a)I&=-(\mu(a)+\gamma(a)+\delta(a))I
-+\tilde\lambda(t,a)S^0(a) \\
-(\partial_t+\partial_a)R&=\gamma(a)I
-\end{align*}
-\end{frame}
-
-
-\begin{frame}
-Let
-\[
-u(t,a)=\tilde u(a)e^{c(t-a)}\quad\quad I(t,a)=\tilde I(a)e^{c(t-a)}
-\]
-and denote
-\[
-b(a)=S^0(a)r(a)f(a)p_1(a)\quad\quad W=\int_{a_0}^\infty
-\frac{g(s)p_2(s)}{S^0(s)}e^{-cs}\tilde I(s)ds
-\]
-\end{frame}
-
-
-\begin{frame}
-Then
-\begin{align*}
-\frac{d\tilde u(a)}{da} &= -\mu(a)\tilde u(a)-b(a)e^{ca}W \\
-\frac{d\tilde I(a)}{da} &= -(\mu(a)+\gamma(a))\tilde I(a)+b(a)e^{ca}W
-\end{align*}
-\[
-\tilde I(a)=We^{-M(a)-\Gamma(a)}\int_{a_0}^\infty
-e^{M(s)+\Gamma(s)}b(s)e^{cs}ds
-\]
-where $\Gamma(a)=\int_{a_0}^a\gamma(s)ds$
-\vfill
-Therefore
-\[
-W=W\int_{a_0}^\infty \frac{g(s)p_2(s)}{S^0(s)}e^{-M(s)-\Gamma(s)}
-\int_{a_0}^s e^{M(v)+\Gamma(v)}b(v)e^{-c(s-v)}dvds
-\]
-\end{frame}
-
-\begin{frame}
-Let then
-\[
-H(c):=\int_{a_0}^\infty \frac{g(s)p_2(s)}{S^0(s)}e^{-M(s)-\Gamma(s)}
-\int_{a_0}^s e^{M(v)+\Gamma(v)}b(v)e^{-c(s-v)}dvds
-\]
-\vfill
-We seek roots of the characteristic equation $H(c)=1$
-\vfill
-We have
-{\footnotesize
-\[
-\frac{dH(c)}{dc}=-\int_{a_0}^\infty
-\frac{g(s)p_2(s)}{S^0(s)}e^{-M(s)-\Gamma(s)}
-\int_{a_0}^s (s-v)e^{M(v)+\Gamma(v)}b(v)e^{-c(s-v)}dvds<0
-\]}
-implying that $H(c)$ is a decreasing function
-\end{frame}
-
-
-\begin{frame}
-\bbullet 
-Let $c^\star$ be a real solution to $H(c)=1$. If $H(0)>1$, then $c>0$, whereas if $H(0)<1$, $c<0$
-\vfill
-\bbullet
-Suppose that $c^\star=\alpha+i\beta$ is a complex root of $H(c)=1$. Then
-{\footnotesize
-\[
-\Re H(c)=
-\int_{a_0}^\infty \frac{g(s)p_2(s)}{S^0(s)}e^{-M(s)-\Gamma(s)}
-\int_{a_0}^s e^{M(v)+\Gamma(v)}b(v)e^{-\alpha(s-v)}\cos\beta(s-v)dvds
-\]}
-As a consequence, $H(0)<1$ $\implies$ $\alpha<0$
-\vfill
-So $H(0)=1$ is a threshold and we take $\R_0=H(0)$
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%
-\begin{frame}{Analysis using semigroups: SIA model}
-To illustrate the use of the semigroup method in this context, we consider an SIA model describing the evolution of HIV/AIDS
-\vfill
-The model is almost equivalent to \eqref{sys:SIR_age_structure}, with a few differences
-\vfill
-The $I$ compartment contains inviduals bearing HIV, but not yet in the AIDS stage
-\vfill
-The rate $\gamma(a)$ represents the progression towards the AIDS stage
-\vfill
-The AIDS stage is represented by compartment $A$, where individuals are subject 
-to a specific mortality rate
-\end{frame}
-
-\begin{frame}
-\begin{subequations}\label{sys:SIA_age_structure}
-\begin{align}
-(\partial_t+\partial_a)S(t,a) &=
-\Lambda(a)-(d(a)+\lambda(t,a))S(t,a)
-\label{sys:SIA_age_structure_S} \\
-(\partial_t+\partial_a)I(t,a) &=
--(d(a)+\gamma(a))I(t,a)+\lambda(t,a)S(t,a)
-\label{sys:SIA_age_structure_I} \\
-(\partial_t+\partial_a)A(t,a) &=
-\gamma(a)A(t,a)-(d(a)+\delta(a))A(t,a)
-\label{sys:SIA_age_structure_R}
-\end{align}
-\vfill
-Assume
-\begin{equation}\label{sys:SIA_age_structure_force_infection}
-\lambda(t,a)=h(a)\int_{a_0}^\infty \rho(a,a')
-\frac{I(t,a')}{T(t,a')}da'
-\end{equation}
-\end{subequations}
-where $T(t,a')=S(t,a')+I(t,a')$
-\end{frame}
-
-\begin{frame}
-An individual in AIDS stage no longer has contacts. Therefore the dynamics of $S$ and $I$ do not depend on the dynamics of $A$, and we consider the system consisting of the first two variables
-\vfill
-Let $\omega$ be the maximum age. The system in proportions takes the form
-\[
-x:=\frac ST\quad\quad y:=\frac IT
-\]
-\vfill
-As we are only considering $S$ and $I$, we have $x+y=1$ and the system reads
-\begin{subequations}\label{sys:SIA_age_struct}
-\begin{align}
-(\partial_t+\partial_a)y(t,a)&=(1-y)(-\gamma(a)y+\lambda(t,a)) \\
-\lambda(t,a)&=h(a)\int_0^\omega p(a,a')y(t,a')da'
-\end{align}
-\end{subequations}
-\end{frame}
-
-
-
-\begin{frame}
-Let $X=\{f\in L^1(0,\omega)\}$. Define
-\[
-(Af)(a):=-\frac{d}{da}f(a),\quad f\in D(A)
-\]
-with $D(a)=\{f\in X,\; f\text{ is absolutely continuous, }f(0)=0\}$,
-and
-\[
-F(f)(a)\equiv (1-f(a))\left(
--\gamma(a)f(a)+h(a)\int_0^\omega p(a,a')f(a')da'\right)
-\]
-an operator from $X\to X$
-\vfill
-Let $\Omega=\{f\in X,\; 0\leq f\leq 1\textrm{ a.e.}\}$. Then
-\eqref{sys:SIA_age_struct} takes the form
-\begin{align*}
-\frac{dy}{dt}&= Ay+F(y) \\
-y(0)&= y_0\in\Omega
-\end{align*}
-\end{frame}
-
-
-
-\begin{frame}
-Let
-\[
-(\mathcal{B}f)(a)=-\frac{df(a)}{da}-\gamma(a)f(a)
-\quad\quad
-(\mathcal{P}f)(a)=h(a)\int_0^\omega p(a,a')f(a')da'
-\]
-\vfill
-We have
-\[
-(\partial_t+\partial_a)y=-\gamma(a)y+h(a)\int_0^\omega
-\rho(a,a')y(t,a')da' \Leftrightarrow
-\frac{dy}{dt}=(\mathcal{B}+\mathcal{P})y
-\]
-\vfill
-$\mathcal{B}+\mathcal{P}$ generates a $C_0$-semigroup $T(t)$,
-$t\geq 0$, which is eventually uniformly continuous
-%Les bornes
-%de croissance de $T$ sont donn\'e par les bornes spectrales de
-%$\mathcal{B}+\mathcal{P}$.
-\end{frame}
-
-
-\begin{frame}
-The  resolvant of $\mathcal{B}+\mathcal{P}$ is
-\[
-R(\lambda;\mathcal{B}+\mathcal{P})=(S_\lambda-I)^{-1}G
-\]
-with
-\[
-(Gf)(a)=\int_0^a
-e^{-\lambda(a-\sigma)}\frac{\Gamma(a)}{\Gamma(\sigma)}
-f(\sigma)d\sigma
-\]
-\[
-(S_\lambda f)(a)=\int_0^\omega\int_0^a
-e^{-\lambda(a-\sigma)}\frac{\Gamma(a)}{\Gamma(\sigma)}
-\rho(\sigma,\xi)d\sigma f(\xi)d\xi
-\]
-where we denoted
-\[
-\Gamma(a)=\exp\left(-\int_0^a \gamma(a')da'\right)
-\]
-\end{frame}
-
-
-\begin{frame}\frametitle{$\R_0$}
-$\R_0$ is the spectral radius of the operator
-\[
-(Sf)(a)=\int_0^\omega\int_0^a \frac{\Gamma(a)}{\Gamma(\sigma)}
-h(\sigma)p(\sigma,\xi)d\sigma f(\xi)d\xi
-\]
-\end{frame}
-
-
-\begin{frame}\frametitle{Pair formation}
-$\rho(t,a,a')$ proportion of partners of an individual aged $a$ who are aged $a'$
-\vfill
-$r(t,a)$ mean number of partners of an individual aged $a$
-\vfill
-$T(t,a)$ total number of individuals aged $a$
-\vfill
-The following conditions must hold
-\begin{itemize}
-\item $0\leq\rho\leq 1$
-\item $\int_0^\infty \rho(t,a,a')da'=1$
-\item $\rho(t,a,a')r(t,a)T(t,a)=\rho(t,a',a)r(t,a')T(t,a')$
-\item $r(t,a)T(t,a)r(t,a')T(t,a')=0\Rightarrow \rho(t,a,a')=0$
-\end{itemize}
-\end{frame}
 
 
 \end{document}
