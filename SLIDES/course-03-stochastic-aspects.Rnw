@@ -33,6 +33,11 @@ knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 options(knitr.table.format = "latex")
 # Date for front title page (if needed)
 yyyy = strsplit(as.character(Sys.Date()), "-")[[1]][1]
+# The kframe environment can conflict with allowframebreaks, 
+# so we remove it.
+knit_hooks$set(document = function(x) {
+  gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+})
 @
 
 <<set-slide-background,echo=FALSE,results='asis'>>=
@@ -178,29 +183,12 @@ Canada interrupted travel from a variety of places
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-\section{Probability of introductions}
-% The section page
-\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla657bla657bla6.jpeg}
-
-% JA</ins>, N. Bajeux, S. Portet & J. Watmough. [Quarantine and the risk of COVID-19 importation](http://dx.doi.org/10.1017/S0950268820002988). *Epidemiology & Infection* (2020)
-
-\maxFrameImage{FIGS/figure_variant_importation_base_model_with_stimulations_noQ.png}
-\maxFrameImage{FIGS/successful_attack_rate.png}
-
 
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-\section{Sojourn times in compartments}
+\section{Stochasticity in deterministic models}
 
 
 \begin{frame}
@@ -540,7 +528,7 @@ with $N(0)=N_0$.
 {\red $\Rightarrow$} The ODE $N'=-dN$ makes the assumption that the life expectancy at birth is exponentially distributed
 \end{frame}
 
-<<prop_surviving_exp_80years,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
+<<prop_surviving_exp_80years,eval=TRUE,echo=FALSE,fig.width=8,fig.height=6,include=FALSE>>=
 plot_blackBG = FALSE
 if (plot_blackBG) {
   par(bg = 'black', fg = 'white') # set background to black, foreground white
@@ -587,7 +575,7 @@ Here, $N'=0$ everywhere except at $t=\omega$, where it is undefined
 \end{frame}
 
 
-<<prop_surviving_dirac_80years,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
+<<prop_surviving_dirac_80years,eval=TRUE,echo=FALSE,fig.width=8,fig.height=6,include=FALSE>>=
 plot_blackBG = FALSE
 if (plot_blackBG) {
   par(bg = 'black', fg = 'white') # set background to black, foreground white
@@ -624,7 +612,7 @@ Survival function, $\S(t)=\IP(T>t)$, for a Dirac distribution with mean 80 years
 %%%%%%%%%%%%%%%%%%%
 \subsection{A possible fix to the exponential distribution issue} 
 
-<<prop_surviving_exp_80years_details,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
+<<prop_surviving_exp_80years_details,eval=TRUE,echo=FALSE,fig.width=8,fig.height=6,include=FALSE>>=
 if (plot_blackBG) {
   par(bg = 'black', fg = 'white') # set background to black, foreground white
   colour = "white"
@@ -861,7 +849,7 @@ idx_best <- which.min(optim_fits$error)
 @
 \end{frame}
 
-<<plot_results_optim_Erlang,eval=TRUE,echo=FALSE,fig=TRUE,width=8,height=6,include=FALSE>>=
+<<plot_results_optim_Erlang,eval=TRUE,echo=FALSE,fig.width=8,fig.height=6,include=FALSE>>=
 time_points_plot <- seq(0,60,0.05)
 found_points_plot <- 
   dgamma(time_points_plot,
@@ -1178,37 +1166,6 @@ Since $V(0)$ is finite, the integral in $V_0(t)$ converges, and thus $V_0(t)$ is
 nonincreasing and $\lim_{t\to\infty}V_0(t)=0$
 \end{frame}
 
-\begin{frame}
-Let
-\[
-\D=\{
-(S,I,V); S\geq 0, I\geq 0, V\geq 0, S+I+V=1
-\}
-\]
-\vfill
-\begin{theorem}
-The set $\D$ is positively invariant under the flow of \eqref{sys:SIVS_general} with $I(0)>0, S(0)>0$
-\label{th:invariance_gen_model}
-\end{theorem}
-\end{frame}
-
-
-\begin{frame}\frametitle{}
-With the assumed initial conditions in $\D$, it can be shown that the system defined by \eqref{sys:SIVS_general_I} and \eqref{sys:SIVS_general_V} is equivalent to the system defined by \eqref{sys:SIVS_general_I} and
-\begin{align}
-\frac{d}{dt}V(t) &= \frac{d}{dt}V_0(t)+\phi S(t)+\alpha d \label{eq:Vprime_general} \\
-&\quad -(d+\sigma\beta I(t))(V(t)-V_0(t)) 
-+ Q(t)\nonumber
-\end{align}
-where to simplify notation, we denote
-\[
-Q(t)=\int_0^t (\phi S(u)+\alpha d) d_t(P(t-u))e^{-d(t-u)}
-e^{-\sigma\beta\int_u^t I(x)dx}du
-\]
-\vfill
-The system defined by \eqref{sys:SIVS_general_I} and \eqref{eq:Vprime_general} is of standard form, therefore results of Hale (see Hale \& Verduyn-Lunel) ensure the local existence, uniqueness and continuation of solutions of model \eqref{sys:SIVS_general}
-\end{frame}
-
 \begin{frame}\frametitle{$\R_0$}
 Define $\R_0$ with vaccination as
 \begin{equation}
@@ -1258,12 +1215,9 @@ As before, two examples
 \vfill
 \begin{itemize}
 \item The distribution of waning times is exponential, which leads to
- an ODE system. Treated briefly here, just so as to emphasize the
- presence of a so-called \emph{backward bifurcation}, a rather
- uncommon phenomenon in epidemiological models
+ an ODE system
 \vfill
-\item The waning time is a constant, which leads to a DDE model. We
- show that the backward bifurcation is also present
+\item The waning time is a constant, i.e., $P(t)$ is Diract distributed, which leads to a discrete DDE model
 \end{itemize}
 \end{frame}
 
@@ -1422,29 +1376,6 @@ dimensional system, for $t>\omega$
 Hereafter, shift time by $\omega$ so that these equations hold for $t>0$
 \end{frame}
 
-
-\begin{frame}
-The well posedness of the problem follows from
-Theorem~\ref{th:invariance_gen_model} and from the fact that solutions
-of (\ref{sys:SIVS_general}) exist and are unique.
-For a constant waning period, the basic reproduction number from
-(\ref{eq:generalRphi}) is
-\begin{equation}
- \R_v = \R_0
- \frac{d+(\sigma\phi-\alpha(1-\sigma)d)
- (1-e^{-d\omega})}{d+\phi(1-e^{-d\omega})}
- \label{eq:Rphi}
-\end{equation}
-\vfill
-With $I_{DF}=0$, from Theorem~\ref{th:R0_gen_mod}
-\begin{equation}
- V_{DF}=\frac{(\phi+\alpha d)(1-e^{-d\omega})}{d+\phi(1-e^{-d\omega})}
-,\,\,
-S_{DF}=\frac{d-\alpha d(1-e^{-d\omega})}{d+\phi(1-e^{-d\omega})}
- \label{eq:DFE_V}
-\end{equation}
-\end{frame}
-
 \begin{frame}\frametitle{Finding the EEP's}
 From nullclines, there exists one (or more) endemic equilbria
 (EEP) iff there exists $0<I^\star\leq 1$ such that
@@ -1465,87 +1396,6 @@ for $\sigma<1$, and
 \end{equation}
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Visualising and locating the bifurcation}
-From the nullcline equations, an EEP exists iff there exists an
-$I^\star\in(0,1]$ such that equations (\ref{eq:f_egal_g})-(\ref{eq:g(I)})
-hold.
-So we study the zeros of
-\[
-H(I)=\frac{1-1/\R_0-I}{1-\sigma} -
-\frac{(\phi(1-I)+\alpha d)(1-e^{-d\omega-\sigma\beta\omega I})}
-{\phi(1-e^{-d\omega-\sigma\beta\omega I})+d+\sigma\beta I}
-\]
-To state the problem in a formal way, let
-$\mathcal{A}=\{\alpha,\beta,\gamma,\omega,\phi,\sigma\}$ be the set of
-parameters of interest, and denote
-\begin{equation}
-H(I,\mathcal{A})=
-f(I)-g(I)
-\label{eq:H}
-\end{equation}
-to show the dependence on these parameters.
-\end{frame}
-
-\begin{frame}
-Proceed as follows
-\begin{enumerate}
-\item Choose a parameter $a_i\in\mathcal{A}$
-\item Fix all other $a_j$'s ($j\neq i$)
-\item Choose $a_{i,min}$, $a_{i,max}$ and $\Delta a_i$ for $a_i$
-\item For all
-  $a_{i,k}=a_{i,min}+k\Delta a_i$ ($k$
-  such that $a_{i,k}\leq a_{i,max}$), compute
-  $I^\star$ such that $H(I^\star,a_{i,k})=0$ \label{point1}
-\end{enumerate}
-Step~\ref{point1} is carried out using the {\sc MatLab} {\tt fzero} function
-\vfill
-Further precision can be gained by showing that
-\[
-H(0)=\frac{\R_v-1}{(1-\sigma)\R_0}
-\]
-and that, for $\sigma<1$
-\[
-H(1)=-\frac{1}{(1-\sigma)\R_0}-\frac{\alpha
-d(1-e^{-d\omega-\sigma\beta\omega})}{\phi(1
--e^{-d\omega-\sigma\beta\omega})+d+\sigma\beta}<0
-\]
-\end{frame}
-
-\begin{frame}
-Define $\R_c$ as previously. For $\R_0>1$ and
-$\R_v<1$, there are several possibilities
-\begin{itemize}
-\item If $\R_v<\R_c$, then there is no EEP. $H(0)$ and $H(1)$
- are strictly negative, and numerical simulations seem to indicate that $H$ has no roots in $(0,1]$ (\emph{i.e.}, that $H<0$ on this interval)
-\item If $\R_c<\R_v<1$, then there are endemic equilibria.
- Here, since $H(0)$ and $H(1)$ are strictly negative, the only possibility is thus to have an even number of zeros of $H$. Numerical simulations appear to indicate that the number of endemic equilibria is 2
-\end{itemize}
-In between these two situations $\R_v=\R_c$ and there is one endemic equilibrium $I^\star$. Using the same procedure as for the visualisation of the bifurcation, it is possible to compute $\R_c$ by finding the value $I^\star$ such that
-$H(I^\star,\mathcal{A})=0$ and $H'(I^\star,\mathcal{A})=0$, for a given parameter $a_i\in\mathcal{A}$
-\vfill
-If $\R_v>1$ then $H(0)>0$ and so there is an odd number of endemic equilibria. Numerical simulations indicate that there is a unique EEP
-\end{frame}
-
-\begin{frame}\frametitle{Numerical bifurcation analysis}
-Same parameter values as in ODE case, except that the
-constant waning time (the delay) $\omega$ has to be substituted for $\theta$. We take $\omega=1825$, \emph{i.e.}, corresponding to a 5 years waning time
-\vfill
-These parameters give $\R_0=8.3936$ and $\R_v(\phi)=0.8819$, which is in the range of the backward bifurcation since (using the above method) $\R_c(\phi)=0.8675$
-\vfill
-The bifurcation diagram is very like that depicted in earlier for the ODE. Numerical simulations of the DDE model (using {\tt dde23}) indicate that there are no additional bifurcations; solutions either go to the DFE or to the (larger) EEP
-\end{frame}
-
-
-\begin{frame}
-\begin{center}
-   \includegraphics[width=0.75\textwidth]{FIGS/bif_and_time}
-\end{center}
-(a) Values of $I^\star$ as a function of $\omega$ by solving $H(I,\mathcal{A})=0$ with $a_i=\omega$. (b) Value of $I(t)$ versus time, obtained by numerical integration of system \eqref{sys:SIVS_DDE} with initial data $I(t)=c$, for $t\in[-\omega,0]$, $\omega=1825$, $c$ varying from 0 to 1 by steps of 0.02
-\end{frame}
 
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
@@ -1660,7 +1510,7 @@ V_2\pprime &= V_1(t-a^\star,0)e^{\zeta(t-a^\star)}-\delta_2fV_2(t) \\
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
-\section{Stochastic phase of an epidemic}
+\section{Continuous time Markov chains}
 % The section page
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla659bla659bla6.jpeg}
 
@@ -2042,74 +1892,28 @@ while {$t\leq t_f$}\\
 - $t\leftarrow t+\tau_t$    
 \end{frame}
 
-% <<>>=
-% b = 0.01   # Birth rate
-% d = 0.01   # Death rate
-% t_0 = 0    # Initial time
-% N_0 = 100  # Initial population
-% 
-% # Vectors to store time and state. Initialise with initial condition.
-% t = t_0
-% N = N_0
-% 
-% t_f = 1000  # Final time
-% 
-% # We'll track the current time and state (could also just check last entry in t
-% # and N, but will take more operations)
-% t_curr = t_0
-% N_curr = N_0
-% while (t_curr<=t_f) {
-%     xi_t = (b+d)*N_curr
-%     # The exponential number generator does not like a rate of 0 (when the 
-%     # population crashes), so we check if we need to quit
-%     if (N_curr == 0) {
-%         break
-%     }
-%     tau_t = rexp(1, rate = xi_t)
-%     t_curr = t_curr+tau_t
-%     v = c(b*N_curr, xi_t)/xi_t
-%     zeta_t = runif(n = 1)
-%     pos = findInterval(zeta_t, v)+1
-%     switch(pos,
-%             { 
-%                 N_curr = N_curr+1 # Birth
-%             },
-%             {
-%                 N_curr = N_curr-1 # Death
-%             })
-%     N = c(N, N_curr)
-%     t = c(t, t_curr)
-% }
-% @
+\begin{frame}[fragile, allowframebreaks]
+\frametitle{Running birth--death using explicit Gillespie}
 
-\begin{frame}[fragile]
-\begin{lstlisting}[language=Renhanced]
-b = 0.01   # Birth rate
-d = 0.01   # Death rate
-t_0 = 0    # Initial time
-N_0 = 100  # Initial population
-
-# Vectors to store time and state. Initialise with initial condition.
-t = t_0
-N = N_0
-
-t_f = 1000  # Final time
-
-# We'll track the current time and state (could also just check last entry in t
-# and N, but will take more operations)
-t_curr = t_0
-N_curr = N_0
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{lstlisting}[language=Renhanced]
-while (t_curr<=t_f) {
+<<birth-death-setup>>=
+birth_death_CTMC = function(b = 0.01, d = 0.01) {
+  t_0 = 0    # Initial time
+  N_0 = 100  # Initial population
+  
+  # Vectors to store time and state. Initialise with initial condition.
+  t = t_0
+  N = N_0
+  
+  t_f = 1000  # Final time
+  
+  # Track the current time and state (could just check last entry in t
+  # and N, but will take more operations)
+  t_curr = t_0
+  N_curr = N_0
+  while (t_curr<=t_f) {
     xi_t = (b+d)*N_curr
-    # The exponential number generator does not like a rate of 0 (when the 
-    # population crashes), so we check if we need to quit
     if (N_curr == 0) {
-        break
+      break # Avoid error with rexp when xi_t = 0
     }
     tau_t = rexp(1, rate = xi_t)
     t_curr = t_curr+tau_t
@@ -2117,16 +1921,16 @@ while (t_curr<=t_f) {
     zeta_t = runif(n = 1)
     pos = findInterval(zeta_t, v)+1
     switch(pos,
-            { 
-                N_curr = N_curr+1 # Birth
-            },
-            {
-                N_curr = N_curr-1 # Death
-            })
+           { N_curr = N_curr+1},  # Birth
+           { N_curr = N_curr-1}) # Death
     N = c(N, N_curr)
     t = c(t, t_curr)
+  }
+  plot(t, N, type = "l",
+       xlab = "Time", ylab = "Population size",
+       main = paste("Birth-death CTMC with b =", b, "and d =", d))
 }
-\end{lstlisting}
+@
 \end{frame}
 
 \maxFrameImage{FIGS/CTMC_birth_death_sol_b=0_01_d=0_01}
@@ -2166,51 +1970,31 @@ while (t_curr<=t_f) {
     \end{itemize}
 \end{frame}
 
-% <<sim-gillespie2-first,echo=FALSE>>=
-% library(GillespieSSA2)
-% Pop <- 1000
-% I_0 <- 2
-% IC <- c(S = (Pop-I_0), I = I_0)
-% params <- c(gamma = gamma, beta = beta)
-% reactions <- list(
-%   reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
-%   reaction("gamma*I", c(S=+1,I=-1), "recovery")
-% )
-% set.seed(NULL)
-% sol <- ssa(
-%   initial_state = IC,
-%   reactions = reactions,
-%   params = params,
-%   method = ssa_exact(),
-%   final_time = t_f,
-% )
-% plot(sol$time, sol$state[,"I"], type = "l",
-%      xlab = "Time (days)", ylab = "Number infectious")    
-% @
-
-\begin{frame}[fragile]{Simulating a CTMC}
-\begin{lstlisting}[language=Renhanced]
+<<sim-gillespie2-first>>=
 library(GillespieSSA2)
+Pop <- 1000
+I_0 <- 2
 IC <- c(S = (Pop-I_0), I = I_0)
 params <- c(gamma = gamma, beta = beta)
 reactions <- list(
-    reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
-    reaction("gamma*I", c(S=+1,I=-1), "recovery")
+  reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
+  reaction("gamma*I", c(S=+1,I=-1), "recovery")
 )
 set.seed(NULL)
 sol <- ssa(
-    initial_state = IC,
-    reactions = reactions,
-    params = params,
-    method = ssa_exact(),
-    final_time = t_f,
+  initial_state = IC,
+  reactions = reactions,
+  params = params,
+  method = ssa_exact(),
+  final_time = t_f,
 )
 plot(sol$time, sol$state[,"I"], type = "l",
-        xlab = "Time (days)", ylab = "Number infectious")    
-\end{lstlisting}
-\end{frame}
+     xlab = "Time (days)", ylab = "Number infectious")
+@
 
 \maxFrameImage{FIGS/one_CTMC_sim}
+
+
 
 \subsection{Parallelising your code in \code{R}}
 
@@ -2224,52 +2008,8 @@ plot(sol$time, sol$state[,"I"], type = "l",
     \end{itemize}
 \end{frame}
 
-% <<parallel-CTMC>>=
-% library(parallel)
-% run_one_sim = function(params) {
-%     IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
-%     params_local <- c(gamma = params$gamma, beta = params$beta)
-%     reactions <- list(
-%         # propensity function effects name for reaction
-%         reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
-%         reaction("gamma*I", c(S=+1,I=-1), "recovery")
-%     )
-%     set.seed(NULL)
-%     sol <- ssa(
-%     initial_state = IC,
-%     reactions = reactions,
-%     params = params_local,
-%     method = ssa_exact(),
-%     final_time = params$t_f,
-%     log_firings = TRUE    # This way we keep track of events
-%     )
-%     # Interpolate result (just I will do)
-%     wanted_t = seq(from = 0, to = params$t_f, by = 0.01)
-%     sol$interp_I = approx(x = sol$time, y = sol$state[,"I"], xout = wanted_t)
-%     names(sol$interp_I) = c("time", "I")
-%     # Return result
-%     return(sol)
-% }
-% nb_cores <- detectCores()
-% if (nb_cores > 124) {
-%   nb_cores = 124
-% }
-% cl <- makeCluster(nb_cores)
-% clusterEvalQ(cl,{
-%   library(GillespieSSA2)
-% })
-% clusterExport(cl,
-%               c("params",
-%                 "run_one_sim"),
-%               envir = .GlobalEnv)
-% SIMS = parLapply(cl = cl, 
-%                  X = 1:params$number_sims, 
-%                  fun =  function(x) run_one_sim(params))
-% stopCluster(cl)
-% @
-
-\begin{frame}[fragile]
-\begin{lstlisting}[language=Renhanced]
+<<parallel-CTMC>>=
+library(parallel)
 run_one_sim = function(params) {
     IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
     params_local <- c(gamma = params$gamma, beta = params$beta)
@@ -2287,11 +2027,6 @@ run_one_sim = function(params) {
     final_time = params$t_f,
     log_firings = TRUE    # This way we keep track of events
     )
-\end{lstlisting}    
-\end{frame}
-
-\begin{frame}[fragile]
-    \begin{lstlisting}[language=Renhanced]
     # Interpolate result (just I will do)
     wanted_t = seq(from = 0, to = params$t_f, by = 0.01)
     sol$interp_I = approx(x = sol$time, y = sol$state[,"I"], xout = wanted_t)
@@ -2299,52 +2034,25 @@ run_one_sim = function(params) {
     # Return result
     return(sol)
 }
-\end{lstlisting}    
-\end{frame}
-
-
-\begin{frame}[fragile]
-\begin{lstlisting}[language=Renhanced]
 nb_cores <- detectCores()
 if (nb_cores > 124) {
-    nb_cores = 124
+  nb_cores = 124
 }
 cl <- makeCluster(nb_cores)
 clusterEvalQ(cl,{
-    library(GillespieSSA2)
+  library(GillespieSSA2)
 })
 clusterExport(cl,
-                c("params",
+              c("params",
                 "run_one_sim"),
-                envir = .GlobalEnv)
-SIMS = parLapply(cl = cl, 
-                    X = 1:params$number_sims, 
-                    fun =  function(x) run_one_sim(params))
+              envir = .GlobalEnv)
+SIMS = parLapply(cl = cl,
+                 X = 1:params$number_sims,
+                 fun =  function(x) run_one_sim(params))
 stopCluster(cl)
-\end{lstlisting}
-\end{frame}
+@
 
 
-
-% \begin{frame}[fragile]{Parallelisation}    
-%then..
-% \begin{lstlisting}[language=Renhanced]
-% no_cores <- detectCores()-1
-% cl <- makeCluster(no_cores)
-% clusterEvalQ(cl,{
-%     library(GillespieSSA2)
-% })
-% clusterExport(cl,
-%                 c("params",
-%                 "run_one_sim"),
-%                 envir = .GlobalEnv)
-% SIMS = parLapply(cl = cl, 
-%                     X = 1:params$number_sims, 
-%                     fun =  function(x) run_one_sim(params))
-% stopCluster(cl)
-% \end{lstlisting}
-% See \code{simulate_CTMC_parallel.R} on \href{https://github.com/julien-arino/UK-APASI}{Github}
-% \end{frame}
 
 \maxFrameImage{FIGS/many_CTMC_sims_with_means}
 
@@ -2360,6 +2068,252 @@ tictoc::toc()
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+\section{Branching process approximations of CTMC}
+% The section page
+\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_ypohksypohksypoh.jpeg}
+
+% --- SLIDE 2: What is a Branching Process? ---
+\begin{frame}
+    \frametitle{What is a Branching Process?}
+    \begin{block}{The Core Idea}
+        A branching process is a mathematical model for a population where individuals produce a random number of offspring and then die.
+    \end{block}
+    
+    \begin{itemize}
+        \item Think of bacteria splitting, a virus spreading, or even the survival of family surnames.
+        \item We start with an initial population, $Z_0$.
+        \item Each individual in generation $n$ produces a number of offspring for generation $n+1$.
+        \item This "number of offspring" is a random variable. All individuals produce offspring according to the same probability distribution, independently of each other.
+    \end{itemize}
+    
+    \bigskip
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{https://placehold.co/800x300/e2e8f0/475569?text=Generation+0 \to Generation+1 \to Generation+2}
+        \caption{A simple population tree.}
+    \end{center}
+    
+\end{frame}
+
+% --- SLIDE 3: The Galton-Watson Process (Formal Definition) ---
+\begin{frame}
+    \frametitle{The Galton-Watson Process: A Formal View}
+    
+    Let $Z_n$ be the size of the population in generation $n$. We typically start with $Z_0 = 1$.
+    
+    \pause
+    
+    The population evolves according to the rule:
+    $$ Z_{n+1} = \sum_{i=1}^{Z_n} X_{n,i} $$
+    
+    \begin{itemize}
+        \item The term $X_{n,i}$ represents the number of offspring produced by the $i$-th individual in generation $n$.
+        \item The variables $\{X_{n,i}\}$ are assumed to be \textbf{independent and identically distributed (i.i.d.)} integer-valued random variables.
+        \item We call their common distribution $\{p_k\}_{k=0}^\infty$ the \textbf{offspring distribution}, where $p_k = P(X = k)$.
+    \end{itemize}
+    
+    \begin{alertblock}{The Fundamental Questions}
+    \begin{enumerate}
+        \item What is the long-term expected size of the population?
+        \item What is the probability that the population eventually dies out?
+    \end{enumerate}
+    \end{alertblock}
+\end{frame}
+
+% --- SLIDE 4: The Most Important Number: Mean Offspring ---
+\begin{frame}
+    \frametitle{The Most Important Number: Mean Offspring}
+    
+    The entire fate of the population hinges on a single parameter: the mean of the offspring distribution.
+    
+    $$ \mu = E[X] = \sum_{k=0}^{\infty} k \cdot p_k $$
+    
+    \pause
+    
+    \begin{block}{Expected Population Size}
+        Using the law of total expectation, we can find the expected size of the next generation:
+        $$ E[Z_{n+1} | Z_n] = E\left[\sum_{i=1}^{Z_n} X_{n,i} \bigg| Z_n\right] = Z_n E[X] = Z_n \mu $$
+        
+        Taking the expectation again, we get a simple recurrence:
+        $$ E[Z_{n+1}] = \mu E[Z_n] $$
+        
+        This implies:
+        $$ E[Z_n] = Z_0 \mu^n $$
+    \end{block}
+\end{frame}
+
+% --- SLIDE 5: The Three Regimes of Population Growth ---
+\begin{frame}
+    \frametitle{The Three Regimes of Population Growth}
+    
+    The behavior of $E[Z_n] = Z_0 \mu^n$ suggests three distinct cases:
+    
+    \begin{columns}[T]
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Subcritical ($\mu < 1$)}
+                $E[Z_n] \to 0$. The population is expected to shrink. It goes extinct with probability 1.
+            \end{block}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Critical ($\mu = 1$)}
+                $E[Z_n] = Z_0$. The population is expected to remain stable. Surprisingly, it still goes extinct with probability 1.
+            \end{block}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Supercritical ($\mu > 1$)}
+                $E[Z_n] \to \infty$. The population is expected to grow exponentially. It has a non-zero probability of surviving forever.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- SLIDE 6: Calculating the Extinction Probability ---
+\begin{frame}
+    \frametitle{Tool: The Probability Generating Function}
+    
+    To find the extinction probability, we need a powerful tool: the \textbf{probability generating function (PGF)} of the offspring distribution $X$.
+    
+    $$ G(s) = E[s^X] = \sum_{k=0}^{\infty} p_k s^k \quad \text{for } |s| \le 1 $$
+    
+    \begin{block}{Key Properties}
+    \begin{itemize}
+        \item $G(1) = \sum p_k = 1$
+        \item The mean can be found from the derivative: $G'(1) = \sum k p_k = \mu$.
+        \item The PGF of $Z_n$ is the $n$-th iterate of $G(s)$ with itself. If $G_n(s)$ is the PGF of $Z_n$, then $G_{n+1}(s) = G(G_n(s))$.
+    \end{itemize}
+    \end{block}
+    
+\end{frame}
+
+% --- SLIDE 7: The Extinction Probability Equation ---
+\begin{frame}
+    \frametitle{The Extinction Probability Equation}
+    Let $\pi_0$ be the probability of eventual extinction, starting with $Z_0=1$.
+    $$ \pi_0 = P(\text{population dies out}) = \lim_{n \to \infty} P(Z_n = 0) $$
+    
+    Since $P(Z_n=0) = G_n(0)$, and $G_{n+1}(0) = G(G_n(0))$, in the limit the extinction probability $\pi_0$ must satisfy the equation:
+    
+    \begin{center}
+        \Huge
+        $ \pi_0 = G(\pi_0) $
+    \end{center}
+    
+    \pause
+    
+    \begin{theorem}
+    The extinction probability $\pi_0$ is the \textbf{smallest non-negative solution} to the equation $s = G(s)$.
+    \end{theorem}
+    
+    \begin{itemize}
+        \item If $\mu \le 1$, the only solution in $[0,1]$ is $s=1$. So $\pi_0=1$.
+        \item If $\mu > 1$, there is a unique solution in $[0,1)$, which is the extinction probability $\pi_0 < 1$.
+    \end{itemize}
+\end{frame}
+
+% --- SLIDE 8: From Discrete to Continuous Time ---
+\begin{frame}
+    \frametitle{From Discrete to Continuous Time}
+    
+    \begin{block}{Limitation of Galton-Watson}
+        Generations don't happen in synchronized steps in the real world. Individuals give birth and die at random times.
+    \end{block}
+    
+    This leads us to \textbf{Continuous-Time Markov Chains (CTMCs)}.
+    
+    \begin{itemize}
+        \item The state of the system is the population size, $k \in \{0, 1, 2, \dots\}$.
+        \item Instead of generations, we have transition rates:
+            \begin{itemize}
+                \item $\lambda_k$: rate of birth when population is size $k$ (moves to $k+1$).
+                \item $\delta_k$: rate of death when population is size $k$ (moves to $k-1$).
+            \end{itemize}
+        \item Often, we assume these rates are linear: $\lambda_k = k\lambda$ and $\delta_k = k\delta$. This means individuals act independently.
+    \end{itemize}
+\end{frame}
+
+% --- SLIDE 9: Branching Process Approximation of a CTMC ---
+\begin{frame}
+    \frametitle{Branching Process Approximation of a CTMC}
+    
+    \begin{alertblock}{The Key Insight}
+    At the beginning of an outbreak (or for a very large population), the dynamics caused by a single individual are largely independent of others.
+    \end{alertblock}
+    
+    This allows us to approximate the start of a CTMC population process with a branching process.
+    
+    \textbf{Example: A Simple Epidemic (SIR Model)}
+    \begin{itemize}
+        \item $S$: Susceptible, $I$: Infected, $R$: Recovered.
+        \item An infected person meets others at a certain rate. If they meet a susceptible, a new infection may occur (an "offspring").
+        \item The infected person recovers (or dies) at another rate, ending their infectious period.
+        \item \textbf{Question:} How many new infections does a single infected person cause on average?
+    \end{itemize}
+\end{frame}
+
+% --- SLIDE 10: Case Study: The Basic Reproduction Number $\mathcal{R}_0$ ---
+\begin{frame}
+    \frametitle{Case Study: The Basic Reproduction Number $\mathcal{R}_0$}
+    
+    Consider a single infected individual in a large population of susceptibles.
+    \begin{itemize}
+        \item Let $\beta$ be the infection rate (rate of producing "offspring").
+        \item Let $\gamma$ be the recovery rate (rate of "dying").
+    \end{itemize}
+    
+    The individual's infectious lifetime is an exponential random variable with mean $1/\gamma$.
+    
+    \pause
+    
+    The average number of secondary infections they cause is:
+    $$ \mathcal{R}_0 = (\text{rate of infection}) \times (\text{average infectious period}) = \beta \times \frac{1}{\gamma} = \frac{\beta}{\gamma} $$
+    
+    \begin{block}{The Connection}
+    $\mathcal{R}_0$ is precisely the \textbf{mean offspring number} $\mu$ for the embedded branching process that approximates the start of the epidemic.
+    \end{block}
+\end{frame}
+
+% --- SLIDE 11: Applying Branching Theory to Epidemics ---
+\begin{frame}
+    \frametitle{Applying Branching Theory to Epidemics}
+    
+    The fate of the epidemic's initial phase is determined by $\mathcal{R}_0$:
+    
+    \begin{itemize}
+        \item If $\mathcal{R}_0 \le 1$ ($\mu \le 1$): The number of infected individuals is a subcritical or critical process. The epidemic will die out with probability 1.
+        
+        \item If $\mathcal{R}_0 > 1$ ($\mu > 1$): The process is supercritical. There is a positive probability that the epidemic takes off and causes a major outbreak.
+    \end{itemize}
+    
+    \pause
+    
+    We can even calculate the probability of a major outbreak! It is $1 - \pi_0$, where $\pi_0$ is the extinction probability.
+    
+    For this simple birth-death infection process, the PGF is $G(s) = \frac{\gamma}{\beta+\gamma} + \frac{\beta}{\beta+\gamma}s$. Solving $s=G(s)$ gives the extinction probability:
+    
+    $$ \pi_0 = \frac{\gamma}{\beta} = \frac{1}{\mathcal{R}_0} $$
+    
+    The probability of a major outbreak is $1 - 1/\mathcal{R}_0$.
+\end{frame}
+
+% --- SLIDE 12: Summary ---
+\begin{frame}
+    \frametitle{Summary}
+    
+    \begin{itemize}
+        \item \textbf{Branching Processes} model populations with i.i.d. offspring generation.
+        
+        \item The fate of the population is determined by the \textbf{mean offspring number} $\mu$. Extinction is certain if $\mu \le 1$.
+        
+        \item The \textbf{extinction probability} $\pi_0$ can be calculated as the smallest non-negative fixed point of the probability generating function $G(s)$.
+        
+        \item The initial stages of many large-scale \textbf{Continuous-Time Markov Chains} can be approximated by a branching process.
+        
+        \item This allows us to apply the theory to real-world problems, like calculating an epidemic's \textbf{basic reproduction number $\mathcal{R}_0$} and its probability of causing a major outbreak.
+    \end{itemize}
+\end{frame}
 
 
 
