@@ -224,6 +224,10 @@ Further reinforced in Winnipeg by urban indigenous population (102,075 or 12.45\
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
 
 
+\subsection{Distributions of times to events}
+% The section page
+\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_fu32wbfu32wbfu32.jpeg}
+
 \begin{frame}
 See in particular the work of \href{https://scholar.google.ca/citations?user=o7R6ZHMAAAAJ}{Horst Thieme}
 \vfill
@@ -232,10 +236,6 @@ If one considers time of sojourn in compartments from a more detailed perspectiv
 We use here continuous random variables. See chapters 12 and 13 in \href{https://press.princeton.edu/books/paperback/9780691092911/mathematics-in-population-biology}{Thieme's book} for arbitrary distributions
 \end{frame}
 
-
-\subsection{Distributions of times to events}
-% The section page
-\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
 
 \begin{frame}\frametitle{Time to events}
 We suppose that a system can be in two states, $A$ and $B$
@@ -541,19 +541,19 @@ Consider a \defword{cohort} of individuals born at the same time, e.g., the same
 \begin{itemize}
 \item At time $t=0$, there are initially $N_0>0$ individuals
 \item All causes of death are compounded together 
-\item The time until death, for a given individual, is a random variable $T$, with continuous probability density distribution $f(t)$ and survival function $P(t)$
+\item The time until death, for a given individual, is a random variable $T$, with continuous probability density distribution $f(t)$ and survival function $\S(t)$
 \end{itemize}
 \vfill
 $N(t)$ the cohort population at time $t\geq 0$
 \begin{equation}\label{eq:N_general}
-N(t)=N_0P(t)
+N(t)=N_0\S(t)
 \end{equation}
 \vfill
-$P(t)$ proportion of initial population still alive at time $t$, so $N_0P(t)$ number in the cohort still alive at time $t$
+$\S(t)$ proportion of initial population still alive at time $t$, so $N_0\S(t)$ number in the cohort still alive at time $t$
 \end{frame}
 
 \begin{frame}\frametitle{Case where $T$ is exponentially distributed}
-Suppose that $T$ has an exponential distribution with mean $1/d$ (or parameter $d$), $f(t)=de^{-dt}$. Then the survival function is $P(t)=e^{-dt}$, and \eqref{eq:N_general} takes the form
+Suppose that $T$ has an exponential distribution with mean $1/d$ (or parameter $d$), $f(t)=de^{-dt}$. Then the survival function is $\S(t)=e^{-dt}$, and \eqref{eq:N_general} takes the form
 \begin{equation}\label{eq:N}
 N(t)=N_0e^{-dt}
 \end{equation}
@@ -597,7 +597,7 @@ Survival function, $\S(t)=\IP(T>t)$, for an exponential distribution with mean 8
 Suppose that $T$ has a Dirac delta distribution at $t=\omega$, giving the
 survival function 
 \[
-P(t)=\begin{cases}
+\S(t)=\begin{cases}
 1, & 0\leq t\leq\omega \\
 0, & t>\omega 
 \end{cases}
@@ -1151,6 +1151,19 @@ not dead due to natural causes
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}{Be aware (beware?) of what's under the hood}
+ODEs and discrete-delay DDEs are fine, but they hide some pretty strong assumptions
+\vfill
+If you are using an ODE for an \emph{endemic} model, fine: you are typically working with $t\to\infty$ and the ODE ``uses'' the mean of your parameter
+\vfill
+If, on the other hand, you are using an ODE to assess behaviour for times that are not too different from the mean of your parameters, then beware
+\vfill
+Discrete delays make the assumption that every single individual in your population has the same sojourn time if whatever compartment is being applied delay to... You may want to think about distributed delays or other mechanisms to compensate for this
+\vfill
+You may want to use a different hammer 
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
@@ -1159,16 +1172,110 @@ not dead due to natural causes
 % The section page
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla659bla659bla6.jpeg}
 
-\begin{frame}{Continuous-time Markov chains}
-    CTMC similar to DTMC except in way they handle time between events (transitions)
-\vfill
-    DTMC: transitions occur each $\Delta t$
-   \vfill 
-    CTMC: $\Delta t\to 0$ and transition times follow an exponential distribution parametrised by the state of the system
-    \vfill
-    CTMC are roughly equivalent to ODE    
+% --- SLIDE 2: WHAT IS A CTMC? ---
+\begin{frame}
+    \frametitle{From Discrete to Continuous Time}
+    \begin{block}{Discrete-Time Markov Chains (DTMCs)}
+        A system transitions between states at fixed, discrete time steps ($n=0, 1, 2, \dots$).
+        \begin{itemize}
+            \item The future depends only on the present state (Markov Property).
+            \item Governed by a \textbf{transition probability matrix} $P$, where $P_{ij}$ is the probability of moving from state $i$ to $j$ in one step.
+        \end{itemize}
+    \end{block}
+    
+    \begin{block}{Continuous-Time Markov Chains (CTMCs)}
+        A system can transition between states at \textbf{any point in time}.
+        \begin{itemize}
+            \item The time spent in a state is a \textbf{continuous random variable}.
+            \item This "holding time" in any state $i$ follows an \textbf{Exponential distribution}, parameterised by an \textit{exit rate} $q_i$.
+            \item This is a direct consequence of the Markov Property being applied to continuous time. The exponential is the only continuous distribution with the "memoryless" property.
+        \end{itemize}
+    \end{block}
 \end{frame}
 
+% --- SLIDE 3: RATES AND THE GENERATOR MATRIX ---
+\begin{frame}
+    \frametitle{The Engine: Transition Rates and the Q-Matrix}
+    The dynamics of a CTMC are defined by \textbf{transition rates}, not probabilities.
+
+    \begin{definition}[Transition Rates]
+        For two states $i \neq j$, the rate $q_{ij} \ge 0$ is the instantaneous rate of transition from state $i$ to state $j$.
+        \begin{itemize}
+            \item For a small time interval $\Delta t$, the probability of transitioning from $i$ to $j$ is approximately $q_{ij} \Delta t$.
+            \item The total \textbf{exit rate} from state $i$ is $q_i = \sum_{j \neq i} q_{ij}$.
+            \item The time spent in state $i$ is an exponential random variable $T_i \sim \text{Exp}(q_i)$.
+        \end{itemize}
+    \end{definition}
+    
+    \begin{block}{The Generator Matrix (Q-Matrix)}
+        We collect all transition rates into a single matrix $Q$:
+        \begin{itemize}
+            \item \textbf{Off-diagonals:} $Q_{ij} = q_{ij}$ for $i \neq j$. (The rate of going from $i$ to $j$)
+            \item \textbf{Diagonals:} $Q_{ii} = -q_i = -\sum_{j \neq i} q_{ij}$. (The negative of the total exit rate from $i$)
+        \end{itemize}
+        A key property is that all rows of $Q$ sum to zero: $\sum_{j} Q_{ij} = 0$.
+    \end{block}
+    
+    \begin{example}[A Simple On/Off System]
+        A machine breaks down at rate $\alpha$ and is repaired at rate $\beta$.
+        \\ States: \{1 (On), 2 (Off)\}. Rates: $q_{12} = \alpha$, $q_{21} = \beta$.
+        \vspace{0.5em}
+        \\ Exit rates: $q_1 = \alpha$, $q_2 = \beta$.
+        \\
+        $Q = \Qmatrix{-\alpha & \alpha \\ \beta & -\beta}$
+    \end{example}
+\end{frame}
+
+
+% --- SLIDE 4: EVOLUTION OVER TIME ---
+\begin{frame}
+    \frametitle{Kolmogorov's Differential Equations}
+    Let $P(t)$ be the matrix where $P_{ij}(t) = \mathbb{P}(X(t)=j | X(0)=i)$. How does $P(t)$ evolve over time?
+    \vspace{1em}
+    
+    \begin{alertblock}{The Kolmogorov Forward Equations}
+        This equation describes the rate of change of probability of ending up in a target state $j$.
+        $$ \frac{d}{dt}P(t) = P(t)Q $$
+        In element form:
+        $$ P'_{ij}(t) = \sum_{k} P_{ik}(t) Q_{kj} $$
+        \textbf{Intuition:} The change in probability of being in state $j$ is (Prob. Flow \textit{into} $j$) - (Prob. Flow \textit{out of} $j$).
+    \end{alertblock}
+    
+    \begin{block}{Formal Solution}
+        Similar to the simple ODE $y' = ay \implies y(t) = e^{at}y(0)$, the solution is the \textbf{matrix exponential}:
+        $$ P(t) = e^{tQ} = \sum_{k=0}^{\infty} \frac{(tQ)^k}{k!} $$
+        This shows how the generator matrix $Q$ "generates" the process's evolution.
+    \end{block}
+\end{frame}
+
+
+% --- SLIDE 5: LONG-TERM BEHAVIOR ---
+\begin{frame}
+    \frametitle{The Stationary Distribution}
+    What happens to the process after a long time? Does it settle into an equilibrium?
+    
+    \begin{definition}[Stationary Distribution]
+        A probability distribution $\boldsymbol{\pi} = (\pi_1, \pi_2, \dots)$ is called a \textbf{stationary distribution} if, once the system is in this distribution, it stays in it.
+        $$ \boldsymbol{\pi} P(t) = \boldsymbol{\pi} \quad \text{for all } t \ge 0 $$
+        This implies that the distribution is no longer changing, i.e., $\frac{d}{dt}(\boldsymbol{\pi}P(t)) = \mathbf{0}$.
+    \end{definition}
+    
+    
+    \begin{block}{Finding the Stationary Distribution}
+        If a unique stationary distribution exists, it can be found by solving the system of linear equations:
+        $$ \boldsymbol{\pi} Q = \mathbf{0} $$
+        subject to the constraint that $\pi$ is a probability distribution:
+        $$ \sum_i \pi_i = 1 $$
+        The equation $\boldsymbol{\pi} Q = \mathbf{0}$ represents the "global balance" condition: for each state $j$, the total rate of probability flow into $j$ equals the total rate of probability flow out of $j$.
+    \end{block}
+    
+    \begin{example}[On/Off System Revisited]
+       Solve $\boldsymbol{\pi} Q = \mathbf{0}$ for $\boldsymbol{\pi} = (\pi_1, \pi_2)$:
+       $(\pi_1, \pi_2) \Qmatrix{-\alpha & \alpha \\ \beta & -\beta} = (0, 0) \implies -\alpha\pi_1 + \beta\pi_2 = 0 \implies \alpha\pi_1 = \beta\pi_2$.
+       With $\pi_1 + \pi_2 = 1$, we get:
+       $$ \pi_1 = \frac{\beta}{\alpha+\beta}, \quad \pi_2 = \frac{\alpha}{\alpha+\beta} $$
+    \end{example}
+\end{frame}
 
 \subsection{ODE and CTMC}
 % The section page
@@ -1300,12 +1407,12 @@ Suppose system has state $\mathbf{x}(t)$ with initial condition $\mathbf{x}(t_0)
 \vfill
 set $t\leftarrow t_0$ and $\mathbf{x}(t)\leftarrow \mathbf{x}_0$\\
 while {$t\leq t_f$}\\
-- $\xi_t\leftarrow \sum_j a_j(\mathbf{x}(t))$\\
-- Draw $\tau_t$ from $T\thicksim \mathcal{E}(\xi_t)$\\
-- Draw $\zeta_t$ from $\mathcal{U}([0,1])$\\
-- Find $r$, smallest integer s.t. $\sum_{k=1}^j a_k(\mathbf{x}(t))> \zeta_t\sum_j a_j(\mathbf{x}(t))=\zeta_t\xi_t$\\
-- Effect the next reaction (the one indexed $r$)\\
-- $t\leftarrow t+\tau_t$\\    
+-\qquad $\xi_t\leftarrow \sum_j a_j(\mathbf{x}(t))$\\
+-\qquad Draw $\tau_t$ from $T\thicksim \mathcal{E}(\xi_t)$\\
+-\qquad Draw $\zeta_t$ from $\mathcal{U}([0,1])$\\
+-\qquad Find $r$, smallest integer s.t. $\sum_{k=1}^j a_k(\mathbf{x}(t))> \zeta_t\sum_j a_j(\mathbf{x}(t))=\zeta_t\xi_t$\\
+-\qquad Effect the next reaction (the one indexed $r$)\\
+-\qquad $t\leftarrow t+\tau_t$\\    
 \end{frame}
 
 
@@ -1437,14 +1544,20 @@ birth_death_CTMC(b=0.01, d=0.02)
 
 \maxFrameImage{\Sexpr{fig_chunk('CTMC_birth_death_b0_01_d0_02', 'pdf')}}
 
-\begin{frame}{$b=0.03$ \& $d=0.01$...}
-We want to run the function with these parameter values but I know in advance this will not work well, so let's tweak the function a bit...
+\begin{frame}[fragile]{$b=0.03$ \& $d=0.01$...}
+We want to run the function with these parameter values but I know in advance this will not work well, so let's tweak the function a bit. We add a test:
+\vfill
+\begin{lstlisting}
+if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
+      # If the time step is too small, stop the simulation
+      message("Stopping simulation because time step is too small")
+      break
+    }
+\end{lstlisting}
+\vfill
 \end{frame}
 
-\begin{frame}[fragile, allowframebreaks]
-%\frametitle{Running birth--death using explicit Gillespie}
-
-<<birth-death-setup-2>>=
+<<birth-death-setup-2,include=FALSE>>=
 birth_death_CTMC = function(b = 0.01, d = 0.01) {
   t_0 = 0    # Initial time
   N_0 = 100  # Initial population
@@ -1474,7 +1587,7 @@ birth_death_CTMC = function(b = 0.01, d = 0.01) {
            { N_curr = N_curr-1}) # Death
     N = c(N, N_curr)
     t = c(t, t_curr)
-    if (t[length(t)]-t[(length(t)-1)] < 1e-9) {
+    if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
       # If the time step is too small, stop the simulation
       message("Stopping simulation because time step is too small")
       break
@@ -1486,8 +1599,6 @@ birth_death_CTMC = function(b = 0.01, d = 0.01) {
   return(list(t = t, N = N))
 }
 @
-
-\end{frame}
 
 <<CTMC_birth_death_b0_03_d0_01,include=FALSE>>=
 results = birth_death_CTMC(b=0.03, d=0.01)
@@ -1516,10 +1627,11 @@ plot(interevent_time, type = "h",
         \end{itemize}
     \end{itemize}
     \vfill
-    \begin{lstlisting}
-> tail(diff(t))
-[1] 1.282040e-05 5.386999e-04 5.468540e-04 1.779985e-04 6.737294e-05 2.618084e-04
-    \end{lstlisting}
+    
+<<>>=
+tail(diff(results$t))
+@
+
 \end{frame}
 
 
