@@ -3051,24 +3051,117 @@ For instance, it is known that infectiousness of HIV positive patients vary as a
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
+\subsection{Age of vaccination}
+% The section page
+\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
+
+
+\begin{frame}\frametitle{Age of vaccination}
+We have seen that infinite dimensionality can result from a detailed description (or an unspecified one) of the sojourn time in compartments
+\vfill
+We used age of vaccination to find the initial condition of \eqref{sys:SIVS_general}
+\vfill
+Here we take a closer look at this type of model
+\vfill
+Originally, age of infection was introduced to account for differences in infectivity depending on the time since an individual became infected
+\vfill
+For instance, it is known that infectiousness of HIV positive patients vary as a function of time
+\end{frame}
+
+
+
+\maxFrameImage{FIGS/BowmanArinoMoghadas-2011-cover.png}
+
+\begin{frame}{How to model time between vaccine doses}
+\begin{subequations}
+\begin{align}
+S\pprime &= -fS-V_1(t,0) \\
+A\pprime &= \left(
+(1-p)S+(1-p_1)\delta_1\tilde V_1+(1-p_2)\delta_2 V_2
+\right)f-\mu_AA \\
+I\pprime &= (pS+p_1\delta_1\tilde V_1+p_2\delta_2 V_2)f-\mu I \\
+V_2\pprime &= V_1(t,a^\star)-\delta_2fV_2(t)
+\end{align}
+\begin{equation}\label{eq:V1_age_time}
+\left(
+\frac{\partial}{\partial t}+\frac{\partial}{\partial a}
+\right) V_1(t,a) = -\delta_1fV_1(t,a),\quad 0\leq a\leq a^\star
+\end{equation}
+and boundary condition
+\begin{equation}
+V_1(t,0) = \begin{cases}
+\gamma S_0\left(\frac{S(t)}{S(t)+A(t)}\right) & \text{if } T\leq t\leq T_e \text{ and }S>0 \\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+\end{subequations}
+where $f=\beta(\delta_AA+I)$ and $\tilde V_1(t)=\int_0^{a^\star}V_1(t,a)da$
+\end{frame}
+
+\begin{frame}{Simplifying a bit}
+Integrate \eqref{eq:V1_age_time} using characteristics along lines $a=s$ and $t=T+s$, with $s$ as a new variable
+\begin{equation}\label{eq:V1_age_time_integrated}
+V_1(t,a)=V_1(t-a,0)\exp\left(\int_{t-a}^t -\delta_1f(\xi)\ d\xi\right)
+\end{equation}
+Define
+\[
+\zeta(t)=\int_0^t\delta_1f(\xi)d\xi
+\]
+and substitute into \eqref{eq:V1_age_time_integrated}, giving
+\[
+V_1(t,a)=V_1(t-a,0)\exp\left(\zeta(t-a)\zeta(t)\right)
+\]
+So the distributed delay is now discrete
+\end{frame}
+
+\begin{frame}{Simplifying a bit more}
+Let
+\[
+\nu(t)=\int_0^t V_1(s,0)e^{\zeta(s)}ds
+\]
+Then the total number of individuals having been vaccinated with a single dose is
+\[
+\tilde V_1(t)=e^{-\zeta(t)}
+\left(
+\nu(t)-\nu(t-a^\star)
+\right)
+\]
+\begin{subequations}
+\begin{align}
+S\pprime &= -fS-V_1(t,0) \\
+A\pprime &= \left(
+(1-p)S+(1-p_1)\delta_1\tilde V_1+(1-p_2)\delta_2 V_2
+\right)f-\mu_AA \\
+I\pprime &= (pS+p_1\delta_1\tilde V_1+p_2\delta_2 V_2)f-\mu I \\
+V_2\pprime &= V_1(t-a^\star,0)e^{\zeta(t-a^\star)}-\delta_2fV_2(t) \\
+\zeta\pprime &= \delta_1f \\
+\nu\pprime &= V_1(t,0)e^{\zeta(t)}
+\end{align}
+\end{subequations}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
 \section{Structuration in age}
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_sw1w5bsw1w5bsw1w.jpeg}
 
-\begin{frame} 
-\begin{tikzpicture}[remember picture, overlay]
-    \node[anchor=center, 
-    inner sep=0pt,
-    opacity=0.95] (image) at (current page.center) 
-    {\includegraphics[height=\paperheight, keepaspectratio]{FIGS/Pierre-Magal.jpg}};
-   \node[anchor=north, 
-   align=center, 
-   text=black, 
-   font=\Large] at (image.north) 
-   {Pierre Magal\\(1967-10-24 -- 2024-02-20)}; 
-\end{tikzpicture}
-\end{frame}
-
+% \begin{frame} 
+% \begin{tikzpicture}[remember picture, overlay]
+%     \node[anchor=center, 
+%     inner sep=0pt,
+%     opacity=0.95] (image) at (current page.center) 
+%     {\includegraphics[height=\paperheight, keepaspectratio]{FIGS/Pierre-Magal.jpg}};
+%    \node[anchor=north, 
+%    align=center, 
+%    text=black, 
+%    font=\Large] at (image.north) 
+%    {Pierre Magal\\(1967-10-24 -- 2024-02-20)}; 
+% \end{tikzpicture}
+% \end{frame}
+% 
 
 
 
