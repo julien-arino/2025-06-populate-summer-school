@@ -2,8 +2,10 @@
 
 <<set-options,echo=FALSE,warning=FALSE,message=FALSE>>=
 # Load required libraries
-required_packages = c("deSolve",
+required_packages = c("adaptivetau",
+                      "deSolve",
                       "dplyr", 
+                      "GillespieSSA2",
                       "ggplot2", 
                       "knitr", 
                       "latex2exp",
@@ -132,7 +134,6 @@ The start of an outbreak can be extremely slow, with very few cases for quite a 
 \end{frame}
 
 \maxFrameImage{FIGS/select_Wyoming-Campbell_bars_zoom}
-
 
 \begin{frame}{Why this is relevant}
 Far from the only reason, but as an example: Canada has remote/isolated communities that are vulnerable to introductions of pathogens
@@ -1172,110 +1173,97 @@ You may want to use a different hammer
 % The section page
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla659bla659bla6.jpeg}
 
-% --- SLIDE 2: WHAT IS A CTMC? ---
+\subsection{Continuous time Markov chains}
+\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_9agynl9agynl9agy.jpeg}
 \begin{frame}
-    \frametitle{From Discrete to Continuous Time}
+    \frametitle{From discrete to continuous time}
     \begin{block}{Discrete-Time Markov Chains (DTMCs)}
-        A system transitions between states at fixed, discrete time steps ($n=0, 1, 2, \dots$).
+        A system transitions between states at fixed, discrete time steps ($n=0, 1, 2, \dots$)
         \begin{itemize}
-            \item The future depends only on the present state (Markov Property).
-            \item Governed by a \textbf{transition probability matrix} $P$, where $P_{ij}$ is the probability of moving from state $i$ to $j$ in one step.
+            \item The future depends only on the present state (Markov Property)
+            \item Governed by a \textbf{transition probability matrix} $P$, where $P_{ij}$ is the probability of moving from state $i$ to $j$ in one step
         \end{itemize}
     \end{block}
     
     \begin{block}{Continuous-Time Markov Chains (CTMCs)}
-        A system can transition between states at \textbf{any point in time}.
+        A system can transition between states at \textbf{any point in time}
         \begin{itemize}
-            \item The time spent in a state is a \textbf{continuous random variable}.
-            \item This "holding time" in any state $i$ follows an \textbf{Exponential distribution}, parameterised by an \textit{exit rate} $q_i$.
-            \item This is a direct consequence of the Markov Property being applied to continuous time. The exponential is the only continuous distribution with the "memoryless" property.
+            \item Time spent in a state is a \textbf{continuous random variable}
+            \item The ``holding time'' in any state $i$ follows an \textbf{exponential distribution} parameterised by an \textit{exit rate} $q_i$
+            \item This is a direct consequence of the Markov Property being applied to continuous time (exponential is only continuous distribution that is ``memoryless'')
         \end{itemize}
     \end{block}
 \end{frame}
 
-% --- SLIDE 3: RATES AND THE GENERATOR MATRIX ---
 \begin{frame}
-    \frametitle{The Engine: Transition Rates and the Q-Matrix}
-    The dynamics of a CTMC are defined by \textbf{transition rates}, not probabilities.
+    \frametitle{Transition rates}
+    Dynamics of a CTMC defined by \textbf{transition rates}, not probabilities
 
     \begin{definition}[Transition Rates]
-        For two states $i \neq j$, the rate $q_{ij} \ge 0$ is the instantaneous rate of transition from state $i$ to state $j$.
+        For two states $i \neq j$, the rate $q_{ij} \ge 0$ is the instantaneous rate of transition from state $i$ to state $j$
         \begin{itemize}
-            \item For a small time interval $\Delta t$, the probability of transitioning from $i$ to $j$ is approximately $q_{ij} \Delta t$.
-            \item The total \textbf{exit rate} from state $i$ is $q_i = \sum_{j \neq i} q_{ij}$.
-            \item The time spent in state $i$ is an exponential random variable $T_i \sim \text{Exp}(q_i)$.
+            \item For a small time interval $\Delta t$, the probability of transitioning from $i$ to $j$ is approximately $q_{ij} \Delta t$
+            \item Total \defword{exit rate} from state $i$ is $q_i = \sum_{j \neq i} q_{ij}$
+            \item Time spent in state $i$ is an exponential random variable $T_i \sim \text{E}(q_i)$
         \end{itemize}
     \end{definition}
+\end{frame}
     
-    \begin{block}{The Generator Matrix (Q-Matrix)}
-        We collect all transition rates into a single matrix $Q$:
+\begin{frame}{The generator matrix}
+    \begin{block}{Generator matrix (Q-Matrix)}
+        Collect all transition rates into a single matrix $Q$
         \begin{itemize}
-            \item \textbf{Off-diagonals:} $Q_{ij} = q_{ij}$ for $i \neq j$. (The rate of going from $i$ to $j$)
-            \item \textbf{Diagonals:} $Q_{ii} = -q_i = -\sum_{j \neq i} q_{ij}$. (The negative of the total exit rate from $i$)
+            \item Off-diagonal: $Q_{ij} = q_{ij}$ for $i \neq j$ (The rate of going from $i$ to $j$)
+            \item Diagonal: $Q_{ii} = -q_i = -\sum_{j \neq i} q_{ij}$. (The negative of the total exit rate from $i$)
         \end{itemize}
         A key property is that all rows of $Q$ sum to zero: $\sum_{j} Q_{ij} = 0$.
     \end{block}
     
-    \begin{example}[A Simple On/Off System]
-        A machine breaks down at rate $\alpha$ and is repaired at rate $\beta$.
-        \\ States: \{1 (On), 2 (Off)\}. Rates: $q_{12} = \alpha$, $q_{21} = \beta$.
-        \vspace{0.5em}
-        \\ Exit rates: $q_1 = \alpha$, $q_2 = \beta$.
-        \\
-        $Q = \Qmatrix{-\alpha & \alpha \\ \beta & -\beta}$
-    \end{example}
 \end{frame}
 
 
-% --- SLIDE 4: EVOLUTION OVER TIME ---
 \begin{frame}
-    \frametitle{Kolmogorov's Differential Equations}
+    \frametitle{Kolmogorov equations}
     Let $P(t)$ be the matrix where $P_{ij}(t) = \mathbb{P}(X(t)=j | X(0)=i)$. How does $P(t)$ evolve over time?
     \vspace{1em}
     
-    \begin{alertblock}{The Kolmogorov Forward Equations}
-        This equation describes the rate of change of probability of ending up in a target state $j$.
+    \begin{alertblock}{Kolmogorov forward equations}
+        Describes rate of change of probability of ending up in a target state $j$
         $$ \frac{d}{dt}P(t) = P(t)Q $$
         In element form:
         $$ P'_{ij}(t) = \sum_{k} P_{ik}(t) Q_{kj} $$
-        \textbf{Intuition:} The change in probability of being in state $j$ is (Prob. Flow \textit{into} $j$) - (Prob. Flow \textit{out of} $j$).
     \end{alertblock}
-    
-    \begin{block}{Formal Solution}
-        Similar to the simple ODE $y' = ay \implies y(t) = e^{at}y(0)$, the solution is the \textbf{matrix exponential}:
+\end{frame}
+
+\begin{frame}{Solution to the KFE}
+        The solution is the \textbf{matrix exponential}
         $$ P(t) = e^{tQ} = \sum_{k=0}^{\infty} \frac{(tQ)^k}{k!} $$
-        This shows how the generator matrix $Q$ "generates" the process's evolution.
-    \end{block}
+        \vfill
+        The generator matrix $Q$ ``generates'' the process's evolution
 \end{frame}
 
 
-% --- SLIDE 5: LONG-TERM BEHAVIOR ---
-\begin{frame}
-    \frametitle{The Stationary Distribution}
-    What happens to the process after a long time? Does it settle into an equilibrium?
-    
-    \begin{definition}[Stationary Distribution]
-        A probability distribution $\boldsymbol{\pi} = (\pi_1, \pi_2, \dots)$ is called a \textbf{stationary distribution} if, once the system is in this distribution, it stays in it.
-        $$ \boldsymbol{\pi} P(t) = \boldsymbol{\pi} \quad \text{for all } t \ge 0 $$
-        This implies that the distribution is no longer changing, i.e., $\frac{d}{dt}(\boldsymbol{\pi}P(t)) = \mathbf{0}$.
-    \end{definition}
-    
-    
-    \begin{block}{Finding the Stationary Distribution}
-        If a unique stationary distribution exists, it can be found by solving the system of linear equations:
-        $$ \boldsymbol{\pi} Q = \mathbf{0} $$
-        subject to the constraint that $\pi$ is a probability distribution:
-        $$ \sum_i \pi_i = 1 $$
-        The equation $\boldsymbol{\pi} Q = \mathbf{0}$ represents the "global balance" condition: for each state $j$, the total rate of probability flow into $j$ equals the total rate of probability flow out of $j$.
-    \end{block}
-    
-    \begin{example}[On/Off System Revisited]
-       Solve $\boldsymbol{\pi} Q = \mathbf{0}$ for $\boldsymbol{\pi} = (\pi_1, \pi_2)$:
-       $(\pi_1, \pi_2) \Qmatrix{-\alpha & \alpha \\ \beta & -\beta} = (0, 0) \implies -\alpha\pi_1 + \beta\pi_2 = 0 \implies \alpha\pi_1 = \beta\pi_2$.
-       With $\pi_1 + \pi_2 = 1$, we get:
-       $$ \pi_1 = \frac{\beta}{\alpha+\beta}, \quad \pi_2 = \frac{\alpha}{\alpha+\beta} $$
-    \end{example}
-\end{frame}
+% \begin{frame}
+%     \frametitle{The Stationary Distribution}
+%     What happens to the process after a long time? Does it settle into an equilibrium?
+%     
+%     \begin{definition}[Stationary Distribution]
+%         A probability distribution $\boldsymbol{\pi} = (\pi_1, \pi_2, \dots)$ is called a \textbf{stationary distribution} if, once the system is in this distribution, it stays in it.
+%         $$ \boldsymbol{\pi} P(t) = \boldsymbol{\pi} \quad \text{for all } t \ge 0 $$
+%         This implies that the distribution is no longer changing, i.e., $\frac{d}{dt}(\boldsymbol{\pi}P(t)) = \mathbf{0}$.
+%     \end{definition}
+%     
+%     
+%     \begin{block}{Finding the Stationary Distribution}
+%         If a unique stationary distribution exists, it can be found by solving the system of linear equations:
+%         $$ \boldsymbol{\pi} Q = \mathbf{0} $$
+%         subject to the constraint that $\pi$ is a probability distribution:
+%         $$ \sum_i \pi_i = 1 $$
+%         The equation $\boldsymbol{\pi} Q = \mathbf{0}$ represents the "global balance" condition: for each state $j$, the total rate of probability flow into $j$ equals the total rate of probability flow out of $j$.
+%     \end{block}
+% \end{frame}
+
+
 
 \subsection{ODE and CTMC}
 % The section page
@@ -1440,14 +1428,14 @@ while {$t\leq t_f$}\\
 \begin{frame}{Gillespie's algorithm (SIS model with only I eq.)}
 set $t\leftarrow t_0$ and $I(t)\leftarrow I(t_0)$\\
 while {$t\leq t_f$}\\
-- $\xi_t\leftarrow \beta (P^\star-i)i+\gamma i$\\
-- Draw $\tau_t$ from $T\thicksim \mathcal{E}(\xi_t)$\\
-- $v\leftarrow\left[\beta (P^\star-i)i,\xi_t\right]/\xi_t$\\
-- Draw $\zeta_t$ from $\mathcal{U}([0,1])$\\
-- Find $pos$ such that $v_{pos-1}\leq\zeta_t\leq v_{pos}$\\
-- switch {$pos$}\\
-\qquad - 1: New infection, $I(t+\tau_t)=I(t)+1$ \\
-\qquad - 2: End of infectious period, $I(t+\tau_t)=I(t)-1$ \\
+-\qquad $\xi_t\leftarrow \beta (P^\star-i)i+\gamma i$\\
+-\qquad Draw $\tau_t$ from $T\thicksim \mathcal{E}(\xi_t)$\\
+-\qquad $v\leftarrow\left[\beta (P^\star-i)i,\xi_t\right]/\xi_t$\\
+-\qquad Draw $\zeta_t$ from $\mathcal{U}([0,1])$\\
+-\qquad Find $pos$ such that $v_{pos-1}\leq\zeta_t\leq v_{pos}$\\
+-\qquad switch {$pos$}\\
+\qquad\qquad - 1: New infection, $I(t+\tau_t)=I(t)+1$ \\
+\qquad\qquad - 2: End of infectious period, $I(t+\tau_t)=I(t)-1$ \\
 - $t\leftarrow t+\tau_t$
 \end{frame}
 
@@ -1480,14 +1468,14 @@ while {$t\leq t_f$}\\
 \begin{frame}{Gillespie's algorithm (birth-death model)}
 set $t\leftarrow t_0$ and $N(t)\leftarrow N(t_0)$\\
 while {$t\leq t_f$}\\
-- $\xi_t\leftarrow (b+d)N(t)$\\
-- Draw $\tau_t$ from $T\thicksim \mathcal{E}(\xi_t)$\\
-- $v\leftarrow\left[bN(t),\xi_t\right]/\xi_t$\\
-- Draw $\zeta_t$ from $\mathcal{U}([0,1])$\\
-- Find $pos$ such that $v_{pos-1}\leq\zeta_t\leq v_{pos}$\\
-- switch {$pos$}\\
-\qquad - 1: Birth, $N(t+\tau_t)=N(t)+1$ \\
-\qquad - 2: Death, $N(t+\tau_t)=N(t)-1$ \\
+-\qquad $\xi_t\leftarrow (b+d)N(t)$\\
+-\qquad Draw $\tau_t$ from $T\thicksim \mathcal{E}(\xi_t)$\\
+-\qquad $v\leftarrow\left[bN(t),\xi_t\right]/\xi_t$\\
+-\qquad Draw $\zeta_t$ from $\mathcal{U}([0,1])$\\
+-\qquad Find $pos$ such that $v_{pos-1}\leq\zeta_t\leq v_{pos}$\\
+-\qquad switch {$pos$}\\
+\qquad\qquad - 1: Birth, $N(t+\tau_t)=N(t)+1$ \\
+\qquad\qquad - 2: Death, $N(t+\tau_t)=N(t)-1$ \\
 - $t\leftarrow t+\tau_t$    
 \end{frame}
 
@@ -1618,7 +1606,7 @@ plot(interevent_time, type = "h",
     \begin{itemize}
         \item Wanted 1000 time units (days?)
         \item Interrupted at \Sexpr{results$t[length(results$t)]} because of the test
-        \newline (Penultimate slide: sim stopped because the population went extinct, I did not stop it!)
+        \newline (Slide with $b<d$: sim stopped because the population went extinct, I did not stop it!)
         \item At stop time
         \begin{itemize}
             \item $N =$ \Sexpr{results$N[length(results$N)]}
@@ -1637,133 +1625,157 @@ tail(diff(results$t))
 
 \maxFrameImage{\Sexpr{fig_chunk('plot_CTMC_birth_death_b0_03_d0_01_interevent', 'pdf')}}
 
-% \subsection{Simulating CTMC (in practice)}
-% % The section page
-% \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
-% 
-% \begin{frame}{Tau-leaping (and packages) to the rescue!}
-%     \begin{itemize}
-%         \item \emph{Approximation} method (compared to classic Gillespie, which is exact)
-%         \item Roughly: consider "groups" of events instead of individual events
-%         \item Good news: \code{GillespieSSA2} and \code{adaptivetau}, two standard packages for SSA in \code{R}, implement tau leaping
-%     \end{itemize}
-% \end{frame}
-% 
-% \begin{frame}[fragile, allowframebreaks]
-% 
-% <<sim-gillespie2-first>>=
-% library(GillespieSSA2)
-% Pop <- 1000
-% I_0 <- 2
-% IC <- c(S = (Pop-I_0), I = I_0)
-% # R0=beta/gamma*S0, so beta=R0*gamma/S0
-% gamma = 1/3
-% beta = as.numeric(1.5*gamma/(Pop-IC["S"]))
-% params <- c(gamma = gamma, beta = beta)
-% reactions <- list(
-%   reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
-%   reaction("gamma*I", c(S=+1,I=-1), "recovery")
-% )
-% set.seed(NULL)
-% sol <- ssa(
-%   initial_state = IC,
-%   reactions = reactions,
-%   params = params,
-%   method = ssa_exact(),
-%   final_time = t_f,
-% )
-% plot(sol$time, sol$state[,"I"], type = "l",
-%      xlab = "Time (days)", ylab = "Number infectious")
-% @
-% 
-% \end{frame}
-% %\maxFrameImage{\Sexpr{fig_chunk('sim-gillespie2-first', 'pdf')}}
-% 
-% 
-% 
-% \subsection{Parallelising your code in \code{R}}
-% % The section page
-% \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
-% 
-% 
-% \begin{frame}{Parallelisation}
-%     To see multiple realisations: good idea to parallelise, then interpolate results. Write a function, e.g.,  \code{run\_one\_sim} that .. runs one simulation
-%     \vfill
-%     On the GitHub repo for the course, see
-%     \begin{itemize}
-%         \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel.R}{\code{SIS-CTMC-parallel.R}}
-%         \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel-multiple-R0.R}{\code{SIS-CTMC-parallel-multiple-R0.R}}
-%     \end{itemize}
-% \end{frame}
-% 
-% \begin{frame}[fragile, allowframebreaks]
-% 
-% <<parallel-CTMC>>=
-% library(parallel)
-% run_one_sim = function(params) {
-%     IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
-%     params_local <- c(gamma = params$gamma, beta = params$beta)
-%     reactions <- list(
-%         # propensity function effects name for reaction
-%         reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
-%         reaction("gamma*I", c(S=+1,I=-1), "recovery")
-%     )
-%     set.seed(NULL)
-%     sol <- ssa(
-%     initial_state = IC,
-%     reactions = reactions,
-%     params = params_local,
-%     method = ssa_exact(),
-%     final_time = params$t_f,
-%     log_firings = TRUE    # This way we keep track of events
-%     )
-%     # Interpolate result (just I will do)
-%     wanted_t = seq(from = 0, to = params$t_f, by = 0.01)
-%     sol$interp_I = approx(x = sol$time, y = sol$state[,"I"], xout = wanted_t)
-%     names(sol$interp_I) = c("time", "I")
-%     # Return result
-%     return(sol)
-% }
-% nb_cores <- detectCores()
-% if (nb_cores > 124) {
-%   nb_cores = 124
-% }
-% cl <- makeCluster(nb_cores)
-% clusterEvalQ(cl,{
-%   library(GillespieSSA2)
-% })
-% clusterExport(cl,
-%               c("params",
-%                 "run_one_sim"),
-%               envir = .GlobalEnv)
-% SIMS = parLapply(cl = cl,
-%                  X = 1:params$number_sims,
-%                  fun =  function(x) run_one_sim(params))
-% stopCluster(cl)
-% plot(SIMS[[1]]$interp_I$time,
-%      SIMS[[1]]$interp_I$I,
-%      type = "l",
-%      xlab = "Time (days)",
-%      ylab = "Number infectious",
-%      main = paste("CTMC with R0 =", params$R0))
-% @
-% 
-% \end{frame}
-% 
-% 
-% %\maxFrameImage{\Sexpr{fig_chunk('parallel-CTMC', 'pdf')}}
-% 
-% \begin{frame}[fragile]{Benefit of parallelisation}    
-%     Run the parallel code for 100 sims between `tictoc::tic()` and `tictoc::toc()`, giving `66.958 sec elapsed`, then the sequential version
-% \begin{lstlisting}
-% tictoc::tic()
-% SIMS = lapply(X = 1:params$number_sims, 
-%                 FUN =  function(x) run_one_sim(params))
-% tictoc::toc()
-% \end{lstlisting}
-%     which gives `318.141 sec elapsed` on a 6C/12T Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz (4.75$\times$ faster) or `12.067 sec elapsed` versus `258.985 sec elapsed` on a 32C/64T AMD Ryzen Threadripper 3970X 32-Core Processor (21.46$\times$ faster !)
-% \end{frame}
+\subsection{Simulating CTMC (in practice)}
+% The section page
+\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
 
+\begin{frame}{Tau-leaping (and packages) to the rescue!}
+    \begin{itemize}
+        \item \emph{Approximation} method (compared to classic Gillespie, which is exact)
+        \item Roughly: consider "groups" of events instead of individual events
+        \item Good news: \code{GillespieSSA2} and \code{adaptivetau}, two standard packages for SSA in \code{R}, implement tau leaping
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile, allowframebreaks]
+
+<<sim-gillespie2-first>>=
+library(GillespieSSA2)
+Pop <- 1000
+I_0 <- 2
+IC <- c(S = (Pop-I_0), I = I_0)
+gamma = 1/3
+# R0=beta/gamma*S0, so beta=R0*gamma/S0
+beta = as.numeric(1.5*gamma/IC["S"])
+params <- c(gamma = gamma, beta = beta)
+t_f = 100
+reactions <- list(
+  reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
+  reaction("gamma*I", c(S=+1,I=-1), "recovery")
+)
+set.seed(NULL)
+
+
+sol <- ssa(
+  initial_state = IC,
+  reactions = reactions,
+  params = params,
+  method = ssa_exact(),
+  final_time = t_f,
+)
+plot(sol$time, sol$state[,"I"], type = "l",
+     xlab = "Time (days)", ylab = "Number infectious")
+@
+
+\end{frame}
+
+\maxFrameImage{\Sexpr{fig_chunk('sim-gillespie2-first', 'pdf')}}
+
+
+
+\subsection{Parallelising your code in \code{R}}
+% The section page
+\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_4oxcef4oxcef4oxc.jpeg}
+
+
+\begin{frame}{Parallelisation}
+    To see multiple realisations: good idea to parallelise, then interpolate results. Write a function, e.g.,  \code{run\_one\_sim} that .. runs one simulation
+    \vfill
+    On the GitHub repo for the course, see
+    \begin{itemize}
+        \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel.R}{\code{SIS-CTMC-parallel.R}}
+        \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel-multiple-R0.R}{\code{SIS-CTMC-parallel-multiple-R0.R}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile, allowframebreaks]
+
+<<parallel-CTMC>>=
+library(parallel)
+run_one_sim = function(params) {
+    IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
+    params_local <- c(gamma = params$gamma, beta = params$beta)
+    reactions <- list(
+        # propensity function effects name for reaction
+        reaction("beta*S*I", c(S=-1,I=+1), "new_infection"),
+        reaction("gamma*I", c(S=+1,I=-1), "recovery")
+    )
+    set.seed(NULL)
+    sol <- ssa(
+      initial_state = IC,
+      reactions = reactions,
+      params = params_local,
+      method = ssa_exact(),
+      final_time = params$t_f,
+      log_firings = TRUE    # This way we keep track of events
+    )
+    # Interpolate result (just I will do)
+    wanted_t = seq(from = 0, to = params$t_f, by = 0.01)
+    sol$interp_I = approx(x = sol$time, y = sol$state[,"I"], xout = wanted_t)
+    names(sol$interp_I) = c("time", "I")
+    # Return result
+    return(sol)
+}
+nb_cores <- detectCores()
+if (nb_cores > 124) {
+  nb_cores = 124
+}
+cl <- makeCluster(nb_cores)
+clusterEvalQ(cl,{
+  library(GillespieSSA2)
+})
+gamma = 1/3
+# R0=beta/gamma*S0, so beta=R0*gamma/S0
+beta = as.numeric(1.5*gamma/IC["S"])
+t_f = 100
+params <- list(gamma = gamma, beta = beta,
+               Pop = 1000, I_0 = 2,
+               t_f = 100, nb_sims = 50)
+
+clusterExport(cl,
+              c("params",
+                "run_one_sim"),
+              envir = .GlobalEnv)
+SIMS = parLapply(cl = cl,
+                 X = 1:params$nb_sims,
+                 fun =  function(x) run_one_sim(params))
+stopCluster(cl)
+plot(SIMS[[1]]$interp_I$time,
+     SIMS[[1]]$interp_I$I,
+     type = "l", lwd = 0.5,
+     xlab = "Time (days)",
+     ylab = "Number infectious",
+     main = paste("CTMC with R0 =", params$R0))
+for (i in 2:length(SIMS)) {
+  lines(SIMS[[i]]$interp_I$time,
+        SIMS[[i]]$interp_I$I,
+        type = "l", lwd = 0.5)
+}
+@
+
+\end{frame}
+
+\maxFrameImage{\Sexpr{fig_chunk('parallel-CTMC', 'pdf')}}
+
+\begin{frame}[fragile]{Benefit of parallelisation}
+    Run the parallel code for 100 sims between `tictoc::tic()` and `tictoc::toc()`, giving `66.958 sec elapsed`, then the sequential version
+\begin{lstlisting}
+tictoc::tic()
+SIMS = lapply(X = 1:params$number_sims,
+                FUN =  function(x) run_one_sim(params))
+tictoc::toc()
+\end{lstlisting}
+    which gives `318.141 sec elapsed` on a 6C/12T Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz (4.75$\times$ faster) or `12.067 sec elapsed` versus `258.985 sec elapsed` on a 32C/64T AMD Ryzen Threadripper 3970X 32-Core Processor (21.46$\times$ faster !)
+\end{frame}
+
+
+\subsection{Example -- Stochastic phase of an epidemic}
+% The section page
+\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
+
+\maxFrameImage{FIGS/ArinoMilliken-BMB}
+
+\maxFrameImage{FIGS/select_Wyoming-Campbell_bars_zoom}
 
 \begin{frame}{Investigating outbreak types using a simple CTMC SIS}
 \[
@@ -1887,26 +1899,11 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
 \maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run3.png}
 \maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_25_run5.png}
 \maxFrameImage{FIGS/exporter_importer_panel_zoom.png}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Conclusions}
-% The section page
-\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_hz99k4hz99k4hz99.jpeg}
-
-\begin{frame}{To do}
-	\begin{itemize}
-		\item Try to work quarantine into the model in a ``non-cohorty'' manner
-		\vfill
-		\item MBPA to compute probability of an outbreak
-		\vfill
-		\item Detailed computational analysis of the CTMC
-	\end{itemize}
-\end{frame}
 
 \begin{frame}{One last thought for the road}
 	V. Chetail. \href{https://doi.org/10.3389/fpos.2020.606307}{Crisis without borders: What does international law say about border closure in the context of Covid-19?} Frontiers in Political Science, 2 (12) (2020)
 	\vfill
-	\begin{quote}\Large
+	\begin{quote}
 		[..] a powerful expression of state's sovereignty, immigration control provides a typical avenue for governments to reassure their citizens and bolster a national sense of belonging, while providing an ideal scapegoat for their own failure or negligence.
 	\end{quote}
 \end{frame}
@@ -1921,7 +1918,6 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
 % The section page
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
 
-% --- SLIDE 2: What is a Branching Process? ---
 \begin{frame}
     \frametitle{What is a Branching Process?}
     \begin{block}{The Core Idea}
@@ -1936,9 +1932,8 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
     \end{itemize}
 \end{frame}
 
-% --- SLIDE 3: The Galton-Watson Process (Formal Definition) ---
 \begin{frame}
-    \frametitle{The Galton-Watson Process: A Formal View}
+    \frametitle{The Galton-Watson Process}
     
     Let $Z_n$ be the size of the population in generation $n$. We typically start with $Z_0 = 1$.
     
@@ -1978,175 +1973,175 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
     \end{block}
 \end{frame}
 
-% % --- SLIDE 5: The Three Regimes of Population Growth ---
-% \begin{frame}
-%     \frametitle{The Three Regimes of Population Growth}
-%     
-%     The behavior of $E[Z_n] = Z_0 \mu^n$ suggests three distinct cases:
-%     
-%     \begin{columns}[T]
-%         \begin{column}{0.33\textwidth}
-%             \begin{block}{Subcritical ($\mu < 1$)}
-%                 $E[Z_n] \to 0$. The population is expected to shrink. It goes extinct with probability 1.
-%             \end{block}
-%         \end{column}
-%         \begin{column}{0.33\textwidth}
-%             \begin{block}{Critical ($\mu = 1$)}
-%                 $E[Z_n] = Z_0$. The population is expected to remain stable. Surprisingly, it still goes extinct with probability 1.
-%             \end{block}
-%         \end{column}
-%         \begin{column}{0.33\textwidth}
-%             \begin{block}{Supercritical ($\mu > 1$)}
-%                 $E[Z_n] \to \infty$. The population is expected to grow exponentially. It has a non-zero probability of surviving forever.
-%             \end{block}
-%         \end{column}
-%     \end{columns}
-% \end{frame}
-% 
-% % --- SLIDE 6: Calculating the Extinction Probability ---
-% \begin{frame}
-%     \frametitle{Tool: The Probability Generating Function}
-%     
-%     To find the extinction probability, we need a powerful tool: the \textbf{probability generating function (PGF)} of the offspring distribution $X$.
-%     
-%     $$ G(s) = E[s^X] = \sum_{k=0}^{\infty} p_k s^k \quad \text{for } |s| \le 1 $$
-%     
-%     \begin{block}{Key Properties}
-%     \begin{itemize}
-%         \item $G(1) = \sum p_k = 1$
-%         \item The mean can be found from the derivative: $G'(1) = \sum k p_k = \mu$.
-%         \item The PGF of $Z_n$ is the $n$-th iterate of $G(s)$ with itself. If $G_n(s)$ is the PGF of $Z_n$, then $G_{n+1}(s) = G(G_n(s))$.
-%     \end{itemize}
-%     \end{block}
-%     
-% \end{frame}
-% 
-% % --- SLIDE 7: The Extinction Probability Equation ---
-% \begin{frame}
-%     \frametitle{The Extinction Probability Equation}
-%     Let $\pi_0$ be the probability of eventual extinction, starting with $Z_0=1$.
-%     $$ \pi_0 = P(\text{population dies out}) = \lim_{n \to \infty} P(Z_n = 0) $$
-%     
-%     Since $P(Z_n=0) = G_n(0)$, and $G_{n+1}(0) = G(G_n(0))$, in the limit the extinction probability $\pi_0$ must satisfy the equation:
-%     
-%     \begin{center}
-%         \Huge
-%         $ \pi_0 = G(\pi_0) $
-%     \end{center}
-%     
-%     
-%     
-%     \begin{theorem}
-%     The extinction probability $\pi_0$ is the \textbf{smallest non-negative solution} to the equation $s = G(s)$.
-%     \end{theorem}
-%     
-%     \begin{itemize}
-%         \item If $\mu \le 1$, the only solution in $[0,1]$ is $s=1$. So $\pi_0=1$.
-%         \item If $\mu > 1$, there is a unique solution in $[0,1)$, which is the extinction probability $\pi_0 < 1$.
-%     \end{itemize}
-% \end{frame}
-% 
-% % --- SLIDE 8: From Discrete to Continuous Time ---
-% \begin{frame}
-%     \frametitle{From Discrete to Continuous Time}
-%     
-%     \begin{block}{Limitation of Galton-Watson}
-%         Generations don't happen in synchronized steps in the real world. Individuals give birth and die at random times.
-%     \end{block}
-%     
-%     This leads us to \textbf{Continuous-Time Markov Chains (CTMCs)}.
-%     
-%     \begin{itemize}
-%         \item The state of the system is the population size, $k \in \{0, 1, 2, \dots\}$.
-%         \item Instead of generations, we have transition rates:
-%             \begin{itemize}
-%                 \item $\lambda_k$: rate of birth when population is size $k$ (moves to $k+1$).
-%                 \item $\delta_k$: rate of death when population is size $k$ (moves to $k-1$).
-%             \end{itemize}
-%         \item Often, we assume these rates are linear: $\lambda_k = k\lambda$ and $\delta_k = k\delta$. This means individuals act independently.
-%     \end{itemize}
-% \end{frame}
-% 
-% % --- SLIDE 9: Branching Process Approximation of a CTMC ---
-% \begin{frame}
-%     \frametitle{Branching Process Approximation of a CTMC}
-%     
-%     \begin{alertblock}{The Key Insight}
-%     At the beginning of an outbreak (or for a very large population), the dynamics caused by a single individual are largely independent of others.
-%     \end{alertblock}
-%     
-%     This allows us to approximate the start of a CTMC population process with a branching process.
-%     
-%     \textbf{Example: A Simple Epidemic (SIR Model)}
-%     \begin{itemize}
-%         \item $S$: Susceptible, $I$: Infected, $R$: Recovered.
-%         \item An infected person meets others at a certain rate. If they meet a susceptible, a new infection may occur (an "offspring").
-%         \item The infected person recovers (or dies) at another rate, ending their infectious period.
-%         \item \textbf{Question:} How many new infections does a single infected person cause on average?
-%     \end{itemize}
-% \end{frame}
-% 
-% % --- SLIDE 10: Case Study: The Basic Reproduction Number $\mathcal{R}_0$ ---
-% \begin{frame}
-%     \frametitle{Case Study: The Basic Reproduction Number $\mathcal{R}_0$}
-%     
-%     Consider a single infected individual in a large population of susceptibles.
-%     \begin{itemize}
-%         \item Let $\beta$ be the infection rate (rate of producing "offspring").
-%         \item Let $\gamma$ be the recovery rate (rate of "dying").
-%     \end{itemize}
-%     
-%     The individual's infectious lifetime is an exponential random variable with mean $1/\gamma$.
-%     
-%     
-%     
-%     The average number of secondary infections they cause is:
-%     $$ \mathcal{R}_0 = (\text{rate of infection}) \times (\text{average infectious period}) = \beta \times \frac{1}{\gamma} = \frac{\beta}{\gamma} $$
-%     
-%     \begin{block}{The Connection}
-%     $\mathcal{R}_0$ is precisely the \textbf{mean offspring number} $\mu$ for the embedded branching process that approximates the start of the epidemic.
-%     \end{block}
-% \end{frame}
-% 
-% % --- SLIDE 11: Applying Branching Theory to Epidemics ---
-% \begin{frame}
-%     \frametitle{Applying Branching Theory to Epidemics}
-%     
-%     The fate of the epidemic's initial phase is determined by $\mathcal{R}_0$:
-%     
-%     \begin{itemize}
-%         \item If $\mathcal{R}_0 \le 1$ ($\mu \le 1$): The number of infected individuals is a subcritical or critical process. The epidemic will die out with probability 1.
-%         
-%         \item If $\mathcal{R}_0 > 1$ ($\mu > 1$): The process is supercritical. There is a positive probability that the epidemic takes off and causes a major outbreak.
-%     \end{itemize}
-%     
-%     
-%     
-%     We can even calculate the probability of a major outbreak! It is $1 - \pi_0$, where $\pi_0$ is the extinction probability.
-%     
-%     For this simple birth-death infection process, the PGF is $G(s) = \frac{\gamma}{\beta+\gamma} + \frac{\beta}{\beta+\gamma}s$. Solving $s=G(s)$ gives the extinction probability:
-%     
-%     $$ \pi_0 = \frac{\gamma}{\beta} = \frac{1}{\mathcal{R}_0} $$
-%     
-%     The probability of a major outbreak is $1 - 1/\mathcal{R}_0$.
-% \end{frame}
-% 
-% % --- SLIDE 12: Summary ---
-% \begin{frame}
-%     \frametitle{Summary}
-%     
-%     \begin{itemize}
-%         \item \textbf{Branching Processes} model populations with i.i.d. offspring generation.
-%         
-%         \item The fate of the population is determined by the \textbf{mean offspring number} $\mu$. Extinction is certain if $\mu \le 1$.
-%         
-%         \item The \textbf{extinction probability} $\pi_0$ can be calculated as the smallest non-negative fixed point of the probability generating function $G(s)$.
-%         
-%         \item The initial stages of many large-scale \textbf{Continuous-Time Markov Chains} can be approximated by a branching process.
-%         
-%         \item This allows us to apply the theory to real-world problems, like calculating an epidemic's \textbf{basic reproduction number $\mathcal{R}_0$} and its probability of causing a major outbreak.
-%     \end{itemize}
-% \end{frame}
+% --- SLIDE 5: The Three Regimes of Population Growth ---
+\begin{frame}
+    \frametitle{The Three Regimes of Population Growth}
+
+    The behavior of $E[Z_n] = Z_0 \mu^n$ suggests three distinct cases:
+
+    \begin{columns}[T]
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Subcritical ($\mu < 1$)}
+                $E[Z_n] \to 0$. The population is expected to shrink. It goes extinct with probability 1.
+            \end{block}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Critical ($\mu = 1$)}
+                $E[Z_n] = Z_0$. The population is expected to remain stable. Surprisingly, it still goes extinct with probability 1.
+            \end{block}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Supercritical ($\mu > 1$)}
+                $E[Z_n] \to \infty$. The population is expected to grow exponentially. It has a non-zero probability of surviving forever.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- SLIDE 6: Calculating the Extinction Probability ---
+\begin{frame}
+    \frametitle{Tool: The Probability Generating Function}
+
+    To find the extinction probability, we need a powerful tool: the \textbf{probability generating function (PGF)} of the offspring distribution $X$.
+
+    $$ G(s) = E[s^X] = \sum_{k=0}^{\infty} p_k s^k \quad \text{for } |s| \le 1 $$
+
+    \begin{block}{Key Properties}
+    \begin{itemize}
+        \item $G(1) = \sum p_k = 1$
+        \item The mean can be found from the derivative: $G'(1) = \sum k p_k = \mu$.
+        \item The PGF of $Z_n$ is the $n$-th iterate of $G(s)$ with itself. If $G_n(s)$ is the PGF of $Z_n$, then $G_{n+1}(s) = G(G_n(s))$.
+    \end{itemize}
+    \end{block}
+
+\end{frame}
+
+% --- SLIDE 7: The Extinction Probability Equation ---
+\begin{frame}
+    \frametitle{The Extinction Probability Equation}
+    Let $\pi_0$ be the probability of eventual extinction, starting with $Z_0=1$.
+    $$ \pi_0 = P(\text{population dies out}) = \lim_{n \to \infty} P(Z_n = 0) $$
+
+    Since $P(Z_n=0) = G_n(0)$, and $G_{n+1}(0) = G(G_n(0))$, in the limit the extinction probability $\pi_0$ must satisfy the equation:
+
+    \begin{center}
+        \Huge
+        $ \pi_0 = G(\pi_0) $
+    \end{center}
+
+
+
+    \begin{theorem}
+    The extinction probability $\pi_0$ is the \textbf{smallest non-negative solution} to the equation $s = G(s)$.
+    \end{theorem}
+
+    \begin{itemize}
+        \item If $\mu \le 1$, the only solution in $[0,1]$ is $s=1$. So $\pi_0=1$.
+        \item If $\mu > 1$, there is a unique solution in $[0,1)$, which is the extinction probability $\pi_0 < 1$.
+    \end{itemize}
+\end{frame}
+
+% --- SLIDE 8: From Discrete to Continuous Time ---
+\begin{frame}
+    \frametitle{From Discrete to Continuous Time}
+
+    \begin{block}{Limitation of Galton-Watson}
+        Generations don't happen in synchronized steps in the real world. Individuals give birth and die at random times.
+    \end{block}
+
+    This leads us to \textbf{Continuous-Time Markov Chains (CTMCs)}.
+
+    \begin{itemize}
+        \item The state of the system is the population size, $k \in \{0, 1, 2, \dots\}$.
+        \item Instead of generations, we have transition rates:
+            \begin{itemize}
+                \item $\lambda_k$: rate of birth when population is size $k$ (moves to $k+1$).
+                \item $\delta_k$: rate of death when population is size $k$ (moves to $k-1$).
+            \end{itemize}
+        \item Often, we assume these rates are linear: $\lambda_k = k\lambda$ and $\delta_k = k\delta$. This means individuals act independently.
+    \end{itemize}
+\end{frame}
+
+% --- SLIDE 9: Branching Process Approximation of a CTMC ---
+\begin{frame}
+    \frametitle{Branching Process Approximation of a CTMC}
+
+    \begin{alertblock}{The Key Insight}
+    At the beginning of an outbreak (or for a very large population), the dynamics caused by a single individual are largely independent of others.
+    \end{alertblock}
+
+    This allows us to approximate the start of a CTMC population process with a branching process.
+
+    \textbf{Example: A Simple Epidemic (SIR Model)}
+    \begin{itemize}
+        \item $S$: Susceptible, $I$: Infected, $R$: Recovered.
+        \item An infected person meets others at a certain rate. If they meet a susceptible, a new infection may occur (an "offspring").
+        \item The infected person recovers (or dies) at another rate, ending their infectious period.
+        \item \textbf{Question:} How many new infections does a single infected person cause on average?
+    \end{itemize}
+\end{frame}
+
+% --- SLIDE 10: Case Study: The Basic Reproduction Number $\mathcal{R}_0$ ---
+\begin{frame}
+    \frametitle{Case Study: The Basic Reproduction Number $\mathcal{R}_0$}
+
+    Consider a single infected individual in a large population of susceptibles.
+    \begin{itemize}
+        \item Let $\beta$ be the infection rate (rate of producing "offspring").
+        \item Let $\gamma$ be the recovery rate (rate of "dying").
+    \end{itemize}
+
+    The individual's infectious lifetime is an exponential random variable with mean $1/\gamma$.
+
+
+
+    The average number of secondary infections they cause is:
+    $$ \mathcal{R}_0 = (\text{rate of infection}) \times (\text{average infectious period}) = \beta \times \frac{1}{\gamma} = \frac{\beta}{\gamma} $$
+
+    \begin{block}{The Connection}
+    $\mathcal{R}_0$ is precisely the \textbf{mean offspring number} $\mu$ for the embedded branching process that approximates the start of the epidemic.
+    \end{block}
+\end{frame}
+
+% --- SLIDE 11: Applying Branching Theory to Epidemics ---
+\begin{frame}
+    \frametitle{Applying Branching Theory to Epidemics}
+
+    The fate of the epidemic's initial phase is determined by $\mathcal{R}_0$:
+
+    \begin{itemize}
+        \item If $\mathcal{R}_0 \le 1$ ($\mu \le 1$): The number of infected individuals is a subcritical or critical process. The epidemic will die out with probability 1.
+
+        \item If $\mathcal{R}_0 > 1$ ($\mu > 1$): The process is supercritical. There is a positive probability that the epidemic takes off and causes a major outbreak.
+    \end{itemize}
+
+
+
+    We can even calculate the probability of a major outbreak! It is $1 - \pi_0$, where $\pi_0$ is the extinction probability.
+
+    For this simple birth-death infection process, the PGF is $G(s) = \frac{\gamma}{\beta+\gamma} + \frac{\beta}{\beta+\gamma}s$. Solving $s=G(s)$ gives the extinction probability:
+
+    $$ \pi_0 = \frac{\gamma}{\beta} = \frac{1}{\mathcal{R}_0} $$
+
+    The probability of a major outbreak is $1 - 1/\mathcal{R}_0$.
+\end{frame}
+
+% --- SLIDE 12: Summary ---
+\begin{frame}
+    \frametitle{Summary}
+
+    \begin{itemize}
+        \item \textbf{Branching Processes} model populations with i.i.d. offspring generation.
+
+        \item The fate of the population is determined by the \textbf{mean offspring number} $\mu$. Extinction is certain if $\mu \le 1$.
+
+        \item The \textbf{extinction probability} $\pi_0$ can be calculated as the smallest non-negative fixed point of the probability generating function $G(s)$.
+
+        \item The initial stages of many large-scale \textbf{Continuous-Time Markov Chains} can be approximated by a branching process.
+
+        \item This allows us to apply the theory to real-world problems, like calculating an epidemic's \textbf{basic reproduction number $\mathcal{R}_0$} and its probability of causing a major outbreak.
+    \end{itemize}
+\end{frame}
 
 
 
