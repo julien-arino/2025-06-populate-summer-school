@@ -71,18 +71,18 @@ cat(input_setup)
 %%%%%%%%%%%%%%%%%%%%
 \section*{Objective/Method of this course}
 
-\maxFrameImage{FIGS/MB-in-CAN.png}
-\maxFrameImage{FIGS/YWG-climate.png}
-
-\begin{frame}{Where I am coming from (physically)}
-\bbullet Winnipeg (850K metro area) is the capital of Manitoba (1.5 million)
-\vfill
-\bbullet Winnipeg (Western Cree for ``muddy water'')
-\vfill
-\bbullet 12.5\% of the population is Indigenous (First Nations, Métis, Inuit), 11.6\% Southeast Asian, 7.8\% South Asian, 5\% African, 3.5\% East Asian. Tagalog is the second most common mother tongue. 25.4\% of inhabitants were born outside Canada
-\vfill
-\bbullet The University of Manitoba was founded in 1877 (the Collège universitaire de Saint-Boniface - now Université de Saint Boniface - was founded in 1818). UM has $>$30K students, is part of U15. Closely associated with National Microbiology Laboratory (Canada's only BSL 4)
-\end{frame}
+% \maxFrameImage{FIGS/MB-in-CAN.png}
+% \maxFrameImage{FIGS/YWG-climate.png}
+% 
+% \begin{frame}{Where I am coming from (physically)}
+% \bbullet Winnipeg (850K metro area) is the capital of Manitoba (1.5 million)
+% \vfill
+% \bbullet Winnipeg (Western Cree for ``muddy water'')
+% \vfill
+% \bbullet 12.5\% of the population is Indigenous (First Nations, Métis, Inuit), 11.6\% Southeast Asian, 7.8\% South Asian, 5\% African, 3.5\% East Asian. Tagalog is the second most common mother tongue. 25.4\% of inhabitants were born outside Canada
+% \vfill
+% \bbullet The University of Manitoba was founded in 1877 (the Collège universitaire de Saint-Boniface - now Université de Saint Boniface - was founded in 1818). UM has $>$30K students, is part of U15. Closely associated with National Microbiology Laboratory (Canada's only BSL 4)
+% \end{frame}
 
 \begin{frame}{Objective of this course}
 \bbullet
@@ -93,19 +93,19 @@ Illustrate some concepts in Mathematical Epidemiology
 \bbullet I hope to give you some notions (and maybe recruit you into the field)
 \end{frame}
 
-\begin{frame}{Where I am coming from (scientifically)}
-\bbullet MSc (DEA) at R\'eseau Sentinelles (Paris)
-\vfill
-\bbullet PhD at INRIA Sophia Antipolis \& Observatoire du Plancton Marin of Villefranche sur Mer working on large systems of DE and ODE
-\vfill
-\bbullet Postdoc with Pauline van den Driessche in 2001-2002 working on DDE and large systems of ODE
-\vfill
-\bbullet From 2004, collaboration with Kamran Khan, physician specialist in infectious diseases (TB). Collaborated on Bio.Diaspora (project that uses data science to predict and prevent the spread of infectious diseases). Now \href{https://www.blue-dot.global/}{BlueDot}, a company 
-\vfill
-\bbullet Have worked on Emergency Response on SARS-1 (2003), p-H1N1 (2009) and COVID-19 (2020) (and less on Zika, Ebola, MERS, etc.) for the Public Health Agency of Canada
-\end{frame}
-
-\begin{frame}{So I will try to give you two perspectives}
+% \begin{frame}{Where I am coming from (scientifically)}
+% \bbullet MSc (DEA) at R\'eseau Sentinelles (Paris)
+% \vfill
+% \bbullet PhD at INRIA Sophia Antipolis \& Observatoire du Plancton Marin of Villefranche sur Mer working on large systems of DE and ODE
+% \vfill
+% \bbullet Postdoc with Pauline van den Driessche in 2001-2002 working on DDE and large systems of ODE
+% \vfill
+% \bbullet From 2004, collaboration with Kamran Khan, physician specialist in infectious diseases (TB). Collaborated on Bio.Diaspora (project that uses data science to predict and prevent the spread of infectious diseases). Now \href{https://www.blue-dot.global/}{BlueDot}, a company 
+% \vfill
+% \bbullet Have worked on Emergency Response on SARS-1 (2003), p-H1N1 (2009) and COVID-19 (2020) (and less on Zika, Ebola, MERS, etc.) for the Public Health Agency of Canada
+% \end{frame}
+ 
+\begin{frame}{I will try to give you two perspectives}
 \bbullet\textbf{As a modeller and mathematician} these are fun problems to look at. You need to know the theory in order to carry out relevant work
 \vfill
 \bbullet\textbf{As a public health practitioner} these are important problems to look at.
@@ -117,11 +117,13 @@ As a modeller, you will be called on to provide guidance to public health author
 \begin{frame}{These slides}
 \bbullet I have three slide sets
 \vfill
-\bbullet Each slide set has way too many slides, I will cover only a subset
+\bbullet Each slide set has \emph{way} too many slides, I will cover only a subset
 \vfill
 \bbullet However, use the rest if you want to learn more
 \vfill
 \bbullet The slides are in \texttt{Rnw}: they are a mix of \texttt{R} and \LaTeX, which is run through \texttt{R} then \LaTeX. You have access to everything used to make them...
+\vfill
+\bbullet As much as possible, I am homogeneising notation, denoting similar parameters with the same greek/roman letter
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%
@@ -1752,16 +1754,6 @@ Problem: we have antivirals to use against influenza, either prophylactically or
     \path [line, very thick] (I_Tr) to node [midway,below,sloped] (TextNode) {$\gamma I_{Tr}$} (I_rT);
   \end{tikzpicture}
 }
-\end{frame}
-
-\begin{frame}
-\centering
-\includegraphics[height=\textheight]{FIGS/ABM-role-of-resistance}
-\end{frame}
-
-\begin{frame}
-\centering
-\includegraphics[height=\textheight]{FIGS/ABM-heatmaps}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%
@@ -3502,13 +3494,63 @@ Mathematics becomes more complicated
 
 %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%
+\subsection{A model for cholera}
+\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_ql7xv9ql7xv9ql7x.png}
+
+\maxFrameImage{FIGS/Codeco-BMB-cover}
+
+\begin{frame}{Code\c{c}o's model}
+\begin{minipage}{0.49\textwidth}
+\begin{center}
+  \begin{tikzpicture}[scale=1.25, transform shape]
+    \usetikzlibrary{calc} %% <- For coordinate calculation
+    \node [circle, fill=green!50, text=black] (S) {$S$};
+    \node [circle, right=1.5cm of S, fill=red!90, text=black] (I) {$I$};
+    \node [circle, below=1.5cm of I, fill=blue!90, text=black] (B) {$B$};
+    \coordinate[left=of S] (bS);
+    \coordinate[above=of S] (dS);
+    \coordinate[above=of I] (dI);
+    \coordinate[left=of B] (bB);
+    \coordinate[right=of B] (dB);
+    %% Births and deaths
+    \path [line, very thick] (bS) to node [midway, above] (TextNode) {$d_HH$} (S);
+    \path [line, very thick] (S) to node [midway, right] (TextNode) {$d_HS$} (dS);
+    \path [line, very thick] (I) to node [midway, right] (TextNode) {$\gamma I$} (dI);
+    \path [line, very thick] (bB) to node [midway, above] (TextNode) {$b_BB$} (B);
+    \path [line, very thick] (B) to node [midway, above] (TextNode) {$d_BB$} (dB);
+    %% Flows
+    \path [line, very thick] (S) to node [midway, above] (TextNode) {$\beta\frac{B}{K+B}S$} (I);
+    \path [line, very thick, dashed] (I) to node [midway, right] (TextNode) {$\zeta I$} (B);
+    \path [line, dotted] (B) to ($(S)!.5!(I)$);
+  \end{tikzpicture}    
+\end{center}
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+\begin{subequations}
+\label{sys:cholera-codeco}
+\begin{align}
+S' &= d_H(H-S)-\beta\frac{B}{K+B}S \\
+I' &= \beta\frac{B}{K+B}S-\gamma I \\
+B' &= (b_B-d_B)B+\zeta I
+\end{align}
+\end{subequations}
+$K$ concentration of cholera in water giving 50\% chance of catching it
+\end{minipage}
+\vfill
+Note that the dashed arrow from $I$ to $B$ is not a flow: individuals do not convert into \emph{vibrio cholerae}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%
 \subsection{A model for zoonotic transmission of waterborne disease}
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/Waters_etal-waterborne.png}
 
 \begin{frame}{Zoonotic transmission of waterborne disease}
-Used for instance to model Giardia transmission from possums to humans
+Zoonoses are animal diseases that are transmitted to humans
+\vfill
+Model here used for instance to model Giardia transmission from possums to humans
 \end{frame}
 
 \begin{frame}
