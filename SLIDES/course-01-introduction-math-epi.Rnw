@@ -115,15 +115,13 @@ As a modeller, you will be called on to provide guidance to public health author
 \end{frame}
 
 \begin{frame}{These slides}
-\bbullet I have three slide sets
+\bbullet There are three slide sets. Each slide set contains \emph{way} too many slides for a single lecture, I will cover only a subset
 \vfill
-\bbullet Each slide set has \emph{way} too many slides, I will cover only a subset
-\vfill
-\bbullet However, use the rest if you want to learn more
-\vfill
-\bbullet The slides are in \texttt{Rnw}: they are a mix of \texttt{R} and \LaTeX, which is run through \texttt{R} then \LaTeX. You have access to everything used to make them...
+\bbullet However, use the rest if you want to learn more. In particular, some slides show explicitly \texttt{R} or \texttt{julia} code used to produce the figures shown; they can safely be ignored if you have no interest in numerics (you should, but who am I to say!)
 \vfill
 \bbullet As much as possible, I am homogeneising notation, denoting similar parameters with the same greek/roman letter
+\vfill
+\bbullet The slides are in \texttt{Rnw}: they are a mix of \texttt{R} and \LaTeX, which is run through \texttt{R} then \LaTeX. You have access to everything used to make them...
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%
@@ -139,6 +137,7 @@ As a modeller, you will be called on to provide guidance to public health author
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_9agynl9agynl9agy.jpeg}
 
 \maxFrameImage{FIGS/Milwid_etal-front-page}
+\nocite{MilwidSteriuArinoHeffernanEtAl2016}
 
 \begin{frame}{Incidence \& Prevalence (when?)}
 \defword{Incidence}: number of new cases in a population generated within a certain time period
@@ -180,6 +179,7 @@ $\implies$ $I(t)$ in an epidemiological model is \textbf{prevalence}, not \textb
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_9agynl9agynl9agy.jpeg}
 
 \begin{frame}{Daniel Bernoulli (1760)}
+\nocite{Bernoulli1760}
 \begin{minipage}{0.47\textwidth}
 \bbullet \href{https://gallica.bnf.fr/ark:/12148/bpt6k3558n/f220.item}{BNF scan} or \href{https://julien-arino.github.io/assets/pdf/Bernoulli-1760.pdf}{pdf}
 \vskip1cm
@@ -210,13 +210,12 @@ $\implies$ $I(t)$ in an epidemiological model is \textbf{prevalence}, not \textb
 \begin{frame}{Kermack and McKendrick (1927+)}
 Model in these slides is a particular case in
 \begin{itemize}
-  \item Kermack \& McKendrick. \href{https://doi.org/10.1098/rspa.1927.0118}{A contribution to the mathematical theory of epidemics} (1927)
-\end{itemize}
+  \item Kermack \& McKendrick. \href{https://doi.org/10.1098/rspa.1927.0118}{A contribution to the mathematical theory of epidemics} (1927) \end{itemize}
 \vfill
 That paper was followed by a series of ``Contributions to the mathematical theory of epidemics.''
 \begin{itemize}
   \item \href{https://doi.org/10.1098/rspa.1932.0171}{II. The problem of endemicity} (1932)
-  \item \href{https://doi.org/10.1098/rspa.1933.0106}{III. Further studies of the problem of endemicity} (1933)
+  \item \href{https://doi.org/10.1098/rspa.1933.0106}{III. Further studies of the problem of endemicity} (1933) \nocite{KermackMcKendrick1932}
   \item \href{https://doi.org/10.1017/S0022172400034902}{IV. Analysis of experimental epidemics of the virus disease mouse ectromelia} (1937)
   \item \href{https://doi.org/10.1017/S0022172400011918}{V. Analysis of experimental epidemics of mouse-typhoid; a bacterial disease conferring incomplete immunity} (1939)
 \end{itemize}
@@ -239,17 +238,18 @@ That paper was followed by a series of ``Contributions to the mathematical theor
 \begin{frame}{Some landmarks in mathematical epidemiology (IMBO)}
 \bbullet Macdonald. The epidemiology and control of malaria. 1957
 \vfill
-\bbullet Baroyan, Rvachev et al. Deterministic epidemic models for a territory with a transport network. Kibernetika, 1967
+\bbullet Baroyan, Rvachev et al. Deterministic epidemic models for a territory with a transport network. Kibernetika, 1967 \nocite{BaroyanRvachev1967}
+\vfill Hethcote. Qualitative analyses of communicable disease models. MBS 28, 1976 \nocite{Hethcote1976}
 \vfill
-\bbullet Hethcote \& Yorke. Gonorrhea Transmission Dynamics and Control. LNBM 56, 1984
+\bbullet Hethcote \& Yorke. Gonorrhea Transmission Dynamics and Control. LNBM 56, 1984 \nocite{HethcoteYorke1984}
 \vfill
-\bbullet Anderson \& May. Infectious diseases of humans: dynamics and control. 1991
+\bbullet Anderson \& May. Infectious diseases of humans: dynamics and control. 1991 \nocite{AndersonMay1991}
 \vfill
 \bbullet Capasso. Mathematical Structures of Epidemic Systems. LNBM 97, 1993
 \vfill
-\bbullet Hethcote. The mathematics of infectious diseases. SIAM Review, 2000
+\bbullet Hethcote. The mathematics of infectious diseases. SIAM Review, 2000 \nocite{Hethcote2000}
 \vfill
-\bbullet van den Driessche \& Watmough. Reproduction numbers and sub-threshold endemic equilibria for compartmental models of disease transmission. MBS, 2002      
+\bbullet van den Driessche \& Watmough. Reproduction numbers and sub-threshold endemic equilibria for compartmental models of disease transmission. MBS, 2002 \nocite{VdDWatmough2002}  
 \end{frame}
 
 
@@ -262,7 +262,7 @@ That paper was followed by a series of ``Contributions to the mathematical theor
 \begin{frame}{A more recent trend}
 \bbullet Some rare numerical work $\leq$ 1980s, mostly simulation of math models
 \begin{itemize}
-    \item Baroyan, Rvachev et al. \href{https://doi.org/10.2307/1426167}{Computer modelling of influenza epidemics for the whole country (USSR)}. \emph{Advances in Applied Probability} (1971) 
+    \item Baroyan, Rvachev et al. \href{https://doi.org/10.2307/1426167}{Computer modelling of influenza epidemics for the whole country (USSR)}. \emph{Advances in Applied Probability} (1971) \nocite{BaroyanRvachevBasilevskyEzmakovEtAl1971}
     \item Rvachev \& Longini. \href{https://doi.org/10.1016/0025-5564(85)90064-1}{A mathematical model for the global spread of influenza}. \emph{Mathematical Biosciences} (1986) 
     \item Flahault, Letrait et al. \href{https://doi.org/10.1002/sim.4780071107}{Modelling the 1985 influenza epidemic in France}. \emph{Statistics in Medicine} (1988)
 \end{itemize}
@@ -319,16 +319,19 @@ That paper was followed by a series of ``Contributions to the mathematical theor
 \vfill
 \bbullet Many epidemiological models are compartmental models, but the development of compartmental models in the 1970-1980s was not at all specific to epidemiology
 \vfill
-\bbullet See in particular the works of \href{https://www.semanticscholar.org/author/J.-Jacquez/2321059}{John Jacquez}, \href{https://scholar.google.ca/citations?user=dv_z_mAAAAAJ}{Carl Simon}, \href{https://www.semanticscholar.org/author/G.-Walter/1799059}{GG Walter}
+\bbullet See in particular the works of \href{https://www.semanticscholar.org/author/J.-Jacquez/2321059}{John Jacquez}, \href{https://scholar.google.ca/citations?user=dv_z_mAAAAAJ}{Carl Simon}, \href{https://www.semanticscholar.org/author/G.-Walter/1799059}{GG Walter} \nocite{JacquezSimon1993}
 \vfill
 \bbullet Unjustly fell into disuse: there are some very nice results in the area    
 \end{frame}
 
 \begin{frame}{Compartment (\href{https://doi-org.uml.idm.oclc.org/10.1016/B978-0-12-434180-7.50021-8}{Jacquez 1979})}
+\nocite{jacquez1979compartmental}
 
 \begin{quote}
   A \defword{compartment} is an amount of some material which acts kinetically like a distinct, homogeneous, well-mixed amount of material. A \defword{compartmental system} consists of one or more compartments which interact by exchanging the material. There may be inputs into one or more compartments from outside the system and there may be excretions from the compartments of the system.   
 \end{quote}
+\vfill
+(Paper worth reading if just for the Introduction)
 \end{frame}
 
 \begin{frame}{}
@@ -376,7 +379,7 @@ That paper was followed by a series of ``Contributions to the mathematical theor
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/KMK-title-page}
-
+\nocite{KermackMcKendrick1927}
 
 \begin{frame}{What is the \emph{size} of an epidemic?}
 \bbullet 
@@ -1208,6 +1211,7 @@ To make $\R_{\text{v}}$ less than 1
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/Arino-etal-SLIAR.png}
+\nocite{ArinoBrauerPvdDWatmoughWu2006}
 
 \begin{frame}
 SIR is a little too simple for many diseases:
@@ -1325,6 +1329,7 @@ S_0(\ln S_0-\ln S_\infty) =
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/Arino-etal-final-size.png}
+\nocite{ArinoBrauerDriesscheWatmoughWu2007}
 
 \begin{frame}{A method for computing $\mathcal{R}_0$ in epidemic models}
 \bbullet This method is not universal! It works in a relatively large class of models, but not everywhere
@@ -1698,6 +1703,7 @@ S_V(\infty) = \gamma S_U(0)\left(
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/ArinoBowmanMoghadas.png}
+\nocite{ArinoBowmanMoghadas2009}
 
 \begin{frame}{Adapting treatment to counter emergence of resistance}
 This work was undertaken at the request of the Public Health Agency of Canada during the pandemic preparadness phase prior to the 2009 p-H1N1 pandemic
@@ -1762,6 +1768,7 @@ Problem: we have antivirals to use against influenza, either prophylactically or
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/ArinoPortet-2020.png}
+\nocite{ArinoPortet2020}
 
 \begin{frame}
 Extends the SLIAR model to take into account non-exponentially distributed stage durations (see course 02)
@@ -2796,6 +2803,7 @@ Meaning of the parameters:
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/PvdDWatmough2002.png}
+\nocite{VdDWatmough2002}
 
 
 \frame{\frametitle{The basic reproduction number $\R_0$}
@@ -3151,6 +3159,7 @@ SI & $ \frac{\bar f_I}{d+\gamma}$
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/ArinoMccluskeyPvdD.png}
+\nocite{ArinoMccluskeyVdD2003}
 
 \begin{frame}{SLIRS with vaccination}
 \centering
@@ -3438,7 +3447,7 @@ are the fractions of latent individuals (of type $X=\{V,H\}$) who survive the la
 \end{frame}
 
 \begin{frame}
-Arino, Ducrot \& Zongo, \href{https://julien-arino.github.io/assets/pdf/papers/2012_ArinoDucrotZongo-JMB64.pdf}{A metapopulation model for malaria with transmission-blocking partial immunity in hosts}, Journal of Mathematical Biology (2012)
+Arino, Ducrot \& Zongo, \href{https://julien-arino.github.io/assets/pdf/papers/2012_ArinoDucrotZongo-JMB64.pdf}{A metapopulation model for malaria with transmission-blocking partial immunity in hosts}, Journal of Mathematical Biology (2012) \nocite{ArinoDucrotZongo2012}
 \vfill
 Incidence functions take the form
 \[
@@ -3498,6 +3507,7 @@ Mathematics becomes more complicated
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_ql7xv9ql7xv9ql7x.png}
 
 \maxFrameImage{FIGS/Codeco-BMB-cover}
+\nocite{codecco2001endemic}
 
 \begin{frame}{Code\c{c}o's model}
 \begin{minipage}{0.49\textwidth}
@@ -3546,6 +3556,7 @@ Note that the dashed arrow from $I$ to $B$ is not a flow: individuals do not con
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/Waters_etal-waterborne.png}
+\nocite{waters2016zoonotic}
 
 \begin{frame}{Zoonotic transmission of waterborne disease}
 Zoonoses are animal diseases that are transmitted to humans
@@ -3719,9 +3730,9 @@ print(pp)
 \end{frame}
 
 
-\begin{frame}{Bibliography}
-\bibliographystyle{apalike}
-\bibliography{../../bib-files/math,../../bib-files/math_epi}
+\begin{frame}[allowframebreaks]{Bibliography}
+\bibliographystyle{plain}
+\bibliography{local-bibliography}
 \end{frame}
 
 \end{document}

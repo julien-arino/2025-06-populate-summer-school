@@ -7,7 +7,6 @@
 \usepackage{xcolor}
 \usepackage{dsfont}
 \usepackage{setspace}
-%\usepackage{subfigure}
 % To use \ding{234} and the like
 \usepackage{pifont}
 % To cross reference between slide files
@@ -19,6 +18,8 @@
 \usepackage{marvosym}
 \usepackage{cancel}
 %\usepackage{transparent}
+% Make doi clickable in the bibliography?
+\usepackage{doi}
 
 % Fields and the like
 \def\IC{\mathbb{C}}
@@ -175,6 +176,10 @@
 \def\blue{\color[rgb]{0,0,1}}
 \def\green{\color[rgb]{0,1,0}}
 
+% Fix skipping lines after items in the bibliography
+\setbeamertemplate{bibliography entry title}{}
+\setbeamertemplate{bibliography entry location}{}
+\setbeamertemplate{bibliography entry note}{}
 
 % Get rid of navigation stuff
 \setbeamertemplate{navigation symbols}{}
