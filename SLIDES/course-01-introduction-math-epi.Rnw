@@ -115,9 +115,9 @@ As a modeller, you will be called on to provide guidance to public health author
 \end{frame}
 
 \begin{frame}{These slides}
-\bbullet There are three slide sets. Each slide set contains \emph{way} too many slides for a single lecture, I will cover only a subset
+\bbullet There are three slide sets. Each slide set contains \emph{way} too many slides for a single lecture, I will cover only a subset. Use the rest if you want to learn more. All the work cited in a slide set is collected in a Bibliography at the end of the slide set
 \vfill
-\bbullet However, use the rest if you want to learn more. In particular, some slides show explicitly \texttt{R} or \texttt{julia} code used to produce the figures shown; they can safely be ignored if you have no interest in numerics (you should, but who am I to say!)
+\bbullet Some slides show \texttt{R} or \texttt{julia} code used to produce the figures shown; they can safely be ignored if you have no interest in numerics (you should, but who am I to say!)
 \vfill
 \bbullet As much as possible, I am homogeneising notation, denoting similar parameters with the same greek/roman letter
 \vfill
@@ -150,7 +150,7 @@ $\implies$ $I(t)$ in an epidemiological model is \textbf{prevalence}, not \textb
 \begin{frame}{Exposition versus Exposed}
 - Some bright bulb (not sure who) in days of yore: let's call \textbf{exposed} someone who has contracted the disease but is not yet showing symptoms ($\implies$ SEIR model)
 \vfill
-- "Real" epidemiologist: let's trace people who were exposed to the virus, i.e., people having come into contact with the virus (whether they have contracted the disease or not)
+- ``Real'' epidemiologist: let's trace people who were exposed to the virus, i.e., people having come into contact with the virus (whether they have contracted the disease or not)
 \vfill
 - Interestingly, I am embarked on a quixotic quest to make people use $L$ instead of $E$, only to be told by real epidemiologists that they don't care \code{:)} (see this paper, though: \href{https://doi.org/10.1016/j.idm.2024.03.003}{Origins of the problematic E in SEIR epidemic models}, D. Burke, IDM 2024)
 \end{frame}
