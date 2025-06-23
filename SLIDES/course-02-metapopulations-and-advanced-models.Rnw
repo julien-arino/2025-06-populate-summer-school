@@ -129,6 +129,7 @@ So enjoy my fantastic skills instead
 
 \begin{frame}
 \frametitle{Spatial spread of pH1N1 in 2009}
+\nocite{KhanArinoHuRaposoEtAl2009}
 	In March and April 2008 (used as surrogate for 2009 data), 
 	\begin{itemize}
 		\item 2.35 million passengers flew from MX to 1018 cities in 164 countries
@@ -193,13 +194,13 @@ COVID-19 was a single outbreak, not one outbreak per country it affected
 
 \begin{frame}{A few pointers}
 	\begin{itemize}
-		\item JA \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2006_ArinoPvdD-FIC48.pdf}{Disease spread in metapopulations}. \emph{Fields Institute Communications} \textbf{48}:1-13 (2006)
+		\item JA \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2006_ArinoPvdD-FIC48.pdf}{Disease spread in metapopulations}. \emph{Fields Institute Communications} \textbf{48}:1-13 (2006) \nocite{ArinoVdD2006a}
 		\vfill
-		\item JA. \href{https://julien-arino.github.io/assets/pdf/papers/2009_Arino-metapopulations.pdf}{Diseases in metapopulations}. In \emph{Modeling and Dynamics of Infectious Diseases}, World Scientific (2009)
+		\item JA. \href{https://julien-arino.github.io/assets/pdf/papers/2009_Arino-metapopulations.pdf}{Diseases in metapopulations}. In \emph{Modeling and Dynamics of Infectious Diseases}, World Scientific (2009) \nocite{Arino2009}
 		\vfill
-		\item JA. \href{https://doi.org/10.1016/j.idm.2017.05.001}{Spatio-temporal spread of infectious pathogens of humans}. \emph{Infectious Disease Modelling} \textbf{2}(2):218-228 (2017)
+		\item JA. \href{https://doi.org/10.1016/j.idm.2017.05.001}{Spatio-temporal spread of infectious pathogens of humans}. \emph{Infectious Disease Modelling} \textbf{2}(2):218-228 (2017) \nocite{Arino2017}
 		\vfill
-		\item JA, Bajeux \& Kirkland. \href{https://doi.org/10.1007/s11538-019-00593-1}{Number of source patches required for population persistence in a source-sink metapopulation}. \emph{Bulletin of Mathematical Biology} \textbf{81}: 1916–1942 (2019) 
+		\item JA, Bajeux \& Kirkland. \href{https://doi.org/10.1007/s11538-019-00593-1}{Number of source patches required for population persistence in a source-sink metapopulation}. \emph{Bulletin of Mathematical Biology} \textbf{81}: 1916–1942 (2019) \nocite{ArinoBajeuxKirkland2019}
 	\end{itemize}
 \end{frame}
 
@@ -418,8 +419,9 @@ $p\in\P$ and $s\in\mathcal{S}$ (a set of species)
 {\tiny
 \begin{itemize}
 \setlength{\itemsep}{-5pt}
-\item JA, Davis, Hartley, Jordan, Miller \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2005_ArinoDavisHartleyJordanMillerPvdD-MMB22.pdf}{A multi-species epidemic model with spatial dynamics}. \emph{Mathematical Medicine and Biology} \textbf{22}(2):129-142 (2005)\newline 
-\item JA, Jordan \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2007_ArinoJordanPvdD-MBS206.pdf}{Quarantine in a multi-species epidemic model with spatial dynamics}. \emph{Mathematical Biosciences} \textbf{206}(1):46-60 (2007)
+\item JA, Davis, Hartley, Jordan, Miller \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2005_ArinoDavisHartleyJordanMillerPvdD-MMB22.pdf}{A multi-species epidemic model with spatial dynamics}. \emph{Mathematical Medicine and Biology} \textbf{22}(2):129-142 (2005) \nocite{ArinoDavisHartleyJordanEtAl2005}
+\newline 
+\item JA, Jordan \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2007_ArinoJordanPvdD-MBS206.pdf}{Quarantine in a multi-species epidemic model with spatial dynamics}. \emph{Mathematical Biosciences} \textbf{206}(1):46-60 (2007) \cite{ArinoJordanPvdD2007}
 \end{itemize}}
 \end{frame}
 
@@ -455,9 +457,9 @@ $p\in\P$ and $s\in\mathcal{S}$ (a set of species)
 {\tiny
 \begin{itemize}
 %\setlength{\itemsep}{-5pt}
-\item Sattenspiel \& Dietz. \href{https://doi.org/10.1016/0025-5564(94)00068-B}{A structured epidemic model incorporating geographic mobility among regions} (1995)
-\item JA \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2003_ArinoPvdD-MPS10_correct.pdf}{A multi-city epidemic model}. \emph{Mathematical Population Studies} \textbf{10}(3):175-193 (2003)
-\item JA \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2003_ArinoPvdD-LNCIS294.pdf}{The basic reproduction number in a multi-city compartmental epidemic model}. In \emph{Positive Systems} (2003)
+\item Sattenspiel \& Dietz. \href{https://doi.org/10.1016/0025-5564(94)00068-B}{A structured epidemic model incorporating geographic mobility among regions} (1995) \nocite{sattenspiel1995structured}
+\item JA \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2003_ArinoPvdD-MPS10_correct.pdf}{A multi-city epidemic model}. \emph{Mathematical Population Studies} \textbf{10}(3):175-193 (2003) \nocite{ArinoVdD2003a}
+\item JA \& PvdD. \href{https://julien-arino.github.io/assets/pdf/papers/2003_ArinoPvdD-LNCIS294.pdf}{The basic reproduction number in a multi-city compartmental epidemic model}. In \emph{Positive Systems} (2003) \nocite{ArinoVdD2003b}
 \end{itemize}}
 }
 
@@ -805,7 +807,7 @@ Assume $\mathcal{M}$ reducible. Let $a$ be the number of minimal absorbing sets 
 \end{theorem}
 
 \vfill
-From Foster and Jacquez, \href{https://doi.org/10.1016/0025-5564(75)90096-6}{Multiple zeros for eigenvalues and the multiplicity of traps of a linear compartmental system}, \emph{Mathematical Biosciences} (1975)
+From Foster and Jacquez, \href{https://doi.org/10.1016/0025-5564(75)90096-6}{Multiple zeros for eigenvalues and the multiplicity of traps of a linear compartmental system}, \emph{Mathematical Biosciences} (1975) \nocite{foster1975multiple}
 \end{frame}
 
 
@@ -1089,7 +1091,7 @@ $$
 \frame{
 \begin{itemize}
 \item
-Linear stability of the disease free equilibrium can be investigated by using the next generation matrix
+Linear stability of the disease free equilibrium can be investigated by using the next generation matrix method of \cite{VdDWatmough2002}
 \vfill
 \item
 In general, $\R_0$ depends on the demographic, disease and mobility parameters
@@ -1210,9 +1212,9 @@ $$
 where
 \[
 	\tilde V_{21}^{-1}=
-	\left(\mathsf{diag}_p(\varepsilon_p+d_p)-\mathcal{M}^L\right)^{-1}
-	\mathsf{diag}_p(\varepsilon_p)
 	\left(\mathsf{diag}_p(\gamma_p+d_p)-\mathcal{M}^I\right)^{-1}		
+	\mathsf{diag}_p(\varepsilon_p)
+	\left(\mathsf{diag}_p(\varepsilon_p+d_p)-\mathcal{M}^L\right)^{-1}
 \]
 \end{frame}
 
@@ -1241,11 +1243,15 @@ $$
 i.e.,
 \begin{multline*}
 	\R_0=\rho\Biggl(
-		\mathsf{diag}\left(
-		\frac{\partial\Phi_1}{\partial I_1},\ldots,\frac{\partial\Phi_{|\mathcal{P}|}}{\partial I_{|\mathcal{P}|}}\right)
-		\left(\mathsf{diag}_p(\varepsilon_p+d_p)-\mathcal{M}^L\right)^{-1} \\ 
-		\mathsf{diag}_p(\varepsilon_p)
+		\mathsf{diag}
+		\left(
+		\frac{\partial\Phi_1}{\partial I_1},\ldots,
+		\frac{\partial\Phi_{|\mathcal{P}|}}{\partial I_{|\mathcal{P}|}}
+		\right)
 		\left(\mathsf{diag}_p(\gamma_p+d_p)-\mathcal{M}^I\right)^{-1}
+		\\ 
+		\mathsf{diag}_p(\varepsilon_p)
+		\left(\mathsf{diag}_p(\varepsilon_p+d_p)-\mathcal{M}^L\right)^{-1} 
 		\Biggr)			
 \end{multline*}
 \end{frame}
@@ -1253,15 +1259,19 @@ i.e.,
 \begin{frame}{Local asymptotic stability of the DFE}
 \begin{theorem}\label{th:LAS_DFE_pSLIRS_toy}
 	Define $\R_0$ for the $|\mathcal{P}|$-SLIRS as 
-	\begin{multline*}
-		\R_0=\rho\Biggl(
-			\mathsf{diag}\left(
-			\frac{\partial\Phi_1}{\partial I_1},\ldots,\frac{\partial\Phi_{|\mathcal{P}|}}{\partial I_{|\mathcal{P}|}}\right)
-			\left(\mathsf{diag}_p(\varepsilon_p+d_p)-\mathcal{M}^L\right)^{-1}  \\
-			\mathsf{diag}_p(\varepsilon_p)
-			\left(\mathsf{diag}_p(\gamma_p+d_p)-\mathcal{M}^I\right)^{-1}
-			\Biggr)				
-	\end{multline*}
+  \begin{multline*}
+	\R_0=\rho\Biggl(
+		\mathsf{diag}
+		\left(
+		\frac{\partial\Phi_1}{\partial I_1},\ldots,
+		\frac{\partial\Phi_{|\mathcal{P}|}}{\partial I_{|\mathcal{P}|}}
+		\right)
+		\left(\mathsf{diag}_p(\gamma_p+d_p)-\mathcal{M}^I\right)^{-1}
+		\\ 
+		\mathsf{diag}_p(\varepsilon_p)
+		\left(\mathsf{diag}_p(\varepsilon_p+d_p)-\mathcal{M}^L\right)^{-1} 
+		\Biggr)			
+  \end{multline*}
 	Then the DFE
 	$$
 	(\mathbf{S},\mathbf{L},\mathbf{I},\mathbf{R})=\left((\mathbf{d}-\mathcal{M}^S)^{-1}\mathbf{b},\mathbf{0},\mathbf{0},\mathbf{0}\right)
@@ -2311,6 +2321,7 @@ $\implies$ use this for numerics, not for the mathematical analysis
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/LopezCoutinhoBurratiniMassad-1999.png}
+\nocite{lopez1999modelling}
 
 \begin{frame}\frametitle{Spatial spread of an epidemic on a ``road''}
 \begin{itemize}
@@ -2428,6 +2439,7 @@ Show there exists a threshold $z_{\text{threshold}}=\R_0$ s.t. $\lambda(x)\equiv
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
 \maxFrameImage{FIGS/MurraySeward-1992.png}
+\nocite{murray1992spatial}
 
 \begin{frame}{Spatial spread of rabies with immunity}
 \begin{subequations}
@@ -2454,12 +2466,13 @@ where $N=S+L+I+R$
 \section{A model with arbitrary sojourn time}
 \newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
 
-\maxFrameImage{FIGS/ArinoCookePvdDVelasco.png}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The general model}
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_vqpscpvqpscpvqps.jpeg}
+
+\maxFrameImage{FIGS/ArinoCookePvdDVelasco.png}
+\nocite{ArinoCookeVdDVelasco2004}
 
 \begin{frame}{A model with vaccine efficacy and waning}
 \begin{itemize}
@@ -2475,7 +2488,7 @@ where $N=S+L+I+R$
 
 \begin{frame}\frametitle{Model structure}
 \centering
-\def\skip{*2.5}
+\def\skip{*3.5}
 \begin{tikzpicture}[scale=1, transform shape]
 %% Regular nodes
 \node [circle, fill=green!50, text=black] at (0,0) (S) {$S$};
@@ -2609,9 +2622,9 @@ The set $\D$ is positively invariant under the flow of \eqref{sys:SIVS_general} 
 \begin{frame}\frametitle{}
 With the assumed initial conditions in $\D$, it can be shown that the system defined by \eqref{sys:SIVS_general_I} and \eqref{sys:SIVS_general_V} is equivalent to the system defined by \eqref{sys:SIVS_general_I} and
 \begin{align}
-\frac{d}{dt}V(t) &= \frac{d}{dt}V_0(t)+\phi S(t)+\alpha d \label{eq:Vprime_general} \\
-&\quad -(d+\sigma\beta I(t))(V(t)-V_0(t)) 
-+ Q(t)\nonumber
+\label{eq:Vprime_general}
+\frac{d}{dt}V(t) &= \frac{d}{dt}V_0(t)+\phi S(t)+\alpha d -(d+\sigma\beta I(t))(V(t)-V_0(t)) 
++ Q(t)
 \end{align}
 where to simplify notation, we denote
 \[
@@ -2789,14 +2802,14 @@ bifurcation for a range of $\phi$ values given by $0.0254\leq\phi\leq0.1506$
 \end{frame}
 
 \begin{frame}
-With the above parameter values, $\R_0=8.3936$ and
-$\R_v(\phi)=0.8807$ for
+\begin{minipage}{0.3\textwidth}
+With the above parameter values, $\R_0=8.3936$ and $\R_v(\phi)=0.8807$ for
 $\phi=0.1$, which is in the range of backward bifurcation since the
 critical value $\R_c(\phi)=0.8669<\R_v(\phi)<1$
-\vfill
-\begin{center}
-   \includegraphics[width=0.8\textwidth]{FIGS/SIV_ode_bif_phi}
-\end{center}
+\end{minipage}
+\begin{minipage}{\textwidth}
+   \includegraphics[width=\linewidth]{FIGS/SIV_ode_bif_phi}
+\end{minipage}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3489,6 +3502,11 @@ rmd_chunks_to_r_temp <- function(file){
 }
 rmd_chunks_to_r_temp("course-02-metapopulations-and-advanced-models.Rnw")
 @
+
+\begin{frame}[allowframebreaks]{Bibliography}
+\bibliographystyle{plain}
+\bibliography{local-bibliography}
+\end{frame}
 
 
 \end{document}
