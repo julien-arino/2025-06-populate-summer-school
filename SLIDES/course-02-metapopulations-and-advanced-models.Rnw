@@ -2493,7 +2493,7 @@ where $N=S+L+I+R$
 %% Regular nodes
 \node [circle, fill=green!50, text=black] at (0,0) (S) {$S$};
 \node [circle, fill=red!90, text=black] at (2\skip,0) (I) {$I$};
-\node [circle, fill=blue!50, text=black] at (1\skip,-2) (V) {$V$};
+\node [circle, fill=blue!50, text=black] at (1\skip,-1\skip) (V) {$V$};
 %% Fake nodes for arrows
 \node [left=2cm of S] (birthS) {};
 \node [left=1.5cm of V] (birthV) {};
@@ -2632,7 +2632,7 @@ Q(t)=\int_0^t (\phi S(u)+\alpha d) d_t(P(t-u))e^{-d(t-u)}
 e^{-\sigma\beta\int_u^t I(x)dx}du
 \]
 \vfill
-The system defined by \eqref{sys:SIVS_general_I} and \eqref{eq:Vprime_general} is of standard form, therefore results of Hale (see Hale \& Verduyn-Lunel) ensure the local existence, uniqueness and continuation of solutions of model \eqref{sys:SIVS_general}
+The system defined by \eqref{sys:SIVS_general_I} and \eqref{eq:Vprime_general} is of standard form, therefore results of Hale \cite{hale2013introduction} ensure the local existence, uniqueness and continuation of solutions of model \eqref{sys:SIVS_general}
 \end{frame}
 
 \begin{frame}\frametitle{$\R_0$}
@@ -2807,7 +2807,7 @@ With the above parameter values, $\R_0=8.3936$ and $\R_v(\phi)=0.8807$ for
 $\phi=0.1$, which is in the range of backward bifurcation since the
 critical value $\R_c(\phi)=0.8669<\R_v(\phi)<1$
 \end{minipage}
-\begin{minipage}{\textwidth}
+\begin{minipage}{0.68\textwidth}
    \includegraphics[width=\linewidth]{FIGS/SIV_ode_bif_phi}
 \end{minipage}
 \end{frame}
@@ -2997,7 +2997,7 @@ bifurcations; solutions either go to the DFE or to the (larger) EEP
 
 \begin{frame}
 \begin{center}
-   \includegraphics[width=0.75\textwidth]{FIGS/bif_and_time}
+   \includegraphics[width=0.6\textwidth]{FIGS/bif_and_time}
 \end{center}
 (a) Values of $I^\star$ as a function of $\omega$ by solving $H(I,\mathcal{A})=0$ with $a_i=\omega$. (b) Value of $I(t)$ versus time, obtained by numerical integration of system \eqref{sys:SIVS_DDE} with initial data $I(t)=c$, for $t\in[-\omega,0]$, $\omega=1825$, $c$ varying from 0 to 1 by steps of 0.02
 \end{frame}
@@ -3013,10 +3013,6 @@ bifurcations; solutions either go to the DFE or to the (larger) EEP
 \begin{frame}\frametitle{Age of infection}
 We have seen that infinite dimensionality could result from a detailed description (or an unspecified one) of the sojourn time in compartments
 \vfill
-We used age of vaccination to find the initial condition of system \eqref{sys:SIVS_general}
-\vfill
-Here we take a closer look at this type of model
-\vfill
 Originally, age of infection was introduced to account for differences in infectivity depending on the time since an individual became infected
 \vfill
 For instance, it is known that infectiousness of HIV positive patients vary as a function of time since infection
@@ -3031,15 +3027,9 @@ For instance, it is known that infectiousness of HIV positive patients vary as a
 
 
 \begin{frame}\frametitle{Age of vaccination}
-We have seen that infinite dimensionality can result from a detailed description (or an unspecified one) of the sojourn time in compartments
-\vfill
 We used age of vaccination to find the initial condition of \eqref{sys:SIVS_general}
 \vfill
 Here we take a closer look at this type of model
-\vfill
-Originally, age of infection was introduced to account for differences in infectivity depending on the time since an individual became infected
-\vfill
-For instance, it is known that infectiousness of HIV positive patients vary as a function of time
 \end{frame}
 
 
@@ -3149,10 +3139,11 @@ Taking into account age can be important in some cases
 \item The immunity of individuals changes with age, so for instance, older people may be more susceptible to some diseases than younger people
 \end{itemize}
 \vfill
-This is based on courses given by Jia Li during a Banff summer school in 2004
+This is based on courses given by Jia Li during a Banff summer school in 2004 \nocite{li2008continuous}
 \end{frame}
 
 \maxFrameImage{FIGS/BrauerPvdDWu-book.png}
+\nocite{brauer2008mathematical}
 
 \begin{frame}{Note on age}
 \defword{Chronological age}, as a structuring variable, is ``easier'' than other structuring variables
@@ -3504,7 +3495,7 @@ rmd_chunks_to_r_temp("course-02-metapopulations-and-advanced-models.Rnw")
 @
 
 \begin{frame}[allowframebreaks]{Bibliography}
-\bibliographystyle{plain}
+\bibliographystyle{apalike}
 \bibliography{local-bibliography}
 \end{frame}
 
