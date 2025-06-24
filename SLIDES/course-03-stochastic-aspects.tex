@@ -54,7 +54,7 @@
 
 \input{slides-setup-whiteBG.tex}
 
-\title{Stochastic and non-ODE epidemiological models}
+\title{Stochastic aspects}
 \subtitle{Populate Summer School -- Course 03}
 \date{20 June 2025}
 \author{\texorpdfstring{Julien Arino\newline Department of Mathematics @ University of Manitoba \newline Maud Menten Institute @ PIMS\newline\url{julien.arino@umanitoba.ca}}{Julien Arino}}
@@ -378,8 +378,8 @@ Since $\lim_{t\to\infty}t\S(t)=0$, it follows that
 The \defword{hazard rate} (or \defword{failure rate}) is
 \begin{align*}
 h(t) &= \lim_{\Delta t\to 0}\frac{\S(t)-\S(t+\Delta t)}{\Delta t} \\
-& = \lim_{\Delta t\to 0} \frac{\IP{ T<t+\Delta t | T\geq
-t}}{\Delta t} \\
+& = \lim_{\Delta t\to 0} \frac{\IP(T<t+\Delta t | T\geq
+t)}{\Delta t} \\
 &= \frac{f(t)}{\S(t)}
 \end{align*}
 It gives probability of failure between $t$ and $\Delta t$, given survival to $t$.
@@ -1435,12 +1435,12 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \begin{frame}[fragile]{Last one did not go well}
     \begin{itemize}
         \item Wanted 1000 time units (days?)
-        \item Interrupted at 338.7126862 because of the test
+        \item Interrupted at 274.2706938 because of the test
         \newline (Slide with $b<d$: sim stopped because the population went extinct, I did not stop it!)
         \item At stop time
         \begin{itemize}
-            \item $N =$ \ensuremath{6.1564\times 10^{4}}
-            \item $|N| =$ 122767 (and $|t|$ as well, of course!)
+            \item $N =$ \ensuremath{2.5131\times 10^{4}}
+            \item $|N| =$ 49934 (and $|t|$ as well, of course!)
             \item time was moving slowly
         \end{itemize}
     \end{itemize}
@@ -1452,8 +1452,8 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hlkwd{tail}\hldef{(}\hlkwd{diff}\hldef{(results}\hlopt{$}\hldef{t))}
 \end{alltt}
 \begin{verbatim}
-## [1] 1.032524e-04 1.501491e-04 1.283565e-03 7.772778e-04 2.509549e-04
-## [6] 6.210030e-09
+## [1] 1.382969e-03 8.398067e-04 2.214102e-03 2.589683e-04 9.708690e-04
+## [6] 3.973298e-09
 \end{verbatim}
 
 \end{knitrout}
@@ -2246,6 +2246,11 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
 
         \item This allows us to apply the theory to real-world problems, like calculating an epidemic's \textbf{basic reproduction number $\mathcal{R}_0$} and its probability of causing a major outbreak.
     \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Bibliography}
+\bibliographystyle{apalike}
+\bibliography{local-bibliography}
 \end{frame}
 
 
