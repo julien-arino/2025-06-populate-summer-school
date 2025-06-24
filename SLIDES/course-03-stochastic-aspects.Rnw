@@ -607,7 +607,7 @@ P(T > s + t\; |\; T > s) = P(T > t),\quad\forall s, t \ge 0
 
 The exponential and geometric distributions are the only memoryless probability distributions
 \vfill
-The exponential distribution has a constant hazard function
+The exponential distribution has a constant hazard function $h(t)\equiv\theta$
 \end{frame}
 
 <<pdf-cdf-surv-hazard-expon,eval=TRUE,echo=FALSE,include=FALSE>>=
@@ -688,6 +688,37 @@ where
 \]
 is an incomplete Gamma function
 \end{frame}
+
+<<pdf-cdf-surv-hazard-gamma,eval=TRUE,echo=FALSE,include=FALSE>>=
+# Parameters for gamma distribution
+shape <- 3       # shape parameter (k)
+scale <- 2       # scale parameter (θ)
+x <- seq(0, shape*scale + 4*scale, length.out = 1000)
+
+# Compute functions
+pdf    <- dgamma(x, shape = shape, scale = scale)
+cdf    <- pgamma(x, shape = shape, scale = scale)
+surv   <- 1 - cdf
+hazard <- pdf / surv
+
+# Plot all four curves
+plot(x, pdf, type = "l", col = "blue",      lwd = 2,
+     ylim = c(0, 1), xlab = "t", ylab = "Value",
+     main = "PDF, CDF, Survival & Hazard of Gamma Distribution")
+lines(x, cdf,    col = "darkgreen", lwd = 2, lty = 2)
+lines(x, surv,   col = "red",       lwd = 2, lty = 3)
+lines(x, hazard, col = fg_colour,   lwd = 1, lty = 3)
+
+# Legend
+legend("right",
+       legend = c("PDF", "CDF", "Survival", "Hazard"),
+       col    = c("blue","darkgreen","red","black"),
+       lty    = c(1,2,3,3),
+       lwd    = c(2,2,2,1),
+       cex    = 0.9)
+@
+
+\maxFrameImage{\Sexpr{fig_chunk('pdf-cdf-surv-hazard-gamma', 'pdf')}}
 
 
 %%%%%%%%%%%%%%%%%%%
@@ -1076,7 +1107,7 @@ legend("topright", legend = c("Data","Best Erlang fit"),
 @
 
 \begin{frame}
-Now plot the result as well as the original curve  (code chunk not shown)
+We find the best fit below, which is obtained using \Sexpr{optim_fits[idx_best,]$shape} compartments
 \begin{center}
 \includegraphics[width=0.75\textwidth]{\Sexpr{fig_chunk('plot_results_optim_Erlang', 'pdf')}}
 \end{center}
@@ -1969,7 +2000,7 @@ CTMC $\mathbf{X}(t)$ characterized by transitions
 \begin{frame}{Investigating outbreak types using a simple CTMC SIS \emph{with a twist}}
 Regular chain of this type has $I=0$ as sole absorbing state
 \vfill
-We add another absorbing state: if $I=\hat I$, then the chain has *left* the stochastic phase and is in a quasi-deterministic phase with exponential growth
+We add another absorbing state: if $I=\hat I$, then the chain has \emph{left} the stochastic phase and is in a quasi-deterministic phase with exponential growth
 \vfill
 Doing this, time to absorption measures become usable additionally to first passage time ones
 \vfill
