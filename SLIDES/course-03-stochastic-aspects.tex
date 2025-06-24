@@ -1454,12 +1454,12 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \begin{frame}[fragile]{Last one did not go well}
     \begin{itemize}
         \item Wanted 1000 time units (days?)
-        \item Interrupted at 350.1311153 because of the test
+        \item Interrupted at 310.6584803 because of the test
         \newline (Slide with $b<d$: sim stopped because the population went extinct, I did not stop it!)
         \item At stop time
         \begin{itemize}
-            \item $N =$ \ensuremath{9.5594\times 10^{4}}
-            \item $|N| =$ 190577 (and $|t|$ as well, of course!)
+            \item $N =$ \ensuremath{5.0314\times 10^{4}}
+            \item $|N| =$ 100107 (and $|t|$ as well, of course!)
             \item time was moving slowly
         \end{itemize}
     \end{itemize}
@@ -1471,8 +1471,8 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hlkwd{tail}\hldef{(}\hlkwd{diff}\hldef{(results}\hlopt{$}\hldef{t))}
 \end{alltt}
 \begin{verbatim}
-## [1] 7.345379e-05 6.522734e-05 1.321905e-04 3.446701e-06 1.626468e-05
-## [6] 9.095459e-09
+## [1] 1.000257e-03 1.550663e-04 2.745199e-04 6.991848e-05 1.413394e-04
+## [6] 2.408910e-09
 \end{verbatim}
 
 \end{knitrout}
@@ -1595,7 +1595,6 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hldef{params} \hlkwb{<-} \hlkwd{list}\hldef{(}\hlkwc{gamma} \hldef{= gamma,} \hlkwc{beta} \hldef{= beta,}
                \hlkwc{Pop} \hldef{=} \hlnum{1000}\hldef{,} \hlkwc{I_0} \hldef{=} \hlnum{2}\hldef{,} \hlkwc{R0} \hldef{= R0,}
                \hlkwc{t_f} \hldef{=} \hlnum{100}\hldef{,} \hlkwc{nb_sims} \hldef{=} \hlnum{50}\hldef{)}
-
 \hlkwd{clusterExport}\hldef{(cl,}
               \hlkwd{c}\hldef{(}\hlsng{"params"}\hldef{,}
                 \hlsng{"run_one_sim"}\hldef{),}

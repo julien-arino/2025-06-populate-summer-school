@@ -1894,7 +1894,6 @@ t_f = 100
 params <- list(gamma = gamma, beta = beta,
                Pop = 1000, I_0 = 2, R0 = R0,
                t_f = 100, nb_sims = 50)
-
 clusterExport(cl,
               c("params",
                 "run_one_sim"),
@@ -1907,12 +1906,17 @@ stopCluster(cl)
 
 \end{frame}
 
-<<parallel-CTMC-plot, include=FALSE>>=
+<<parallel-CTMC-plot, results='hide', include=FALSE, echo=FALSE>>=
+# Find max y value for plot
+y_max = max(unlist(lapply(SIMS, function(x) max(x$interp_I$I))), 
+            na.rm = TRUE)
+# Now plot
 plot(SIMS[[1]]$interp_I$time,
      SIMS[[1]]$interp_I$I,
      type = "l", lwd = 0.5,
      xlab = "Time (days)",
      ylab = "Number infectious",
+     ylim = c(0, y_max),
      main = paste("CTMC with R0 =", params$R0))
 for (i in 2:length(SIMS)) {
   lines(SIMS[[i]]$interp_I$time,
@@ -1940,6 +1944,7 @@ tictoc::toc()
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
 
 \maxFrameImage{FIGS/ArinoMilliken-BMB}
+\nocite{ArinoMilliken2022b}
 
 \maxFrameImage{FIGS/select_Wyoming-Campbell_bars_zoom}
 
@@ -2067,7 +2072,7 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
 \maxFrameImage{FIGS/exporter_importer_panel_zoom.png}
 
 \begin{frame}{One last thought for the road}
-	V. Chetail. \href{https://doi.org/10.3389/fpos.2020.606307}{Crisis without borders: What does international law say about border closure in the context of Covid-19?} Frontiers in Political Science, 2 (12) (2020)
+	V. Chetail. \href{https://doi.org/10.3389/fpos.2020.606307}{Crisis without borders: What does international law say about border closure in the context of Covid-19?} Frontiers in Political Science, 2 (12) (2020) \nocite{chetail2020crisis}
 	\vfill
 	\begin{quote}
 		[..] a powerful expression of state's sovereignty, immigration control provides a typical avenue for governments to reassure their citizens and bolster a national sense of belonging, while providing an ideal scapegoat for their own failure or negligence.
