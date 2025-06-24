@@ -46,13 +46,15 @@ knit_hooks$set(document = function(x) {
 # Are we plotting for a dark background?
 plot_blackBG = FALSE
 if (plot_blackBG) {
-  bg_color = "black"
-  fg_color = "white"
+  bg_colour = "black"
+  fg_colour = "white"
   input_setup = "\\input{slides-setup-blackBG.tex}"
+  fill_colour = "lightblue"
 } else {
-  bg_color = "white"
-  fg_color = "black"
+  bg_colour = "white"
+  fg_colour = "black"
   input_setup = "\\input{slides-setup-whiteBG.tex}"
+  fill_colour = "lightblue"
 }
 cat(input_setup)
 @
@@ -317,27 +319,97 @@ From the sequence of experiments, we deduce a model, which in this context is ca
 We assume that $T$ is a \defword{continuous} random variable
 \end{frame}
 
+<<distrib_a_b,eval=TRUE,echo=FALSE,fig.width=8,fig.height=6,include=FALSE>>=
+# Parameters for normal distribution
+mu <- 5      # mean (mode for normal distribution)
+sigma <- 1.5 # standard deviation
+a <- 4       # left boundary
+b <- 7       # right boundary
+
+# Create x values for plotting
+x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 1000)
+y <- dnorm(x, mean = mu, sd = sigma)
+
+# Create x values for shaded area
+x_fill <- seq(a, b, length.out = 200)
+y_fill <- dnorm(x_fill, mean = mu, sd = sigma)
+
+# Plot the distribution (no bounding box, axes shown)
+plot(x, y, type = "l", lwd = 3, col = fg_colour,
+     xlab = "t", ylab = "f(t)",
+     axes = FALSE, frame.plot = FALSE)
+
+# Add shaded area (from curve to y=0)
+polygon(c(a, x_fill, b), c(0, y_fill, 0), 
+         col = fill_colour, border = NA, density = 20)
+
+# Add horizontal line at y=0
+abline(h=0, col = fg_colour, lty = 1, lwd = 1)
+# Add vertical lines at a and b
+abline(v = a, col = "red", lwd = 2, lty = 2)
+abline(v = b, col = "red", lwd = 2, lty = 2)
+
+# Add labels
+text(a, -0.02, "a", pos = 1, cex = 1.2, col = "red", font = 2)
+text(b, -0.02, "b", pos = 1, cex = 1.2, col = "red", font = 2)
+@
 
 \begin{frame}\frametitle{Probability density function}
 Since $T$ is continuous, it has a continuous \defword{probability density function} $f$
+\begin{minipage}{0.4\textwidth}
 \begin{itemize}
 \item $f\geq 0$
 \item $\int_{-\infty}^{+\infty}f(s)ds=1$
 \item $\IP(a\leq T\leq b)=\int_a^bf(t)dt$
 \end{itemize}
-\begin{center}
-\includegraphics[width=0.45\textwidth]{FIGS/distrib_a_b}
-\end{center}
+\end{minipage}
+\begin{minipage}{0.59\textwidth}
+\includegraphics[width=\textwidth]{\Sexpr{fig_chunk('distrib_a_b', 'pdf')}}
+\end{minipage}
 \end{frame}
 
-\begin{frame}\frametitle{Cumulative distribution function}
-The cumulative distribution function (c.d.f.) is a function $F(t)$ that characterizes the distribution of $T$, and defined by
+<<distrib_minf_b,eval=TRUE,echo=FALSE,include=FALSE>>=
+# Parameters for normal distribution
+mu <- 5      # mean (mode for normal distribution)
+sigma <- 1.5 # standard deviation
+a <- mu - 4*sigma       # left boundary
+b <- 7       # right boundary
+
+# Create x values for plotting
+x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 1000)
+y <- dnorm(x, mean = mu, sd = sigma)
+
+# Create x values for shaded area
+x_fill <- seq(a, b, length.out = 200)
+y_fill <- dnorm(x_fill, mean = mu, sd = sigma)
+
+# Plot the distribution (no bounding box, axes shown)
+plot(x, y, type = "l", lwd = 3, col = fg_colour,
+     xlab = "t", ylab = "f(t)",
+     axes = FALSE, frame.plot = FALSE)
+
+# Add shaded area (from curve to y=0)
+polygon(c(a, x_fill, b), c(0, y_fill, 0), 
+         col = fill_colour, border = NA, density = 20)
+
+# Add horizontal line at y=0
+abline(h=0, col = fg_colour, lty = 1, lwd = 1)
+# Add vertical lines at b
+abline(v = b, col = "red", lwd = 2, lty = 2)
+# Add labels
+text(b, -0.02, "b", pos = 1, cex = 1.2, col = "red", font = 2)
+@
+
+\begin{frame}\frametitle{Cumulative distribution function (c.d.f.)}
+\begin{minipage}{0.4\textwidth}
+The \defword{cumulative distribution function} is a function $F(t)$ that characterizes the distribution of $T$, and defined by
 \[
 F(s)=\IP(T\leq s)=\int_{-\infty}^sf(x)dx
 \]
-\begin{center}
-\includegraphics[width=0.45\textwidth]{FIGS/cdf_auc}
-\end{center}
+\end{minipage}
+\begin{minipage}{0.59\textwidth}
+\includegraphics[width=\textwidth]{\Sexpr{fig_chunk('distrib_minf_b', 'pdf')}}
+\end{minipage}
 \end{frame}
 
 \begin{frame}\frametitle{Survival function}
@@ -355,6 +427,36 @@ $\S$ is a nonincreasing function (since $\S=1-F$
 with $F$ a c.d.f.), and
 $\S(0)=1$ (since $T$ is a nonnegative random variable)
 \end{frame}
+
+<<pdf-cdf-surv-normal,eval=TRUE,echo=FALSE,include=FALSE>>=
+# Parameters for normal distribution
+mu <- 5
+sigma <- 1.5
+x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 1000)
+
+# Compute functions
+pdf <- dnorm(x, mean = mu, sd = sigma)
+cdf <- pnorm(x, mean = mu, sd = sigma)
+surv <- 1 - cdf
+
+# Plot all three functions
+plot(x, pdf, type = "l", col = "blue", lwd = 2,
+     ylim = c(0, 1), xlab = "t", ylab = "Value",
+     main = "PD, CD and Survival functions",
+     xaxt = "n")
+lines(x, cdf, col = "darkgreen", lwd = 2, lty = 2)
+lines(x, surv, col = "red", lwd = 2, lty = 3)
+
+# Add legend
+legend("right",
+       legend = c("PDF", "CDF", "Survival"),
+       col = c("blue", "darkgreen", "red"),
+       lty = c(1, 2, 3),
+       lwd = 2,
+       cex = 0.9)
+@
+
+\maxFrameImage{\Sexpr{fig_chunk('pdf-cdf-surv-normal', 'pdf')}}
 
 \begin{frame}
 The \defword{average sojourn time} $\tau$ in state $A$ is given by
@@ -393,6 +495,37 @@ We have
 h(t)=-\frac{d}{dt}\ln\S(t)
 \]
 \end{frame}
+
+<<pdf-cdf-surv-hazard-normal,eval=TRUE,echo=FALSE,include=FALSE>>=
+# Parameters for normal distribution
+mu <- 5
+sigma <- 1.5
+x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 1000)
+
+# Compute functions
+pdf <- dnorm(x, mean = mu, sd = sigma)
+cdf <- pnorm(x, mean = mu, sd = sigma)
+surv <- 1 - cdf
+
+# Plot all three functions
+plot(x, pdf, type = "l", col = "blue", lwd = 2,
+     ylim = c(0, 1), xlab = "t", ylab = "Value",
+     main = "PD, CD and Survival functions & Hazard rate",
+     xaxt = "n")
+lines(x, cdf, col = "darkgreen", lwd = 2, lty = 2)
+lines(x, surv, col = "red", lwd = 2, lty = 3)
+lines(x, pdf/surv, col = fg_colour, lty = 3, lwd = 1)
+
+# Add legend
+legend("right",
+       legend = c("PDF", "CDF", "Survival", "Hazard"),
+       col = c("blue", "darkgreen", "red", "black"),
+       lty = c(1, 2, 3, 3),
+       lwd = 2,
+       cex = 0.9)
+@
+
+\maxFrameImage{\Sexpr{fig_chunk('pdf-cdf-surv-hazard-normal', 'pdf')}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Competing risks}
@@ -476,6 +609,35 @@ The exponential and geometric distributions are the only memoryless probability 
 \vfill
 The exponential distribution has a constant hazard function
 \end{frame}
+
+<<pdf-cdf-surv-hazard-expon,eval=TRUE,echo=FALSE,include=FALSE>>=
+# Parameters for exponential distribution
+lambda <- 0.8
+x <- seq(0, 10, length.out = 1000)
+
+# Compute functions
+pdf <- dexp(x, rate = lambda)
+cdf <- pexp(x, rate = lambda)
+surv <- 1 - cdf
+
+# Plot all three functions
+plot(x, pdf, type = "l", col = "blue", lwd = 2,
+     ylim = c(0, 1), xlab = "t", ylab = "Value",
+     main = "PD, CD and Surv. functions & Hazard rate of exponential")
+lines(x, cdf, col = "darkgreen", lwd = 2, lty = 2)
+lines(x, surv, col = "red", lwd = 2, lty = 3)
+lines(x, pdf/surv, col = fg_colour, lty = 3, lwd = 1)
+
+# Add legend
+legend("right",
+       legend = c("PDF", "CDF", "Survival", "Hazard"),
+       col = c("blue", "darkgreen", "red", "black"),
+       lty = c(1, 2, 3, 3),
+       lwd = 2,
+       cex = 0.9)
+@
+
+\maxFrameImage{\Sexpr{fig_chunk('pdf-cdf-surv-hazard-expon', 'pdf')}}
 
 \begin{frame}\frametitle{The Dirac delta distribution}
 If for some constant $\omega>0$,
@@ -1690,7 +1852,7 @@ plot(sol$time, sol$state[,"I"], type = "l",
 
 \begin{frame}[fragile, allowframebreaks]
 
-<<parallel-CTMC>>=
+<<parallel-CTMC-run, results='hide', message=FALSE, warning=FALSE>>=
 library(parallel)
 run_one_sim = function(params) {
     IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
@@ -1725,11 +1887,12 @@ clusterEvalQ(cl,{
   library(GillespieSSA2)
 })
 gamma = 1/3
+R0 = 1.5
 # R0=beta/gamma*S0, so beta=R0*gamma/S0
-beta = as.numeric(1.5*gamma/IC["S"])
+beta = as.numeric(R0*gamma/IC["S"])
 t_f = 100
 params <- list(gamma = gamma, beta = beta,
-               Pop = 1000, I_0 = 2,
+               Pop = 1000, I_0 = 2, R0 = R0,
                t_f = 100, nb_sims = 50)
 
 clusterExport(cl,
@@ -1740,6 +1903,11 @@ SIMS = parLapply(cl = cl,
                  X = 1:params$nb_sims,
                  fun =  function(x) run_one_sim(params))
 stopCluster(cl)
+@
+
+\end{frame}
+
+<<parallel-CTMC-plot, include=FALSE>>=
 plot(SIMS[[1]]$interp_I$time,
      SIMS[[1]]$interp_I$I,
      type = "l", lwd = 0.5,
@@ -1753,9 +1921,7 @@ for (i in 2:length(SIMS)) {
 }
 @
 
-\end{frame}
-
-\maxFrameImage{\Sexpr{fig_chunk('parallel-CTMC', 'pdf')}}
+\maxFrameImage{\Sexpr{fig_chunk('parallel-CTMC-plot', 'pdf')}}
 
 \begin{frame}[fragile]{Benefit of parallelisation}
     Run the parallel code for 100 sims between `tictoc::tic()` and `tictoc::toc()`, giving `66.958 sec elapsed`, then the sequential version
