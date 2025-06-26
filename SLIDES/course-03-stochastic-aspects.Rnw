@@ -1881,11 +1881,9 @@ plot(sol$time, sol$state[,"I"], type = "l",
     Here, I am showing two methods: the ``classic'' one using \code{parLapply} and one using a more recent package called \code{future} (and \code{future.apply}, which contains the relevant \code{lapply} equivalent)
 \end{frame}
 
-\begin
+\begin{frame}[fragile, allowframebreaks]{Common part -- The function we run}
 
-{frame}[fragile, allowframebreaks]{Common part -- The function we run}
-
-<<parallel-CTMC-run-one-sim, results='hide', message=FALSE, warning=FALSE>>=
+<<parallel-CTMC-run-one-sim, message=FALSE, warning=FALSE>>=
 run_one_sim = function(params) {
     IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
     params_local <- c(gamma = params$gamma, beta = params$beta)
@@ -1905,18 +1903,25 @@ run_one_sim = function(params) {
     )
     # Interpolate result (just I will do)
     wanted_t = seq(from = 0, to = params$t_f, by = 0.01)
-    sol$interp_I = approx(x = sol$time, y = sol$state[,"I"], xout = wanted_t)
+    sol$interp_I = approx(x = sol$time, y = sol$state[,"I"], 
+                          xout = wanted_t)
     names(sol$interp_I) = c("time", "I")
     # Return result
     return(sol)
 }
 @
 
+<<export-run-one-sim, results='hide'>>=
+# Store in global environment to ensure availability outside of this
+# Beamer frame
+assign("run_one_sim", run_one_sim, envir = .GlobalEnv)
+@
+
 \end{frame}
 
 \begin{frame}[fragile, allowframebreaks]
 
-<<parallel-CTMC-run-parallel, results='hide', message=FALSE, warning=FALSE>>=
+<<parallel-CTMC-run-parallel, message=FALSE, warning=FALSE>>=
 nb_cores <- detectCores()
 if (nb_cores > 124) {
   nb_cores = 124
@@ -1947,9 +1952,10 @@ SIMS = parLapply(cl = cl,
                  X = 1:params$nb_sims,
                  fun =  function(x) run_one_sim(params))
 stopCluster(cl) # Liberate the workers
+# Store in global environment to ensure availability outside of this
+# Beamer frame
+assign("SIMS", SIMS, envir = .GlobalEnv)
 @
-
-\end{frame}
 
 <<parallel-CTMC-plot, results='hide', include=FALSE, echo=FALSE>>=
 # Find max y value for plot
@@ -1969,6 +1975,8 @@ for (i in 2:length(SIMS)) {
         type = "l", lwd = 0.5)
 }
 @
+
+\end{frame}
 
 \maxFrameImage{\Sexpr{fig_chunk('parallel-CTMC-plot', 'pdf')}}
 

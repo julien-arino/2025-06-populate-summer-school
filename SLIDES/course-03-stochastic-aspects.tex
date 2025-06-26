@@ -1409,12 +1409,12 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \begin{frame}[fragile]{Last one did not go well}
     \begin{itemize}
         \item Wanted 1000 time units (days?)
-        \item Interrupted at 285.4886972 because of the test
+        \item Interrupted at 334.5188344 because of the test
         \newline (Slide with $b<d$: sim stopped because the population went extinct, I did not stop it!)
         \item At stop time
         \begin{itemize}
-            \item $N =$ \ensuremath{3.1313\times 10^{4}}
-            \item $|N| =$ 62676 (and $|t|$ as well, of course!)
+            \item $N =$ \ensuremath{5.4713\times 10^{4}}
+            \item $|N| =$ 109180 (and $|t|$ as well, of course!)
             \item time was moving slowly
         \end{itemize}
     \end{itemize}
@@ -1426,8 +1426,8 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hlkwd{tail}\hldef{(}\hlkwd{diff}\hldef{(results}\hlopt{$}\hldef{t))}
 \end{alltt}
 \begin{verbatim}
-## [1] 1.075530e-03 1.935196e-03 1.622087e-03 1.736063e-03 1.637749e-03
-## [6] 5.016943e-09
+## [1] 2.595269e-04 2.163820e-04 8.359925e-05 6.583614e-04 1.230141e-04
+## [6] 1.317517e-09
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -1502,9 +1502,7 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
     Here, I am showing two methods: the ``classic'' one using \code{parLapply} and one using a more recent package called \code{future} (and \code{future.apply}, which contains the relevant \code{lapply} equivalent)
 \end{frame}
 
-\begin
-
-{frame}[fragile, allowframebreaks]{Common part -- The function we run}
+\begin{frame}[fragile, allowframebreaks]{Common part -- The function we run}
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -1528,11 +1526,22 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
     \hldef{)}
     \hlcom{# Interpolate result (just I will do)}
     \hldef{wanted_t} \hlkwb{=} \hlkwd{seq}\hldef{(}\hlkwc{from} \hldef{=} \hlnum{0}\hldef{,} \hlkwc{to} \hldef{= params}\hlopt{$}\hldef{t_f,} \hlkwc{by} \hldef{=} \hlnum{0.01}\hldef{)}
-    \hldef{sol}\hlopt{$}\hldef{interp_I} \hlkwb{=} \hlkwd{approx}\hldef{(}\hlkwc{x} \hldef{= sol}\hlopt{$}\hldef{time,} \hlkwc{y} \hldef{= sol}\hlopt{$}\hldef{state[,}\hlsng{"I"}\hldef{],} \hlkwc{xout} \hldef{= wanted_t)}
+    \hldef{sol}\hlopt{$}\hldef{interp_I} \hlkwb{=} \hlkwd{approx}\hldef{(}\hlkwc{x} \hldef{= sol}\hlopt{$}\hldef{time,} \hlkwc{y} \hldef{= sol}\hlopt{$}\hldef{state[,}\hlsng{"I"}\hldef{],}
+                          \hlkwc{xout} \hldef{= wanted_t)}
     \hlkwd{names}\hldef{(sol}\hlopt{$}\hldef{interp_I)} \hlkwb{=} \hlkwd{c}\hldef{(}\hlsng{"time"}\hldef{,} \hlsng{"I"}\hldef{)}
     \hlcom{# Return result}
     \hlkwd{return}\hldef{(sol)}
 \hldef{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Store in global environment to ensure availability outside of this}
+\hlcom{# Beamer frame}
+\hlkwd{assign}\hldef{(}\hlsng{"run_one_sim"}\hldef{, run_one_sim,} \hlkwc{envir} \hldef{= .GlobalEnv)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -1601,10 +1610,15 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \end{alltt}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in stopCluster(cl): could not find function "{}stopCluster"{}}}\end{kframe}
-\end{knitrout}
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in stopCluster(cl): could not find function "{}stopCluster"{}}}\begin{alltt}
+\hlcom{# Store in global environment to ensure availability outside of this}
+\hlcom{# Beamer frame}
+\hlkwd{assign}\hldef{(}\hlsng{"SIMS"}\hldef{, SIMS,} \hlkwc{envir} \hldef{= .GlobalEnv)}
+\end{alltt}
 
-\end{frame}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'SIMS' not found}}\end{kframe}
+\end{knitrout}
 
 
 
