@@ -1,54 +1,4 @@
-\documentclass[aspectratio=169]{beamer}\usepackage[]{graphicx}\usepackage[]{xcolor}
-% maxwidth is the original width if it is less than linewidth
-% otherwise use linewidth (to make sure the graphics do not exceed the margin)
-\makeatletter
-\def\maxwidth{ %
-  \ifdim\Gin@nat@width>\linewidth
-    \linewidth
-  \else
-    \Gin@nat@width
-  \fi
-}
-\makeatother
-
-\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
-\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
-\newcommand{\hlsng}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
-\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
-\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hldef}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
-\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
-\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
-\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
-\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
-\let\hlipl\hlkwb
-
-\usepackage{framed}
-\makeatletter
-\newenvironment{kframe}{%
- \def\at@end@of@kframe{}%
- \ifinner\ifhmode%
-  \def\at@end@of@kframe{\end{minipage}}%
-  \begin{minipage}{\columnwidth}%
- \fi\fi%
- \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
- \colorbox{shadecolor}{##1}\hskip-\fboxsep
-     % There is no \\@totalrightmargin, so:
-     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
- \MakeFramed {\advance\hsize-\width
-   \@totalleftmargin\z@ \linewidth\hsize
-   \@setminipage}}%
- {\par\unskip\endMakeFramed%
- \at@end@of@kframe}
-\makeatother
-
-\definecolor{shadecolor}{rgb}{.97, .97, .97}
-\definecolor{messagecolor}{rgb}{0, 0, 0}
-\definecolor{warningcolor}{rgb}{1, 0, 1}
-\definecolor{errorcolor}{rgb}{1, 0, 0}
-\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
-
-\usepackage{alltt}
+\documentclass[aspectratio=169]{beamer}
 
 
 
@@ -58,7 +8,8 @@
 \subtitle{Populate Summer School -- Course 03}
 \date{20 June 2025}
 \author{\texorpdfstring{Julien Arino\newline Department of Mathematics @ University of Manitoba \newline Maud Menten Institute @ PIMS\newline\url{julien.arino@umanitoba.ca}}{Julien Arino}}
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -741,7 +692,7 @@ To use multiple compartments to better fit residence times, we need to find the 
 $\implies$ compute RSS errors between data points generated from the given Gamma distribution and an Erlang
 \vfill 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hldef{error_Gamma} \hlkwb{<-} \hlkwa{function}\hldef{(}\hlkwc{theta}\hldef{,}\hlkwc{shape}\hldef{,}\hlkwc{t}\hldef{,}\hlkwc{d}\hldef{) \{}
   \hldef{test_points} \hlkwb{<-} \hlkwd{dgamma}\hldef{(t,} \hlkwc{shape} \hldef{= shape,} \hlkwc{scale} \hldef{= theta)}
@@ -749,7 +700,7 @@ $\implies$ compute RSS errors between data points generated from the given Gamma
   \hlkwd{return}\hldef{(ls_error)}
 \hldef{\}}
 \end{alltt}
-
+\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -757,7 +708,7 @@ $\implies$ compute RSS errors between data points generated from the given Gamma
 \begin{frame}[fragile, allowframebreaks]
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hldef{optimize_gamma} \hlkwb{<-} \hlkwa{function}\hldef{(}\hlkwc{t}\hldef{,}\hlkwc{d}\hldef{) \{}
   \hldef{max_shape} \hlkwb{<-} \hlnum{10}
@@ -788,7 +739,7 @@ $\implies$ compute RSS errors between data points generated from the given Gamma
   \hlkwd{return}\hldef{(result_optim)}
 \hldef{\}}
 \end{alltt}
-
+\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -797,7 +748,7 @@ $\implies$ compute RSS errors between data points generated from the given Gamma
 \begin{frame}[fragile]
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hldef{time_points} \hlkwb{<-} \hlkwd{seq}\hldef{(}\hlnum{0}\hldef{,}\hlnum{60}\hldef{)}
 \hldef{data_points} \hlkwb{<-} \hlkwd{dgamma}\hldef{(time_points,} \hlkwc{shape} \hldef{=} \hlnum{1.57}\hldef{,}
@@ -807,7 +758,7 @@ $\implies$ compute RSS errors between data points generated from the given Gamma
 \hlcom{# Which is the best Erlang to fit the data}
 \hldef{idx_best} \hlkwb{<-} \hlkwd{which.min}\hldef{(optim_fits}\hlopt{$}\hldef{error)}
 \end{alltt}
-
+\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -984,7 +935,7 @@ I'(t)=\beta\frac{(N-I(t))I(t)}{N}
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
 
 \maxFrameImage{FIGS/ArinoCookePvdDVelasco.png}
-
+\nocite{ArinoCookeVdDVelasco2004}
 
 \begin{frame}\frametitle{Model structure}
 \centering
@@ -1383,7 +1334,7 @@ while {$t\leq t_f$}\\
 \begin{frame}[fragile, allowframebreaks]
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hldef{birth_death_CTMC} \hlkwb{=} \hlkwa{function}\hldef{(}\hlkwc{b} \hldef{=} \hlnum{0.01}\hldef{,} \hlkwc{d} \hldef{=} \hlnum{0.01}\hldef{) \{}
   \hldef{t_0} \hlkwb{=} \hlnum{0}    \hlcom{# Initial time}
@@ -1420,7 +1371,7 @@ while {$t\leq t_f$}\\
        \hlkwc{main} \hldef{=} \hlkwd{paste}\hldef{(}\hlsng{"Birth-death CTMC with b ="}\hldef{, b,} \hlsng{"and d ="}\hldef{, d))}
 \hldef{\}}
 \end{alltt}
-
+\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -1458,27 +1409,27 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \begin{frame}[fragile]{Last one did not go well}
     \begin{itemize}
         \item Wanted 1000 time units (days?)
-        \item Interrupted at 344.5216414 because of the test
+        \item Interrupted at 285.4886972 because of the test
         \newline (Slide with $b<d$: sim stopped because the population went extinct, I did not stop it!)
         \item At stop time
         \begin{itemize}
-            \item $N =$ \ensuremath{9.5169\times 10^{4}}
-            \item $|N| =$ 188728 (and $|t|$ as well, of course!)
+            \item $N =$ \ensuremath{3.1313\times 10^{4}}
+            \item $|N| =$ 62676 (and $|t|$ as well, of course!)
             \item time was moving slowly
         \end{itemize}
     \end{itemize}
     \vfill
     
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{tail}\hldef{(}\hlkwd{diff}\hldef{(results}\hlopt{$}\hldef{t))}
 \end{alltt}
 \begin{verbatim}
-## [1] 1.763562e-04 1.582589e-03 1.618129e-04 3.686261e-05 4.897857e-04
-## [6] 4.325443e-09
+## [1] 1.075530e-03 1.935196e-03 1.622087e-03 1.736063e-03 1.637749e-03
+## [6] 5.016943e-09
 \end{verbatim}
-
+\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -1501,7 +1452,7 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \begin{frame}[fragile, allowframebreaks]
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{library}\hldef{(GillespieSSA2)}
 \hldef{Pop} \hlkwb{<-} \hlnum{1000}
@@ -1529,7 +1480,7 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hlkwd{plot}\hldef{(sol}\hlopt{$}\hldef{time, sol}\hlopt{$}\hldef{state[,}\hlsng{"I"}\hldef{],} \hlkwc{type} \hldef{=} \hlsng{"l"}\hldef{,}
      \hlkwc{xlab} \hldef{=} \hlsng{"Time (days)"}\hldef{,} \hlkwc{ylab} \hldef{=} \hlsng{"Number infectious"}\hldef{)}
 \end{alltt}
-
+\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -1546,19 +1497,18 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \begin{frame}{Parallelisation}
     To see multiple realisations: good idea to parallelise, then interpolate results. Write a function, e.g.,  \code{run\_one\_sim} that .. runs one simulation
     \vfill
-    On the GitHub repo for the course, see
-    \begin{itemize}
-        \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel.R}{\code{SIS-CTMC-parallel.R}}
-        \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel-multiple-R0.R}{\code{SIS-CTMC-parallel-multiple-R0.R}}
-    \end{itemize}
+    Use some parallelisation mechanisms to run \code{run\_one\_sim} in parallel. One easy way to do it is to use a parallel version of \code{lapply}, which applies a function to a list
+    \vfill
+    Here, I am showing two methods: the ``classic'' one using \code{parLapply} and one using a more recent package called \code{future} (and \code{future.apply}, which contains the relevant \code{lapply} equivalent)
 \end{frame}
 
-\begin{frame}[fragile, allowframebreaks]
+\begin
+
+{frame}[fragile, allowframebreaks]{Common part -- The function we run}
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{library}\hldef{(parallel)}
 \hldef{run_one_sim} \hlkwb{=} \hlkwa{function}\hldef{(}\hlkwc{params}\hldef{) \{}
     \hldef{IC} \hlkwb{<-} \hlkwd{c}\hldef{(}\hlkwc{S} \hldef{= (params}\hlopt{$}\hldef{Pop}\hlopt{-}\hldef{params}\hlopt{$}\hldef{I_0),} \hlkwc{I} \hldef{= params}\hlopt{$}\hldef{I_0)}
     \hldef{params_local} \hlkwb{<-} \hlkwd{c}\hldef{(}\hlkwc{gamma} \hldef{= params}\hlopt{$}\hldef{gamma,} \hlkwc{beta} \hldef{= params}\hlopt{$}\hldef{beta)}
@@ -1583,14 +1533,45 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
     \hlcom{# Return result}
     \hlkwd{return}\hldef{(sol)}
 \hldef{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+
+\begin{frame}[fragile, allowframebreaks]
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
 \hldef{nb_cores} \hlkwb{<-} \hlkwd{detectCores}\hldef{()}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in detectCores(): could not find function "{}detectCores"{}}}\begin{alltt}
 \hlkwa{if} \hldef{(nb_cores} \hlopt{>} \hlnum{124}\hldef{) \{}
   \hldef{nb_cores} \hlkwb{=} \hlnum{124}
+\hldef{\}} \hlkwa{else} \hldef{\{}
+  \hldef{nb_cores} \hlkwb{=} \hldef{nb_cores}\hlopt{-}\hlnum{1} \hlcom{# Keep one core empty to avoid freeze up}
 \hldef{\}}
-\hldef{cl} \hlkwb{<-} \hlkwd{makeCluster}\hldef{(nb_cores)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'nb\_cores' not found}}\begin{alltt}
+\hldef{cl} \hlkwb{<-} \hlkwd{makeCluster}\hldef{(nb_cores)} \hlcom{# Make a cluster with nb_cores workers}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in makeCluster(nb\_cores): could not find function "{}makeCluster"{}}}\begin{alltt}
 \hlkwd{clusterEvalQ}\hldef{(cl,\{}
+  \hlcom{# Make sure each worker has the SSA solver available, since the }
+  \hlcom{# function run_one_sim uses it}
   \hlkwd{library}\hldef{(GillespieSSA2)}
 \hldef{\})}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in clusterEvalQ(cl, \{: could not find function "{}clusterEvalQ"{}}}\begin{alltt}
 \hldef{gamma} \hlkwb{=} \hlnum{1}\hlopt{/}\hlnum{3}
 \hldef{R0} \hlkwb{=} \hlnum{1.5}
 \hlcom{# R0=beta/gamma*S0, so beta=R0*gamma/S0}
@@ -1599,417 +1580,33 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hldef{params} \hlkwb{<-} \hlkwd{list}\hldef{(}\hlkwc{gamma} \hldef{= gamma,} \hlkwc{beta} \hldef{= beta,}
                \hlkwc{Pop} \hldef{=} \hlnum{1000}\hldef{,} \hlkwc{I_0} \hldef{=} \hlnum{2}\hldef{,} \hlkwc{R0} \hldef{= R0,}
                \hlkwc{t_f} \hldef{=} \hlnum{100}\hldef{,} \hlkwc{nb_sims} \hldef{=} \hlnum{50}\hldef{)}
+\hlcom{# Make sure each worker has access to what it needs}
 \hlkwd{clusterExport}\hldef{(cl,}
               \hlkwd{c}\hldef{(}\hlsng{"params"}\hldef{,}
                 \hlsng{"run_one_sim"}\hldef{),}
               \hlkwc{envir} \hldef{= .GlobalEnv)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in clusterExport(cl, c("{}params"{}, "{}run\_one\_sim"{}), envir = .GlobalEnv): could not find function "{}clusterExport"{}}}\begin{alltt}
+\hlcom{# Run the simulation}
 \hldef{SIMS} \hlkwb{=} \hlkwd{parLapply}\hldef{(}\hlkwc{cl} \hldef{= cl,}
                  \hlkwc{X} \hldef{=} \hlnum{1}\hlopt{:}\hldef{params}\hlopt{$}\hldef{nb_sims,}
                  \hlkwc{fun} \hldef{=}  \hlkwa{function}\hldef{(}\hlkwc{x}\hldef{)} \hlkwd{run_one_sim}\hldef{(params))}
-\hlkwd{stopCluster}\hldef{(cl)}
 \end{alltt}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in parLapply(cl = cl, X = 1:params\$nb\_sims, fun = function(x) run\_one\_sim(params)): could not find function "{}parLapply"{}}}\begin{alltt}
+\hlkwd{stopCluster}\hldef{(cl)} \hlcom{# Liberate the workers}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in stopCluster(cl): could not find function "{}stopCluster"{}}}\end{kframe}
 \end{knitrout}
 
 \end{frame}
 
 
 
-\maxFrameImage{FIGS/course-03-parallel-CTMC-plot-1.pdf}
 
-\begin{frame}[fragile]{Benefit of parallelisation}
-    Run the parallel code for 100 sims between `tictoc::tic()` and `tictoc::toc()`, giving `66.958 sec elapsed`, then the sequential version
-\begin{lstlisting}
-tictoc::tic()
-SIMS = lapply(X = 1:params$number_sims,
-                FUN =  function(x) run_one_sim(params))
-tictoc::toc()
-\end{lstlisting}
-    which gives `318.141 sec elapsed` on a 6C/12T Intel(R) Core(TM) i9-8950HK CPU @ 2.90GHz (4.75$\times$ faster) or `12.067 sec elapsed` versus `258.985 sec elapsed` on a 32C/64T AMD Ryzen Threadripper 3970X 32-Core Processor (21.46$\times$ faster !)
-\end{frame}
 
-
-\subsection{Example -- Stochastic phase of an epidemic}
-% The section page
-\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
-
-\maxFrameImage{FIGS/ArinoMilliken-BMB}
-\nocite{ArinoMilliken2022b}
-
-\maxFrameImage{FIGS/select_Wyoming-Campbell_bars_zoom}
-
-\begin{frame}{Investigating outbreak types using a simple CTMC SIS}
-\[
-\mathbf{X}(t)=\left(S^A(t),I^A(t)\right)
-\]
-\vfill
-CTMC $\mathbf{X}(t)$ characterized by transitions
-\begin{center}
-	\begin{tabular}{ccc}
-		\toprule
-		Description & Transition & Rate \\
-		\midrule
-		Infection & $\left(S^A,I^A\right)\to \left(S^A-1,I^A+1\right)$ & $\beta^AS^AI^A$ \\
-		Recovery & $\left(S^A,I^A\right)\to \left(S^A+1,I^A-1\right)$ & $\gamma^AI^A$ \\
-		\bottomrule
-	\end{tabular}
-\end{center}
-\end{frame}
-
-\begin{frame}{Investigating outbreak types using a simple CTMC SIS \emph{with a twist}}
-Regular chain of this type has $I=0$ as sole absorbing state
-\vfill
-We add another absorbing state: if $I=\hat I$, then the chain has \emph{left} the stochastic phase and is in a quasi-deterministic phase with exponential growth
-\vfill
-Doing this, time to absorption measures become usable additionally to first passage time ones
-\vfill
-And the question becomes: how long does the chain ``linger on'' (``stutter'') before it is absorbed? We define the inter-absorption trajectory as the stochastic phase
-\end{frame}
-
-\maxFrameImage{FIGS/illustration_stochastic_phase.png}
-\maxFrameImage{FIGS/duration_stochastic_phase_1patch_pop1M_I0eq1.png}
-
-\begin{frame}{Problem of the value of the upper bound $\hat I$}
-	\begin{itemize}
-		\item Choose $\hat I$ too small and the stochastic phase will not last long
-		\vfill
-		\item Choose $\hat I$ too large and absorption will only be at the DFE
-		\vfill
-		\item So, how does one choose $\hat I$ ?
-		\begin{itemize}
-			\item A formula of Whittle (1955)
-			\item Multitype branching process (MTBP)
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-\subsection{Value of travel control measures}
-% The section page
-\newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_bla65bbla65bbla6.jpeg}
-
-\begin{frame}{}
-	\centering
-	\def\hstep{*3}
-	\begin{tikzpicture}[scale=0.75, rotate=270,
-		every node/.style={transform shape},
-		auto,
-		box/.style={minimum width={width("N-1")+2pt},
-			draw, rectangle}]
-		% Exporter
-		\node [box] at (0\hstep,3) (SE) {$S_E$};
-		\node [box] at (1\hstep,3) (LE) {$L_E$};
-		\node [box] at (2\hstep,4.5) (DE) {$D_E$};
-		\node [box] at (2\hstep,1.5) (UE) {$U_E$};
-		\node [box] at (3\hstep,3) (RE) {$R_E$};
-		%% Introduction layer
-		% \node [box] at (0\hstep,9) (SI) {$S_I$};
-		\node [box, fill=blue!50] at (1\hstep,9) (LI) {$L_{I}$};
-		\node [box, fill=red!50] at (2\hstep,7.5) (DI) {$D_{I}$};
-		\node [box, fill=blue!50] at (2\hstep,10.5) (UI) {$U_{I}$};
-		%\node [box, fill=red!50] at (3\hstep,7.5) (RID) {$R_{ID}$};
-		%% Community
-		\node [box] at (0\hstep,13.5) (SC) {$S_C$};
-		\node [box] at (1\hstep,13.5) (LC) {$L_{C}$};
-		\node [box] at (2\hstep,15) (DC) {$D_{C}$};
-		\node [box] at (2\hstep,12) (UXC) {$U_{C}$};
-		\node [box] at (3\hstep,13.5) (RC) {$R_{C}$};
-		%\node [box] at (3\hstep,12) (RCU) {$R_{CU}$};
-		% Text
-		\node[rotate=90] at (-1,2.5) {\Large\textbf{Exporter}};
-		\node[rotate=90] at (-1,11.25) {\Large\textbf{Importer}};
-		% "meta-boxes" around sets of compartments
-		\draw [black,rounded corners] (-0.65,1) -- (-0.65,5) -- (3\hstep+0.7,5) -- (3\hstep+0.7,1) -- cycle;
-		\draw [black,rounded corners] (-0.65,6.9) -- (-0.65,16) -- (3\hstep+0.7,16) -- (3\hstep+0.7,6.9) -- cycle;
-		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,7.05) -- (-0.55,7.05)  -- cycle node at (2.75, 11) {\textbf{Introduction layer}};
-		\draw [black,rounded corners, dotted] (-0.55,11.25) -- (3\hstep+0.6,11.25) -- (3\hstep+0.6,15.9) -- (-0.55,15.9)  -- cycle node at (2.2, 11.5) {\textbf{Community}};
-		%% Flows in exporter
-		\path [line,thick] (SE) to node [above, sloped] (TextNode) {$\Phi_E S_E$} (LE);
-		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$p_E\varepsilon_E L_E$} (DE);
-		\path [line,thick] (LE) to node [midway,above,sloped] (TextNode) {$(1-p_E)\varepsilon_E L_E$} (UE);
-		\path [line,thick] (UE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E U_E$} (RE);
-		\path [line,thick] (DE) to node [midway,above,sloped] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
-		%\path [line, very thick] (DE) to node [pos=0.15, right=0.25cm] (TextNode) {$(1-\delta_E)\gamma_E D_E$}  (RE);
-		%% Flows from exporter to importer
-		\path [line,sloped] (SE) to node [pos=0.275, above] (TextNode) {$m_{S} S_E$} (SC);
-		\path [line,dashed] (LE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_L L_E$} (LI);
-		\path [line,dashed] (DE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_D D_E$} (DI);
-		\path [line,dashed, bend right=20] (UE) to node [midway, above, sloped, rotate=180] (TextNode) {$m_U U_E$} (UI);
-		%\path [line, thin, bend right=20] (RE) to node [midway, below, sloped] (TextNode) {$m_{R} R_E$} (RCU);
-		\draw[-{Stealth}] (RE) -- (3\hstep+1,3) -- (3\hstep+1,13.5)  node [pos=0.29, above, sloped] (TextNode) {$m_{R} R_E$} -- (RC);
-		%% Flows (introduction layer)
-		% \path [line, very thick] (SI) to node [above, sloped] (TextNode) {$\Phi_I S_I$} (LI);
-		\path [line,thick] (LI) to node [midway,below,sloped] (TextNode) {$p_{I}\varepsilon_I L_{I}$} (DI);
-		\path [line,thick] (LI) to node [midway,above,sloped] (TextNode) {$(1-p_{I})\varepsilon_I L_{I}$} (UI);
-		\path [line,thick] (DI) -- (3\hstep,7.5) -- node [midway, above,sloped] (TextNode) {$(1-\delta_I)\gamma_I D_{I}$} (RC);
-		\path [line,thick] (UI) to node [midway,below,sloped] (TextNode) {$(1-\delta_I)\gamma_I U_{I}$} (RC);
-		%% Flows (community)
-		\path [line,thick] (SC) to node [midway, above, sloped] (TextNode) {$\Phi_C S_C$} (LC);
-		\path [line,thick] (LC) to node [midway, above, sloped] (TextNode) {$p_C\varepsilon_C L_C$} (DC);
-		\path [line,thick] (LC) to node [midway,above,sloped] (TextNode) {$(1-p_C)\varepsilon_C L_{C}$} (UXC);
-		\path [line,thick] (DC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C D_{C}$} (RC);
-		\path [line,thick] (UXC) to node [midway, above,sloped] (TextNode) {$(1-\delta_C)\gamma_C U_{C}$} (RC);
-	\end{tikzpicture}		
-\end{frame}
-
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run86.png}
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run2.png}
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_9_run3.png}
-\maxFrameImage{FIGS/sim_2023_07_11-11_06_41_ID_25_run5.png}
-\maxFrameImage{FIGS/exporter_importer_panel_zoom.png}
-
-\begin{frame}{One last thought for the road}
-	V. Chetail. \href{https://doi.org/10.3389/fpos.2020.606307}{Crisis without borders: What does international law say about border closure in the context of Covid-19?} Frontiers in Political Science, 2 (12) (2020) \nocite{chetail2020crisis}
-	\vfill
-	\begin{quote}
-		[..] a powerful expression of state's sovereignty, immigration control provides a typical avenue for governments to reassure their citizens and bolster a national sense of belonging, while providing an ideal scapegoat for their own failure or negligence.
-	\end{quote}
-\end{frame}
-
-
-
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-\section{Branching process approximations of CTMC}
-% The section page
-\newSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
-
-\begin{frame}
-    \frametitle{What is a Branching Process?}
-    \begin{block}{The Core Idea}
-        A branching process is a mathematical model for a population where individuals produce a random number of offspring and then die.
-    \end{block}
-    
-    \begin{itemize}
-        \item Think of bacteria splitting, a virus spreading, or even the survival of family surnames.
-        \item We start with an initial population, $Z_0$.
-        \item Each individual in generation $n$ produces a number of offspring for generation $n+1$.
-        \item This "number of offspring" is a random variable. All individuals produce offspring according to the same probability distribution, independently of each other.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{The Galton-Watson Process}
-    
-    Let $Z_n$ be the size of the population in generation $n$. We typically start with $Z_0 = 1$.
-    
-    The population evolves according to the rule:
-    $$ Z_{n+1} = \sum_{i=1}^{Z_n} X_{n,i} $$
-    
-    \begin{itemize}
-        \item The term $X_{n,i}$ represents the number of offspring produced by the $i$-th individual in generation $n$.
-        \item The variables $\{X_{n,i}\}$ are assumed to be \textbf{independent and identically distributed (i.i.d.)} integer-valued random variables.
-        \item We call their common distribution $\{p_k\}_{k=0}^\infty$ the \textbf{offspring distribution}, where $p_k = P(X = k)$.
-    \end{itemize}
-    
-    \begin{alertblock}{The Fundamental Questions}
-    \begin{enumerate}
-        \item What is the long-term expected size of the population?
-        \item What is the probability that the population eventually dies out?
-    \end{enumerate}
-    \end{alertblock}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Mean Offspring}
-
-    The fate of the population hinges on a single parameter: the mean of the offspring distribution
-
-    $$ \mu = E[X] = \sum_{k=0}^{\infty} k \cdot p_k $$
-
-    \begin{block}{Expected Population Size}
-        Using the law of total expectation, we find the expected size of the next generation:
-        $$ E[Z_{n+1} | Z_n] = E\left[\sum_{i=1}^{Z_n} X_{n,i} \bigg| Z_n\right] = Z_n E[X] = Z_n \mu $$
-
-        Taking the expectation again, we get a simple recurrence:
-        $$ E[Z_{n+1}] = \mu E[Z_n] $$
-
-        This implies:
-        $$ E[Z_n] = Z_0 \mu^n $$
-    \end{block}
-\end{frame}
-
-% --- SLIDE 5: The Three Regimes of Population Growth ---
-\begin{frame}
-    \frametitle{The Three Regimes of Population Growth}
-
-    The behavior of $E[Z_n] = Z_0 \mu^n$ suggests three distinct cases:
-
-    \begin{columns}[T]
-        \begin{column}{0.33\textwidth}
-            \begin{block}{Subcritical ($\mu < 1$)}
-                $E[Z_n] \to 0$. The population is expected to shrink. It goes extinct with probability 1.
-            \end{block}
-        \end{column}
-        \begin{column}{0.33\textwidth}
-            \begin{block}{Critical ($\mu = 1$)}
-                $E[Z_n] = Z_0$. The population is expected to remain stable. Surprisingly, it still goes extinct with probability 1.
-            \end{block}
-        \end{column}
-        \begin{column}{0.33\textwidth}
-            \begin{block}{Supercritical ($\mu > 1$)}
-                $E[Z_n] \to \infty$. The population is expected to grow exponentially. It has a non-zero probability of surviving forever.
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% --- SLIDE 6: Calculating the Extinction Probability ---
-\begin{frame}
-    \frametitle{Tool: The Probability Generating Function}
-
-    To find the extinction probability, we need a powerful tool: the \textbf{probability generating function (PGF)} of the offspring distribution $X$.
-
-    $$ G(s) = E[s^X] = \sum_{k=0}^{\infty} p_k s^k \quad \text{for } |s| \le 1 $$
-
-    \begin{block}{Key Properties}
-    \begin{itemize}
-        \item $G(1) = \sum p_k = 1$
-        \item The mean can be found from the derivative: $G'(1) = \sum k p_k = \mu$.
-        \item The PGF of $Z_n$ is the $n$-th iterate of $G(s)$ with itself. If $G_n(s)$ is the PGF of $Z_n$, then $G_{n+1}(s) = G(G_n(s))$.
-    \end{itemize}
-    \end{block}
-
-\end{frame}
-
-% --- SLIDE 7: The Extinction Probability Equation ---
-\begin{frame}
-    \frametitle{The Extinction Probability Equation}
-    Let $\pi_0$ be the probability of eventual extinction, starting with $Z_0=1$.
-    $$ \pi_0 = P(\text{population dies out}) = \lim_{n \to \infty} P(Z_n = 0) $$
-
-    Since $P(Z_n=0) = G_n(0)$, and $G_{n+1}(0) = G(G_n(0))$, in the limit the extinction probability $\pi_0$ must satisfy the equation:
-
-    \begin{center}
-        \Huge
-        $ \pi_0 = G(\pi_0) $
-    \end{center}
-
-
-
-    \begin{theorem}
-    The extinction probability $\pi_0$ is the \textbf{smallest non-negative solution} to the equation $s = G(s)$.
-    \end{theorem}
-
-    \begin{itemize}
-        \item If $\mu \le 1$, the only solution in $[0,1]$ is $s=1$. So $\pi_0=1$.
-        \item If $\mu > 1$, there is a unique solution in $[0,1)$, which is the extinction probability $\pi_0 < 1$.
-    \end{itemize}
-\end{frame}
-
-% --- SLIDE 8: From Discrete to Continuous Time ---
-\begin{frame}
-    \frametitle{From Discrete to Continuous Time}
-
-    \begin{block}{Limitation of Galton-Watson}
-        Generations don't happen in synchronized steps in the real world. Individuals give birth and die at random times.
-    \end{block}
-
-    This leads us to \textbf{Continuous-Time Markov Chains (CTMCs)}.
-
-    \begin{itemize}
-        \item The state of the system is the population size, $k \in \{0, 1, 2, \dots\}$.
-        \item Instead of generations, we have transition rates:
-            \begin{itemize}
-                \item $\lambda_k$: rate of birth when population is size $k$ (moves to $k+1$).
-                \item $\delta_k$: rate of death when population is size $k$ (moves to $k-1$).
-            \end{itemize}
-        \item Often, we assume these rates are linear: $\lambda_k = k\lambda$ and $\delta_k = k\delta$. This means individuals act independently.
-    \end{itemize}
-\end{frame}
-
-% --- SLIDE 9: Branching Process Approximation of a CTMC ---
-\begin{frame}
-    \frametitle{Branching Process Approximation of a CTMC}
-
-    \begin{alertblock}{The Key Insight}
-    At the beginning of an outbreak (or for a very large population), the dynamics caused by a single individual are largely independent of others.
-    \end{alertblock}
-
-    This allows us to approximate the start of a CTMC population process with a branching process.
-
-    \textbf{Example: A Simple Epidemic (SIR Model)}
-    \begin{itemize}
-        \item $S$: Susceptible, $I$: Infected, $R$: Recovered.
-        \item An infected person meets others at a certain rate. If they meet a susceptible, a new infection may occur (an "offspring").
-        \item The infected person recovers (or dies) at another rate, ending their infectious period.
-        \item \textbf{Question:} How many new infections does a single infected person cause on average?
-    \end{itemize}
-\end{frame}
-
-% --- SLIDE 10: Case Study: The Basic Reproduction Number $\mathcal{R}_0$ ---
-\begin{frame}
-    \frametitle{Case Study: The Basic Reproduction Number $\mathcal{R}_0$}
-
-    Consider a single infected individual in a large population of susceptibles.
-    \begin{itemize}
-        \item Let $\beta$ be the infection rate (rate of producing "offspring").
-        \item Let $\gamma$ be the recovery rate (rate of "dying").
-    \end{itemize}
-
-    The individual's infectious lifetime is an exponential random variable with mean $1/\gamma$.
-
-
-
-    The average number of secondary infections they cause is:
-    $$ \mathcal{R}_0 = (\text{rate of infection}) \times (\text{average infectious period}) = \beta \times \frac{1}{\gamma} = \frac{\beta}{\gamma} $$
-
-    \begin{block}{The Connection}
-    $\mathcal{R}_0$ is precisely the \textbf{mean offspring number} $\mu$ for the embedded branching process that approximates the start of the epidemic.
-    \end{block}
-\end{frame}
-
-% --- SLIDE 11: Applying Branching Theory to Epidemics ---
-\begin{frame}
-    \frametitle{Applying Branching Theory to Epidemics}
-
-    The fate of the epidemic's initial phase is determined by $\mathcal{R}_0$:
-
-    \begin{itemize}
-        \item If $\mathcal{R}_0 \le 1$ ($\mu \le 1$): The number of infected individuals is a subcritical or critical process. The epidemic will die out with probability 1.
-
-        \item If $\mathcal{R}_0 > 1$ ($\mu > 1$): The process is supercritical. There is a positive probability that the epidemic takes off and causes a major outbreak.
-    \end{itemize}
-
-
-
-    We can even calculate the probability of a major outbreak! It is $1 - \pi_0$, where $\pi_0$ is the extinction probability.
-
-    For this simple birth-death infection process, the PGF is $G(s) = \frac{\gamma}{\beta+\gamma} + \frac{\beta}{\beta+\gamma}s$. Solving $s=G(s)$ gives the extinction probability:
-
-    $$ \pi_0 = \frac{\gamma}{\beta} = \frac{1}{\mathcal{R}_0} $$
-
-    The probability of a major outbreak is $1 - 1/\mathcal{R}_0$.
-\end{frame}
-
-% --- SLIDE 12: Summary ---
-\begin{frame}
-    \frametitle{Summary}
-
-    \begin{itemize}
-        \item \textbf{Branching Processes} model populations with i.i.d. offspring generation.
-
-        \item The fate of the population is determined by the \textbf{mean offspring number} $\mu$. Extinction is certain if $\mu \le 1$.
-
-        \item The \textbf{extinction probability} $\pi_0$ can be calculated as the smallest non-negative fixed point of the probability generating function $G(s)$.
-
-        \item The initial stages of many large-scale \textbf{Continuous-Time Markov Chains} can be approximated by a branching process.
-
-        \item This allows us to apply the theory to real-world problems, like calculating an epidemic's \textbf{basic reproduction number $\mathcal{R}_0$} and its probability of causing a major outbreak.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[allowframebreaks]{Bibliography}
-\bibliographystyle{apalike}
-\bibliography{local-bibliography}
-\end{frame}
-
-
-
-
-\end{document}

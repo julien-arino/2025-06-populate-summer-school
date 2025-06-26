@@ -4,7 +4,9 @@
 # Load required libraries
 required_packages = c("adaptivetau",
                       "deSolve",
-                      "dplyr", 
+                      "dplyr",
+                      "future",
+                      "future.apply",
                       "GillespieSSA2",
                       "ggplot2", 
                       "knitr", 
@@ -1276,7 +1278,7 @@ I'(t)=\beta\frac{(N-I(t))I(t)}{N}
 \newSubSectionSlide{FIGS-slides-admin/Gemini_Generated_Image_5yvymh5yvymh5yvy.jpeg}
 
 \maxFrameImage{FIGS/ArinoCookePvdDVelasco.png}
-
+\nocite{ArinoCookeVdDVelasco2004}
 
 \begin{frame}\frametitle{Model structure}
 \centering
@@ -1874,17 +1876,16 @@ plot(sol$time, sol$state[,"I"], type = "l",
 \begin{frame}{Parallelisation}
     To see multiple realisations: good idea to parallelise, then interpolate results. Write a function, e.g.,  \code{run\_one\_sim} that .. runs one simulation
     \vfill
-    On the GitHub repo for the course, see
-    \begin{itemize}
-        \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel.R}{\code{SIS-CTMC-parallel.R}}
-        \item \href{https://raw.githubusercontent.com/julien-arino/3MC-2024-02-Potch/main/julien/CODE/SIS-CTMC-parallel-multiple-R0.R}{\code{SIS-CTMC-parallel-multiple-R0.R}}
-    \end{itemize}
+    Use some parallelisation mechanisms to run \code{run\_one\_sim} in parallel. One easy way to do it is to use a parallel version of \code{lapply}, which applies a function to a list
+    \vfill
+    Here, I am showing two methods: the ``classic'' one using \code{parLapply} and one using a more recent package called \code{future} (and \code{future.apply}, which contains the relevant \code{lapply} equivalent)
 \end{frame}
 
-\begin{frame}[fragile, allowframebreaks]
+\begin
 
-<<parallel-CTMC-run, results='hide', message=FALSE, warning=FALSE>>=
-library(parallel)
+{frame}[fragile, allowframebreaks]{Common part -- The function we run}
+
+<<parallel-CTMC-run-one-sim, results='hide', message=FALSE, warning=FALSE>>=
 run_one_sim = function(params) {
     IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
     params_local <- c(gamma = params$gamma, beta = params$beta)
@@ -1909,13 +1910,24 @@ run_one_sim = function(params) {
     # Return result
     return(sol)
 }
+@
+
+\end{frame}
+
+\begin{frame}[fragile, allowframebreaks]
+
+<<parallel-CTMC-run-parallel, results='hide', message=FALSE, warning=FALSE>>=
 nb_cores <- detectCores()
 if (nb_cores > 124) {
   nb_cores = 124
+} else {
+  nb_cores = nb_cores-1 # Keep one core empty to avoid freeze up
 }
-cl <- makeCluster(nb_cores)
+cl <- makeCluster(nb_cores) # Make a cluster with nb_cores workers
 clusterEvalQ(cl,{
-  library(GillespieSSA2)
+  # Make sure each worker has the SSA solver available, since the 
+  # function run_one_sim uses it
+  library(GillespieSSA2) 
 })
 gamma = 1/3
 R0 = 1.5
@@ -1925,14 +1937,16 @@ t_f = 100
 params <- list(gamma = gamma, beta = beta,
                Pop = 1000, I_0 = 2, R0 = R0,
                t_f = 100, nb_sims = 50)
+# Make sure each worker has access to what it needs
 clusterExport(cl,
               c("params",
                 "run_one_sim"),
               envir = .GlobalEnv)
+# Run the simulation
 SIMS = parLapply(cl = cl,
                  X = 1:params$nb_sims,
                  fun =  function(x) run_one_sim(params))
-stopCluster(cl)
+stopCluster(cl) # Liberate the workers
 @
 
 \end{frame}
@@ -2018,7 +2032,7 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
 		\vfill
 		\item So, how does one choose $\hat I$ ?
 		\begin{itemize}
-			\item A formula of Whittle (1955)
+			\item A formula of Whittle (1955) \nocite{whittle1955}
 			\item Multitype branching process (MTBP)
 		\end{itemize}
 	\end{itemize}
@@ -2344,6 +2358,19 @@ And the question becomes: how long does the chain ``linger on'' (``stutter'') be
         \item This allows us to apply the theory to real-world problems, like calculating an epidemic's \textbf{basic reproduction number $\mathcal{R}_0$} and its probability of causing a major outbreak.
     \end{itemize}
 \end{frame}
+
+
+<<convert-Rnw-to-R,warning=FALSE,message=FALSE>>=
+# From https://stackoverflow.com/questions/36868287/purl-within-knit-duplicate-label-error
+rmd_chunks_to_r_temp <- function(file){
+  callr::r(function(file, temp){
+    out_file = sprintf("../CODE/%s", gsub(".Rnw", ".R", file))
+    knitr::purl(file, output = out_file, documentation = 1)
+  }, args = list(file))
+}
+rmd_chunks_to_r_temp("course-03-stochastic=aspects.Rnw")
+@
+
 
 \begin{frame}[allowframebreaks]{Bibliography}
 \bibliographystyle{apalike}
