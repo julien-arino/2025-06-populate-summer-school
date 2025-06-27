@@ -1,6 +1,11 @@
 \documentclass[aspectratio=169]{beamer}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in contrib.url(repos, "{}source"{}): trying to use CRAN without setting a mirror}}\end{kframe}
+\end{knitrout}
 
 \input{slides-setup-whiteBG.tex}
 
@@ -1409,12 +1414,12 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \begin{frame}[fragile]{Last one did not go well}
     \begin{itemize}
         \item Wanted 1000 time units (days?)
-        \item Interrupted at 334.5188344 because of the test
+        \item Interrupted at 294.8520021 because of the test
         \newline (Slide with $b<d$: sim stopped because the population went extinct, I did not stop it!)
         \item At stop time
         \begin{itemize}
-            \item $N =$ \ensuremath{5.4713\times 10^{4}}
-            \item $|N| =$ 109180 (and $|t|$ as well, of course!)
+            \item $N =$ \ensuremath{4.3315\times 10^{4}}
+            \item $|N| =$ 86764 (and $|t|$ as well, of course!)
             \item time was moving slowly
         \end{itemize}
     \end{itemize}
@@ -1426,8 +1431,8 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hlkwd{tail}\hldef{(}\hlkwd{diff}\hldef{(results}\hlopt{$}\hldef{t))}
 \end{alltt}
 \begin{verbatim}
-## [1] 2.595269e-04 2.163820e-04 8.359925e-05 6.583614e-04 1.230141e-04
-## [6] 1.317517e-09
+## [1] 7.242383e-04 1.498996e-04 6.954466e-04 5.601957e-04 4.301762e-04
+## [6] 4.408662e-09
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -1477,10 +1482,22 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
   \hlkwc{method} \hldef{=} \hlkwd{ssa_exact}\hldef{(),}
   \hlkwc{final_time} \hldef{= t_f,}
 \hldef{)}
+\end{alltt}
+\begin{verbatim}
+## Error in system(paste(MAKE, p1(paste("-f", shQuote(makefiles))), "compilers"),  : 
+##   'make' not found
+## Calls: <Anonymous> -> .shlib_internal -> system
+## Execution halted
+\end{verbatim}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in `map()`:\\\#\# i In index: 1.\\\#\# Caused by error in `sourceCpp()`:\\\#\# ! Error 1 occurred building shared library.}}\begin{alltt}
 \hlkwd{plot}\hldef{(sol}\hlopt{$}\hldef{time, sol}\hlopt{$}\hldef{state[,}\hlsng{"I"}\hldef{],} \hlkwc{type} \hldef{=} \hlsng{"l"}\hldef{,}
      \hlkwc{xlab} \hldef{=} \hlsng{"Time (days)"}\hldef{,} \hlkwc{ylab} \hldef{=} \hlsng{"Number infectious"}\hldef{)}
 \end{alltt}
-\end{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'sol' not found}}\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -1536,15 +1553,11 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \end{kframe}
 \end{knitrout}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlcom{# Store in global environment to ensure availability outside of this}
-\hlcom{# Beamer frame}
-\hlkwd{assign}\hldef{(}\hlsng{"run_one_sim"}\hldef{, run_one_sim,} \hlkwc{envir} \hldef{= .GlobalEnv)}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
+% <<export-run-one-sim, results='hide'>>=
+% # Store in global environment to ensure availability outside of this
+% # Beamer frame
+% assign("run_one_sim", run_one_sim, envir = .GlobalEnv)
+% @
 
 \end{frame}
 
@@ -1573,7 +1586,7 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 
 {\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in makeCluster(nb\_cores): could not find function "{}makeCluster"{}}}\begin{alltt}
 \hlkwd{clusterEvalQ}\hldef{(cl,\{}
-  \hlcom{# Make sure each worker has the SSA solver available, since the }
+  \hlcom{# Make sure each worker has the SSA solver available, since the}
   \hlcom{# function run_one_sim uses it}
   \hlkwd{library}\hldef{(GillespieSSA2)}
 \hldef{\})}
@@ -1581,6 +1594,9 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 
 
 {\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in clusterEvalQ(cl, \{: could not find function "{}clusterEvalQ"{}}}\begin{alltt}
+\hldef{Pop} \hlkwb{<-} \hlnum{1000}
+\hldef{I_0} \hlkwb{<-} \hlnum{2}
+\hldef{IC} \hlkwb{<-} \hlkwd{c}\hldef{(}\hlkwc{S} \hldef{= (Pop}\hlopt{-}\hldef{I_0),} \hlkwc{I} \hldef{= I_0)}
 \hldef{gamma} \hlkwb{=} \hlnum{1}\hlopt{/}\hlnum{3}
 \hldef{R0} \hlkwb{=} \hlnum{1.5}
 \hlcom{# R0=beta/gamma*S0, so beta=R0*gamma/S0}
@@ -1589,15 +1605,19 @@ if (t[length(t)]-t[(length(t)-1)] < 1e-8) {
 \hldef{params} \hlkwb{<-} \hlkwd{list}\hldef{(}\hlkwc{gamma} \hldef{= gamma,} \hlkwc{beta} \hldef{= beta,}
                \hlkwc{Pop} \hldef{=} \hlnum{1000}\hldef{,} \hlkwc{I_0} \hldef{=} \hlnum{2}\hldef{,} \hlkwc{R0} \hldef{= R0,}
                \hlkwc{t_f} \hldef{=} \hlnum{100}\hldef{,} \hlkwc{nb_sims} \hldef{=} \hlnum{50}\hldef{)}
-\hlcom{# Make sure each worker has access to what it needs}
+\hlcom{# --- FIX: Point to the correct environment for the export ---}
 \hlkwd{clusterExport}\hldef{(cl,}
-              \hlkwd{c}\hldef{(}\hlsng{"params"}\hldef{,}
-                \hlsng{"run_one_sim"}\hldef{),}
-              \hlkwc{envir} \hldef{= .GlobalEnv)}
+              \hlkwd{c}\hldef{(}\hlsng{"params"}\hldef{,} \hlsng{"run_one_sim"}\hldef{),}
+              \hlkwc{envir} \hldef{=} \hlkwd{environment}\hldef{())}
 \end{alltt}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in clusterExport(cl, c("{}params"{}, "{}run\_one\_sim"{}), envir = .GlobalEnv): could not find function "{}clusterExport"{}}}\begin{alltt}
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in clusterExport(cl, c("{}params"{}, "{}run\_one\_sim"{}), envir = environment()): could not find function "{}clusterExport"{}}}\begin{alltt}
+\hlcom{# # Make sure each worker has access to what it needs}
+\hlcom{# clusterExport(cl,}
+\hlcom{#               c("params",}
+\hlcom{#                 "run_one_sim"),}
+\hlcom{#               envir = .GlobalEnv)}
 \hlcom{# Run the simulation}
 \hldef{SIMS} \hlkwb{=} \hlkwd{parLapply}\hldef{(}\hlkwc{cl} \hldef{= cl,}
                  \hlkwc{X} \hldef{=} \hlnum{1}\hlopt{:}\hldef{params}\hlopt{$}\hldef{nb_sims,}
