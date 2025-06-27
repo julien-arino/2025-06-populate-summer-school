@@ -1878,13 +1878,14 @@ plot(sol$time, sol$state[,"I"], type = "l",
     \vfill
     Use some parallelisation mechanisms to run \code{run\_one\_sim} in parallel. One easy way to do it is to use a parallel version of \code{lapply}, which applies a function to a list
     \vfill
-    Here, I am showing two methods: the ``classic'' one using \code{parLapply} and one using a more recent package called \code{future} (and \code{future.apply}, which contains the relevant \code{lapply} equivalent)
+    Here, I am showing parallelisation using a recent-ish package called \code{future} (and \code{future.apply}, which contains the relevant \code{lapply} equivalent)
     \vfill
     I am also illustrating another SSA library that I find less tricky on Windows because the reactions are not precompiled: \code{adaptivetau}
 \end{frame}
 
 <<parallel-CTMC-plot, message=FALSE, warning=FALSE>>=
 library(adaptivetau)
+library(future.apply)
 # It is useful to have the transitions, rates and 
 # names defined in a function
 CTMC_SIS <- function() {
@@ -1896,8 +1897,8 @@ CTMC_SIS <- function() {
   # Define rate function
   rates <- function(x, params, t) {
     c(
-      params["beta"] * x["S"] * x["I"],
-      params["gamma"] * x["I"]
+      params[["beta"]] * x["S"] * x["I"],
+      params[["gamma"]] * x["I"]
     )
   }
   event_names = c("new_infection", "recovery")
@@ -1929,18 +1930,14 @@ run_one_sim = function(CTMC, params) {
     return(sol)
 }
 
-nb_cores <- detectCores()
-if (nb_cores > 124) {
-  nb_cores = 124
-} else {
-  nb_cores = nb_cores-1 # Keep one core empty to avoid freeze up
-}
-cl <- makeCluster(nb_cores) # Make a cluster with nb_cores workers
-clusterEvalQ(cl,{
-  # Make sure each worker has the SSA solver available, since the
-  # function run_one_sim uses it
-  library(GillespieSSA2)
-})
+# By default, use all available cores
+plan(multisession)
+## To use fewer workers, leaving one empty for 
+# instance
+# plan(multisession, availableCores()-1)
+## To run sequentially
+# plan(sequential)
+
 # Set up parameters not needing computation
 params <- list(gamma = 1/3, 
                Pop = 1000, 
@@ -1954,16 +1951,13 @@ params =
   c(params, 
     beta = as.numeric(params$R0*params$gamma /
                         IC["S"]))
-# Make sure each worker has access to what it needs
-clusterExport(cl,
-              c("params",
-                "run_one_sim"),
-              envir = .GlobalEnv)
 # Run the simulation
-SIMS = parLapply(cl = cl,
-                 X = 1:params$nb_sims,
-                 fun =  function(x) run_one_sim(params))
-stopCluster(cl) # Liberate the workers
+CTMC <- CTMC_SIS()
+SIMS = future_lapply(
+  X = 1:params$nb_sims,
+  FUN =  function(x) run_one_sim(CTMC, params))
+#  Liberate the workers!
+stopCluster(cl) 
 
 # Find max y value for plot
 y_max = max(unlist(lapply(SIMS, function(x) max(x$interp_I$I))),
@@ -1985,7 +1979,7 @@ for (i in 2:length(SIMS)) {
 
 \begin{frame}[fragile, allowframebreaks]{Common part -- The function we run}
 
-<<parallel-CTMC-run-one-sim, message=FALSE, warning=FALSE, cache=TRUE>>=
+<<parallel-CTMC-run-one-sim, message=FALSE, warning=FALSE>>=
 run_one_sim = function(params) {
     IC <- c(S = (params$Pop-params$I_0), I = params$I_0)
     params_local <- c(gamma = params$gamma, beta = params$beta)
