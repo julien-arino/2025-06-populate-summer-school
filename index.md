@@ -1,3 +1,7 @@
+---
+title: "POPULATE Summer School (Würzburg, 2025)"
+---
+
 ## Populate Summer School 2025
 
 This GitHub repo contains my lectures for the June 2025 [Populate Summer School](https://project.inria.fr/populate2025/ecole-dete/) held at [AEC Les Cèdres](https://www.aec-vacances.com/en/aec-holiday-villages/grasse-1) in Grasse 16-27 June 2025.
